@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { motion } from 'motion/react';
 
 export const Hero: React.FC = () => {
-  const [timeLeft, setTimeLeft] = useState({
+  const [timeSince, setTimeSince] = useState({
     days: 0,
     hours: 0,
     minutes: 0,
@@ -10,13 +10,13 @@ export const Hero: React.FC = () => {
   });
 
   useEffect(() => {
-    const graduationDate = new Date('2027-05-30T00:00:00').getTime();
+    const startDate = new Date('2025-08-11T00:00:00').getTime();
 
     const timer = setInterval(() => {
       const now = new Date().getTime();
-      const distance = graduationDate - now;
+      const distance = now - startDate;
 
-      setTimeLeft({
+      setTimeSince({
         days: Math.floor(distance / (1000 * 60 * 60 * 24)),
         hours: Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)),
         minutes: Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60)),
@@ -41,8 +41,8 @@ export const Hero: React.FC = () => {
         >
           <h2 className="text-tech-blue font-mono tracking-widest text-sm uppercase mb-4">MCA Regular Batch</h2>
           <h1 className="text-7xl md:text-9xl font-black tracking-tighter mb-8 leading-none">
-            <span className="block text-white">2025</span>
-            <span className="block bg-gradient-to-r from-tech-blue to-tech-violet bg-clip-text text-transparent">2027</span>
+            <span className="block text-white">SINCE</span>
+            <span className="block bg-gradient-to-r from-tech-blue to-tech-violet bg-clip-text text-transparent">AUG 11</span>
           </h1>
         </motion.div>
 
@@ -53,10 +53,10 @@ export const Hero: React.FC = () => {
           className="flex gap-4 md:gap-8 justify-center mt-12"
         >
           {[
-            { label: 'Days', value: timeLeft.days },
-            { label: 'Hours', value: timeLeft.hours },
-            { label: 'Mins', value: timeLeft.minutes },
-            { label: 'Secs', value: timeLeft.seconds },
+            { label: 'Days', value: timeSince.days },
+            { label: 'Hours', value: timeSince.hours },
+            { label: 'Mins', value: timeSince.minutes },
+            { label: 'Secs', value: timeSince.seconds },
           ].map((item) => (
             <div key={item.label} className="flex flex-col items-center">
               <div className="glass w-16 h-16 md:w-24 md:h-24 flex items-center justify-center rounded-xl md:rounded-2xl mb-2">
@@ -73,7 +73,7 @@ export const Hero: React.FC = () => {
           transition={{ delay: 1 }}
           className="mt-12 text-white/40 font-medium tracking-wide uppercase text-xs"
         >
-          Countdown to Graduation
+          Journey Since August 11, 2025
         </motion.p>
       </div>
 
