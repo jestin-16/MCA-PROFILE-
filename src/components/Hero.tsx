@@ -41,8 +41,8 @@ export const Hero: React.FC = () => {
         >
           <h2 className="text-tech-blue font-mono tracking-widest text-sm uppercase mb-4">MCA Regular Batch</h2>
           <h1 className="text-7xl md:text-9xl font-black tracking-tighter mb-8 leading-none">
-            <span className="block text-white">SINCE</span>
-            <span className="block bg-gradient-to-r from-tech-blue to-tech-violet bg-clip-text text-transparent">AUG 11</span>
+            <span className="block text-white">BATCH</span>
+            <span className="block bg-gradient-to-r from-tech-blue to-tech-violet bg-clip-text text-transparent">MCA 25-27</span>
           </h1>
         </motion.div>
 
