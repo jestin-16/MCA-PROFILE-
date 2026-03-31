@@ -270,18 +270,18 @@ export const StudentDirectory: React.FC = () => {
                   <img 
                     src={student.image} 
                     alt={student.name} 
-                    className="absolute inset-0 w-full h-full object-cover transition-all duration-700 group-hover:scale-110 grayscale-[0.2] group-hover:grayscale-0 blur-md group-hover:blur-none"
+                    className="absolute inset-0 w-full h-full object-cover transition-all duration-700 md:group-hover:scale-110 md:grayscale-[0.2] md:group-hover:grayscale-0 md:blur-md md:group-hover:blur-none"
                     referrerPolicy="no-referrer"
                   />
                   
                   {/* Gradient Overlay for Text Readability */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#050505] via-[#050505]/40 to-transparent opacity-90 group-hover:opacity-100 transition-opacity duration-500" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#050505] via-[#050505]/40 to-transparent opacity-90 md:group-hover:opacity-100 transition-opacity duration-500" />
 
                   {/* Content Container */}
                   <div className="absolute bottom-0 left-0 w-full p-6 flex flex-col justify-end z-10">
                     <div className="flex justify-between items-end">
                       <div className="flex-1">
-                        <h3 className="font-black text-2xl sm:text-3xl tracking-tighter text-white uppercase leading-none mb-1 group-hover:text-tech-blue transition-colors duration-300 drop-shadow-lg">
+                        <h3 className="font-black text-2xl sm:text-3xl tracking-tighter text-white uppercase leading-none mb-1 md:group-hover:text-tech-blue transition-colors duration-300 drop-shadow-lg">
                           {student.name}
                         </h3>
                         <p className="text-xs text-white/60 uppercase tracking-widest font-mono font-semibold">
@@ -311,7 +311,7 @@ export const StudentDirectory: React.FC = () => {
 
                     {/* Tech Stack - Appears on Hover */}
                     <div className="overflow-hidden">
-                      <div className="flex flex-wrap gap-1.5 mt-4 transform translate-y-8 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500">
+                      <div className="flex flex-wrap gap-1.5 mt-4 transform md:translate-y-8 md:opacity-0 md:group-hover:translate-y-0 md:group-hover:opacity-100 transition-all duration-500">
                         {student.techStack.slice(0, 4).map((tech) => (
                           <span 
                             key={tech} 
@@ -331,7 +331,7 @@ export const StudentDirectory: React.FC = () => {
 
                   {/* User Action: Edit Photo */}
                   {user?.role === 'user' && (
-                    <div className="absolute top-4 right-4 z-30 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    <div className="absolute top-4 right-4 z-30 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-300">
                       <button
                         onClick={(e) => {
                           e.stopPropagation();
@@ -347,7 +347,7 @@ export const StudentDirectory: React.FC = () => {
 
                   {/* Admin Action: Edit Student */}
                   {user?.role === 'admin' && (
-                    <div className="absolute top-4 right-4 z-30 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    <div className="absolute top-4 right-4 z-30 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-300">
                       <button
                         onClick={(e) => {
                           e.stopPropagation();
@@ -362,8 +362,8 @@ export const StudentDirectory: React.FC = () => {
                   )}
 
                   {/* Animated Corner Accents */}
-                  <div className="absolute top-0 left-0 w-8 h-8 border-t-2 border-l-2 border-tech-blue/0 group-hover:border-tech-blue/50 transition-colors duration-500 rounded-tl-2xl z-20" />
-                  <div className="absolute bottom-0 right-0 w-8 h-8 border-b-2 border-r-2 border-tech-violet/0 group-hover:border-tech-violet/50 transition-colors duration-500 rounded-br-2xl z-20" />
+                  <div className="absolute top-0 left-0 w-8 h-8 border-t-2 border-l-2 border-tech-blue/0 md:group-hover:border-tech-blue/50 transition-colors duration-500 rounded-tl-2xl z-20" />
+                  <div className="absolute bottom-0 right-0 w-8 h-8 border-b-2 border-r-2 border-tech-violet/0 md:group-hover:border-tech-violet/50 transition-colors duration-500 rounded-br-2xl z-20" />
                 </GlassCard>
               </motion.div>
             </motion.div>
