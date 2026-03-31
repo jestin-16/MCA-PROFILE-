@@ -157,10 +157,19 @@ export const StudentDirectory: React.FC = () => {
     }
   };
 
+  const randomOrderRef = React.useRef<Record<string, number>>({});
+
   const sortedStudents = React.useMemo(() => {
     if (!students) return [];
     
     let result = [...students];
+    
+    // Assign a stable random sort value for each student
+    result.forEach(s => {
+      if (randomOrderRef.current[s._id] === undefined) {
+        randomOrderRef.current[s._id] = Math.random();
+      }
+    });
     
     if (search) {
       result = result.filter(s => 
@@ -169,23 +178,8 @@ export const StudentDirectory: React.FC = () => {
       );
     }
 
-    // Custom sorting: Jestin first, Rich second, rest as is
-    result.sort((a, b) => {
-      const aName = a.name.toLowerCase();
-      const bName = b.name.toLowerCase();
-      
-      const isAJestin = aName.includes('jestin');
-      const isBJestin = bName.includes('jestin');
-      if (isAJestin && !isBJestin) return -1;
-      if (!isAJestin && isBJestin) return 1;
-
-      const isARich = aName.includes('rich');
-      const isBRich = bName.includes('rich');
-      if (isARich && !isBRich) return -1;
-      if (!isARich && isBRich) return 1;
-
-      return 0;
-    });
+    // Sort randomly but stably
+    result.sort((a, b) => randomOrderRef.current[a._id] - randomOrderRef.current[b._id]);
 
     return result;
   }, [students, search]);
