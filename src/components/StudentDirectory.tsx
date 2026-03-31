@@ -46,37 +46,80 @@ export const StudentDirectory: React.FC = () => {
               exit={{ opacity: 0, scale: 0.9 }}
               transition={{ duration: 0.3 }}
             >
-              <GlassCard className="group relative overflow-hidden h-full">
-                <div className="flex items-center gap-4 mb-6">
-                  <div className="relative w-16 h-16 rounded-full overflow-hidden border-2 border-white/10 group-hover:border-tech-blue/50 transition-colors">
-                    <img 
-                      src={student.image} 
-                      alt={student.name} 
-                      className="w-full h-full object-cover"
-                      referrerPolicy="no-referrer"
-                    />
-                  </div>
-                  <div>
-                    <h3 className="font-bold text-lg">{student.name}</h3>
-                    <div className="flex gap-2 mt-1">
-                      {student.github && <a href={student.github} className="text-white/40 hover:text-tech-blue"><Github size={16} /></a>}
-                      {student.linkedin && <a href={student.linkedin} className="text-white/40 hover:text-tech-blue"><Linkedin size={16} /></a>}
-                      {student.twitter && <a href={student.twitter} className="text-white/40 hover:text-tech-blue"><Twitter size={16} /></a>}
+              <motion.div
+                whileHover={{ y: -8, scale: 1.02 }}
+                transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                className="h-[400px] w-full"
+              >
+                <GlassCard className="group relative overflow-hidden h-full p-0 border border-white/10 hover:border-tech-blue/50 transition-all duration-500 hover:shadow-[0_0_30px_rgba(0,210,255,0.15)]">
+                  {/* Full Bleed Background Image */}
+                  <img 
+                    src={student.image} 
+                    alt={student.name} 
+                    className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 grayscale-[0.2] group-hover:grayscale-0"
+                    referrerPolicy="no-referrer"
+                  />
+                  
+                  {/* Gradient Overlay for Text Readability */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#050505] via-[#050505]/40 to-transparent opacity-90 group-hover:opacity-100 transition-opacity duration-500" />
+
+                  {/* Content Container */}
+                  <div className="absolute bottom-0 left-0 w-full p-6 flex flex-col justify-end z-10">
+                    <div className="flex justify-between items-end">
+                      <div className="flex-1">
+                        <h3 className="font-black text-2xl sm:text-3xl tracking-tighter text-white uppercase leading-none mb-1 group-hover:text-tech-blue transition-colors duration-300 drop-shadow-lg">
+                          {student.name}
+                        </h3>
+                        <p className="text-xs text-white/60 uppercase tracking-widest font-mono font-semibold">
+                          MCA '27
+                        </p>
+                      </div>
+                      
+                      {/* Social Links */}
+                      <div className="flex gap-3 pb-1">
+                        {student.github && (
+                          <a href={student.github} className="text-white/50 hover:text-white transition-colors transform hover:scale-110">
+                            <Github size={18} />
+                          </a>
+                        )}
+                        {student.linkedin && (
+                          <a href={student.linkedin} className="text-white/50 hover:text-[#0A66C2] transition-colors transform hover:scale-110">
+                            <Linkedin size={18} />
+                          </a>
+                        )}
+                        {student.twitter && (
+                          <a href={student.twitter} className="text-white/50 hover:text-[#1DA1F2] transition-colors transform hover:scale-110">
+                            <Twitter size={18} />
+                          </a>
+                        )}
+                      </div>
+                    </div>
+
+                    {/* Tech Stack - Appears on Hover */}
+                    <div className="overflow-hidden">
+                      <div className="flex flex-wrap gap-1.5 mt-4 transform translate-y-8 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500">
+                        {student.techStack.slice(0, 4).map((tech) => (
+                          <span 
+                            key={tech} 
+                            className="text-[9px] uppercase tracking-wider font-bold px-2 py-1 rounded-sm bg-white/10 text-white/90 backdrop-blur-md border border-white/10"
+                          >
+                            {tech}
+                          </span>
+                        ))}
+                        {student.techStack.length > 4 && (
+                          <span className="text-[9px] uppercase tracking-wider font-bold px-2 py-1 rounded-sm bg-white/5 text-white/50 backdrop-blur-md border border-white/5">
+                            +{student.techStack.length - 4}
+                          </span>
+                        )}
+                      </div>
                     </div>
                   </div>
-                </div>
 
-                <div className="flex flex-wrap gap-2">
-                  {student.techStack.map(tech => (
-                    <span key={tech} className="text-[10px] uppercase tracking-wider font-bold px-2 py-1 rounded-md bg-tech-blue/10 text-tech-blue border border-tech-blue/20">
-                      {tech}
-                    </span>
-                  ))}
-                </div>
-
-                {/* Hover Overlay */}
-                <div className="absolute inset-0 bg-gradient-to-t from-tech-blue/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none" />
-              </GlassCard>
+                  {/* Animated Corner Accents */}
+                  <div className="absolute top-0 left-0 w-8 h-8 border-t-2 border-l-2 border-tech-blue/0 group-hover:border-tech-blue/50 transition-colors duration-500 rounded-tl-2xl z-20" />
+                  <div className="absolute bottom-0 right-0 w-8 h-8 border-b-2 border-r-2 border-tech-violet/0 group-hover:border-tech-violet/50 transition-colors duration-500 rounded-br-2xl z-20" />
+                </GlassCard>
+              </motion.div>
             </motion.div>
           ))}
         </AnimatePresence>
