@@ -10,4 +10,9 @@ export default defineSchema({
     twitter: v.optional(v.string()),
     techStack: v.array(v.string()),
   }),
+  users: defineTable({
+    username: v.string(),
+    password: v.string(),
+    role: v.union(v.literal("admin"), v.literal("user")),
+  }).index("by_username", ["username"]),
 });

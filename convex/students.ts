@@ -28,3 +28,13 @@ export const add = mutation({
     });
   },
 });
+
+export const updateImage = mutation({
+  args: {
+    id: v.id("students"),
+    image: v.string(),
+  },
+  handler: async (ctx, args) => {
+    await ctx.db.patch(args.id, { image: args.image });
+  },
+});

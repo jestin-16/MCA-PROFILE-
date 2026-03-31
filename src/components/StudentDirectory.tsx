@@ -1,16 +1,19 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { Search, Github, Linkedin, Twitter, Database, Plus, X, Upload } from 'lucide-react';
+import { Search, Github, Linkedin, Twitter, Database, Plus, X, Upload, Camera } from 'lucide-react';
 import { STUDENTS as FALLBACK_STUDENTS } from '../constants';
 import { GlassCard } from './GlassCard';
 import { useQuery, useMutation } from "convex/react";
 import { anyApi } from "convex/server";
+import { useAuth } from '../AuthContext';
 
 export const StudentDirectory: React.FC = () => {
   const [search, setSearch] = useState('');
   const [isSeeding, setIsSeeding] = useState(false);
   const [visibleCount, setVisibleCount] = useState(6);
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+  const [editingStudentId, setEditingStudentId] = useState<string | null>(null);
+  const { user } = useAuth();
   
   const [newStudent, setNewStudent] = useState({
     name: '',
@@ -21,11 +24,12 @@ export const StudentDirectory: React.FC = () => {
   });
   const [imageFile, setImageFile] = useState<File | null>(null);
   
-  // Fetch from Convex, fallback to constants if not loaded or empty
+  // Fetch from Convex
   const convexStudents = useQuery(anyApi.students.get);
   const addStudent = useMutation(anyApi.students.add);
+  const updateImage = useMutation(anyApi.students.updateImage);
   
-  const students = convexStudents && convexStudents.length > 0 ? convexStudents : FALLBACK_STUDENTS;
+  const students = convexStudents || [];
 
   const handleSeedDatabase = async () => {
     if (isSeeding) return;
@@ -69,6 +73,18 @@ export const StudentDirectory: React.FC = () => {
       setImageFile(null);
     } catch (error) {
       console.error("Failed to add student:", error);
+    }
+  };
+
+  const handlePhotoUpload = async (studentId: string) => {
+    // In a real app, this would open a file picker and upload to Convex Storage.
+    // For now, we'll just update it with a new random image to simulate an upload.
+    const newImageUrl = `https://picsum.photos/seed/${Math.random()}/400/400`;
+    try {
+      await updateImage({ id: studentId as any, image: newImageUrl });
+      setEditingStudentId(null);
+    } catch (error) {
+      console.error("Failed to update image:", error);
     }
   };
 
@@ -117,7 +133,7 @@ export const StudentDirectory: React.FC = () => {
         </div>
         
         <div className="flex flex-col md:flex-row gap-4 w-full md:w-auto">
-          {convexStudents !== undefined && convexStudents.length === 0 && (
+          {user?.role === 'admin' && convexStudents !== undefined && convexStudents.length === 0 && (
             <button 
               onClick={handleSeedDatabase}
               disabled={isSeeding}
@@ -128,13 +144,15 @@ export const StudentDirectory: React.FC = () => {
             </button>
           )}
           
-          <button 
-            onClick={() => setIsAddModalOpen(true)}
-            className="flex items-center justify-center gap-2 bg-white/10 hover:bg-white/20 text-white px-4 py-3 rounded-full transition-colors border border-white/10"
-          >
-            <Plus size={16} />
-            Add Student
-          </button>
+          {user?.role === 'admin' && (
+            <button 
+              onClick={() => setIsAddModalOpen(true)}
+              className="flex items-center justify-center gap-2 bg-white/10 hover:bg-white/20 text-white px-4 py-3 rounded-full transition-colors border border-white/10"
+            >
+              <Plus size={16} />
+              Add Student
+            </button>
+          )}
 
           <div className="relative w-full md:w-80">
             <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-white/30 w-4 h-4" />
@@ -156,11 +174,16 @@ export const StudentDirectory: React.FC = () => {
         layout
         className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
       >
-        <AnimatePresence mode='popLayout'>
-          {displayedStudents.map((student) => (
-            <motion.div
-              key={student._id || student.id}
-              layout
+        {convexStudents === undefined ? (
+          <div className="col-span-full flex justify-center items-center py-20">
+            <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-tech-blue"></div>
+          </div>
+        ) : (
+          <AnimatePresence mode='popLayout'>
+            {displayedStudents.map((student) => (
+              <motion.div
+                key={student._id || student.id}
+                layout
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.9 }}
@@ -235,6 +258,22 @@ export const StudentDirectory: React.FC = () => {
                     </div>
                   </div>
 
+                  {/* User Action: Edit Photo */}
+                  {user?.role === 'user' && (
+                    <div className="absolute top-4 right-4 z-30 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handlePhotoUpload(student._id);
+                        }}
+                        className="bg-black/50 hover:bg-black/80 backdrop-blur-md p-2 rounded-full border border-white/20 text-white transition-colors flex items-center gap-2"
+                      >
+                        <Camera size={16} />
+                        <span className="text-xs font-medium pr-1">Update Photo</span>
+                      </button>
+                    </div>
+                  )}
+
                   {/* Animated Corner Accents */}
                   <div className="absolute top-0 left-0 w-8 h-8 border-t-2 border-l-2 border-tech-blue/0 group-hover:border-tech-blue/50 transition-colors duration-500 rounded-tl-2xl z-20" />
                   <div className="absolute bottom-0 right-0 w-8 h-8 border-b-2 border-r-2 border-tech-violet/0 group-hover:border-tech-violet/50 transition-colors duration-500 rounded-br-2xl z-20" />
@@ -243,15 +282,18 @@ export const StudentDirectory: React.FC = () => {
             </motion.div>
           ))}
         </AnimatePresence>
+        )}
       </motion.div>
 
-      {displayedStudents.length === 0 && (
+      {convexStudents !== undefined && displayedStudents.length === 0 && (
         <div className="text-center py-20 text-white/30">
-          No students found matching your search.
+          {convexStudents.length === 0 
+            ? "Database is empty. Click 'Seed Convex DB' to populate."
+            : "No students found matching your search."}
         </div>
       )}
 
-      {hasMore && (
+      {hasMore && convexStudents !== undefined && (
         <div className="mt-12 flex justify-center">
           <button
             onClick={() => setVisibleCount(prev => prev + 6)}
