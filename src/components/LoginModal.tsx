@@ -11,14 +11,11 @@ interface LoginModalProps {
 }
 
 export const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose }) => {
-  const [isLogin, setIsLogin] = useState(true);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [role, setRole] = useState<'admin' | 'user'>('user');
   const [error, setError] = useState('');
   
   const loginMutation = useMutation(anyApi.auth.login);
-  const registerMutation = useMutation(anyApi.auth.register);
   const { login } = useAuth();
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -26,15 +23,9 @@ export const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose }) => {
     setError('');
     
     try {
-      if (isLogin) {
-        const user = await loginMutation({ username, password });
-        login(user);
-        onClose();
-      } else {
-        const user = await registerMutation({ username, password, role });
-        login(user);
-        onClose();
-      }
+      const user = await loginMutation({ username, password });
+      login(user);
+      onClose();
     } catch (err: any) {
       setError(err.message || "An error occurred");
     }
@@ -62,7 +53,7 @@ export const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose }) => {
               <X size={20} />
             </button>
             
-            <h3 className="text-2xl font-bold mb-6">{isLogin ? 'Login' : 'Register'}</h3>
+            <h3 className="text-2xl font-bold mb-6">Login</h3>
             
             {error && (
               <div className="bg-red-500/20 text-red-400 p-3 rounded-lg mb-4 text-sm">
@@ -95,37 +86,12 @@ export const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose }) => {
                 />
               </div>
 
-              {!isLogin && (
-                <div>
-                  <label className="block text-xs font-medium text-white/60 mb-1 uppercase tracking-wider">Role</label>
-                  <select
-                    value={role}
-                    onChange={e => setRole(e.target.value as 'admin' | 'user')}
-                    className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-tech-blue/50"
-                  >
-                    <option value="user" className="bg-[#111]">User</option>
-                    <option value="admin" className="bg-[#111]">Admin</option>
-                  </select>
-                </div>
-              )}
-
               <button 
                 type="submit"
                 className="w-full bg-tech-blue text-black font-bold py-3 rounded-lg mt-4 hover:bg-tech-blue/90 transition-colors"
               >
-                {isLogin ? 'Login' : 'Register'}
+                Login
               </button>
-              
-              <div className="text-center mt-4 text-sm text-white/50">
-                {isLogin ? "Don't have an account? " : "Already have an account? "}
-                <button 
-                  type="button"
-                  onClick={() => setIsLogin(!isLogin)}
-                  className="text-tech-blue hover:underline"
-                >
-                  {isLogin ? 'Register' : 'Login'}
-                </button>
-              </div>
             </form>
           </motion.div>
         </motion.div>
