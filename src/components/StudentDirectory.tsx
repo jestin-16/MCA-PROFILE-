@@ -178,8 +178,16 @@ export const StudentDirectory: React.FC = () => {
       );
     }
 
-    // Sort randomly but stably
-    result.sort((a, b) => randomOrderRef.current[a._id] - randomOrderRef.current[b._id]);
+    // Sort randomly but stably, always keeping Jestin first
+    result.sort((a, b) => {
+      const isAJestin = a.name.toLowerCase().includes('jestin');
+      const isBJestin = b.name.toLowerCase().includes('jestin');
+      
+      if (isAJestin && !isBJestin) return -1;
+      if (!isAJestin && isBJestin) return 1;
+      
+      return randomOrderRef.current[a._id] - randomOrderRef.current[b._id];
+    });
 
     return result;
   }, [students, search]);
