@@ -56,7 +56,7 @@ export const StudentDirectory: React.FC = () => {
                   <img 
                     src={student.image} 
                     alt={student.name} 
-                    className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 grayscale-[0.2] group-hover:grayscale-0"
+                    className="absolute inset-0 w-full h-full object-cover transition-all duration-700 group-hover:scale-110 grayscale-[0.2] group-hover:grayscale-0 blur-md group-hover:blur-none"
                     referrerPolicy="no-referrer"
                   />
                   
