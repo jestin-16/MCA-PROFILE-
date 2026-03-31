@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { Search, Github, Linkedin, Twitter, Database, Plus, X, Upload, Camera } from 'lucide-react';
+import { Search, Github, Linkedin, Twitter, Database, Plus, X, Upload, Camera, Edit2 } from 'lucide-react';
 import { STUDENTS as FALLBACK_STUDENTS } from '../constants';
 import { GlassCard } from './GlassCard';
 import { useQuery, useMutation } from "convex/react";
@@ -11,11 +11,15 @@ export const StudentDirectory: React.FC = () => {
   const [search, setSearch] = useState('');
   const [isSeeding, setIsSeeding] = useState(false);
   const [visibleCount, setVisibleCount] = useState(6);
-  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
-  const [editingStudentId, setEditingStudentId] = useState<string | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [editingStudent, setEditingStudent] = useState<any | null>(null);
+  const [isUploading, setIsUploading] = useState(false);
+  const fileInputRef = React.useRef<HTMLInputElement>(null);
+  const [uploadingStudentId, setUploadingStudentId] = useState<string | null>(null);
+  
   const { user } = useAuth();
   
-  const [newStudent, setNewStudent] = useState({
+  const [formData, setFormData] = useState({
     name: '',
     techStack: '',
     github: '',
@@ -27,7 +31,9 @@ export const StudentDirectory: React.FC = () => {
   // Fetch from Convex
   const convexStudents = useQuery(anyApi.students.get);
   const addStudent = useMutation(anyApi.students.add);
+  const editStudent = useMutation(anyApi.students.edit);
   const updateImage = useMutation(anyApi.students.updateImage);
+  const generateUploadUrl = useMutation(anyApi.students.generateUploadUrl);
   
   const students = convexStudents || [];
 
@@ -52,39 +58,102 @@ export const StudentDirectory: React.FC = () => {
     }
   };
 
-  const handleAddSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    
-    // TODO: Implement Convex File Storage upload here later.
-    // For now, using a placeholder image based on the name.
-    const imageUrl = `https://picsum.photos/seed/${newStudent.name || 'new'}/400/400`;
+  const openAddModal = () => {
+    setEditingStudent(null);
+    setFormData({ name: '', techStack: '', github: '', linkedin: '', twitter: '' });
+    setImageFile(null);
+    setIsModalOpen(true);
+  };
 
+  const openEditModal = (student: any) => {
+    setEditingStudent(student);
+    setFormData({
+      name: student.name,
+      techStack: student.techStack.join(', '),
+      github: student.github || '',
+      linkedin: student.linkedin || '',
+      twitter: student.twitter || '',
+    });
+    setImageFile(null);
+    setIsModalOpen(true);
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsUploading(true);
+    
     try {
-      await addStudent({
-        name: newStudent.name,
-        image: imageUrl,
-        techStack: newStudent.techStack.split(',').map(s => s.trim()).filter(Boolean),
-        github: newStudent.github || undefined,
-        linkedin: newStudent.linkedin || undefined,
-        twitter: newStudent.twitter || undefined,
-      });
-      setIsAddModalOpen(false);
-      setNewStudent({ name: '', techStack: '', github: '', linkedin: '', twitter: '' });
+      let storageId: string | undefined = undefined;
+
+      if (imageFile) {
+        const postUrl = await generateUploadUrl();
+        const result = await fetch(postUrl, {
+          method: "POST",
+          headers: { "Content-Type": imageFile.type },
+          body: imageFile,
+        });
+        const json = await result.json();
+        storageId = json.storageId;
+      }
+
+      const studentData = {
+        name: formData.name,
+        techStack: formData.techStack.split(',').map(s => s.trim()).filter(Boolean),
+        github: formData.github || undefined,
+        linkedin: formData.linkedin || undefined,
+        twitter: formData.twitter || undefined,
+        storageId,
+      };
+
+      if (editingStudent) {
+        await editStudent({
+          id: editingStudent._id,
+          ...studentData,
+        });
+      } else {
+        // Fallback image if no file selected
+        const imageUrl = storageId ? undefined : `https://picsum.photos/seed/${formData.name || 'new'}/400/400`;
+        await addStudent({
+          ...studentData,
+          image: imageUrl,
+        });
+      }
+
+      setIsModalOpen(false);
+      setFormData({ name: '', techStack: '', github: '', linkedin: '', twitter: '' });
       setImageFile(null);
+      setEditingStudent(null);
     } catch (error) {
-      console.error("Failed to add student:", error);
+      console.error("Failed to save student:", error);
+    } finally {
+      setIsUploading(false);
     }
   };
 
-  const handlePhotoUpload = async (studentId: string) => {
-    // In a real app, this would open a file picker and upload to Convex Storage.
-    // For now, we'll just update it with a new random image to simulate an upload.
-    const newImageUrl = `https://picsum.photos/seed/${Math.random()}/400/400`;
+  const handlePhotoUploadClick = (studentId: string) => {
+    setUploadingStudentId(studentId);
+    fileInputRef.current?.click();
+  };
+
+  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file || !uploadingStudentId) return;
+
     try {
-      await updateImage({ id: studentId as any, image: newImageUrl });
-      setEditingStudentId(null);
+      const postUrl = await generateUploadUrl();
+      const result = await fetch(postUrl, {
+        method: "POST",
+        headers: { "Content-Type": file.type },
+        body: file,
+      });
+      const { storageId } = await result.json();
+      
+      await updateImage({ id: uploadingStudentId as any, storageId });
     } catch (error) {
       console.error("Failed to update image:", error);
+    } finally {
+      setUploadingStudentId(null);
+      if (fileInputRef.current) fileInputRef.current.value = '';
     }
   };
 
@@ -146,7 +215,7 @@ export const StudentDirectory: React.FC = () => {
           
           {user?.role === 'admin' && (
             <button 
-              onClick={() => setIsAddModalOpen(true)}
+              onClick={openAddModal}
               className="flex items-center justify-center gap-2 bg-white/10 hover:bg-white/20 text-white px-4 py-3 rounded-full transition-colors border border-white/10"
             >
               <Plus size={16} />
@@ -264,12 +333,28 @@ export const StudentDirectory: React.FC = () => {
                       <button
                         onClick={(e) => {
                           e.stopPropagation();
-                          handlePhotoUpload(student._id);
+                          handlePhotoUploadClick(student._id);
                         }}
                         className="bg-black/50 hover:bg-black/80 backdrop-blur-md p-2 rounded-full border border-white/20 text-white transition-colors flex items-center gap-2"
                       >
                         <Camera size={16} />
                         <span className="text-xs font-medium pr-1">Update Photo</span>
+                      </button>
+                    </div>
+                  )}
+
+                  {/* Admin Action: Edit Student */}
+                  {user?.role === 'admin' && (
+                    <div className="absolute top-4 right-4 z-30 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          openEditModal(student);
+                        }}
+                        className="bg-tech-blue/20 hover:bg-tech-blue/40 backdrop-blur-md p-2 rounded-full border border-tech-blue/30 text-tech-blue transition-colors flex items-center gap-2"
+                      >
+                        <Edit2 size={16} />
+                        <span className="text-xs font-medium pr-1">Edit</span>
                       </button>
                     </div>
                   )}
@@ -304,9 +389,18 @@ export const StudentDirectory: React.FC = () => {
         </div>
       )}
 
-      {/* Add Student Modal */}
+      {/* Hidden file input for user photo upload */}
+      <input 
+        type="file" 
+        accept="image/*"
+        ref={fileInputRef}
+        onChange={handleFileChange}
+        className="hidden"
+      />
+
+      {/* Add/Edit Student Modal */}
       <AnimatePresence>
-        {isAddModalOpen && (
+        {isModalOpen && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -317,25 +411,25 @@ export const StudentDirectory: React.FC = () => {
               initial={{ scale: 0.95, opacity: 0, y: 20 }}
               animate={{ scale: 1, opacity: 1, y: 0 }}
               exit={{ scale: 0.95, opacity: 0, y: 20 }}
-              className="bg-[#111] border border-white/10 rounded-2xl p-6 w-full max-w-md relative shadow-2xl"
+              className="bg-[#111] border border-white/10 rounded-2xl p-6 w-full max-w-md relative shadow-2xl max-h-[90vh] overflow-y-auto"
             >
               <button 
-                onClick={() => setIsAddModalOpen(false)}
+                onClick={() => setIsModalOpen(false)}
                 className="absolute top-4 right-4 text-white/50 hover:text-white transition-colors"
               >
                 <X size={20} />
               </button>
               
-              <h3 className="text-2xl font-bold mb-6">Add Student</h3>
+              <h3 className="text-2xl font-bold mb-6">{editingStudent ? 'Edit Student' : 'Add Student'}</h3>
               
-              <form onSubmit={handleAddSubmit} className="space-y-4">
+              <form onSubmit={handleSubmit} className="space-y-4">
                 <div>
                   <label className="block text-xs font-medium text-white/60 mb-1 uppercase tracking-wider">Name</label>
                   <input 
                     required
                     type="text" 
-                    value={newStudent.name}
-                    onChange={e => setNewStudent({...newStudent, name: e.target.value})}
+                    value={formData.name}
+                    onChange={e => setFormData({...formData, name: e.target.value})}
                     className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-tech-blue/50"
                     placeholder="John Doe"
                   />
@@ -346,8 +440,8 @@ export const StudentDirectory: React.FC = () => {
                   <input 
                     required
                     type="text" 
-                    value={newStudent.techStack}
-                    onChange={e => setNewStudent({...newStudent, techStack: e.target.value})}
+                    value={formData.techStack}
+                    onChange={e => setFormData({...formData, techStack: e.target.value})}
                     className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-tech-blue/50"
                     placeholder="React, Node.js, Python"
                   />
@@ -358,8 +452,8 @@ export const StudentDirectory: React.FC = () => {
                     <label className="block text-xs font-medium text-white/60 mb-1 uppercase tracking-wider">GitHub URL</label>
                     <input 
                       type="url" 
-                      value={newStudent.github}
-                      onChange={e => setNewStudent({...newStudent, github: e.target.value})}
+                      value={formData.github}
+                      onChange={e => setFormData({...formData, github: e.target.value})}
                       className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-tech-blue/50"
                       placeholder="https://github.com/..."
                     />
@@ -368,8 +462,8 @@ export const StudentDirectory: React.FC = () => {
                     <label className="block text-xs font-medium text-white/60 mb-1 uppercase tracking-wider">LinkedIn URL</label>
                     <input 
                       type="url" 
-                      value={newStudent.linkedin}
-                      onChange={e => setNewStudent({...newStudent, linkedin: e.target.value})}
+                      value={formData.linkedin}
+                      onChange={e => setFormData({...formData, linkedin: e.target.value})}
                       className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-tech-blue/50"
                       placeholder="https://linkedin.com/..."
                     />
@@ -391,19 +485,17 @@ export const StudentDirectory: React.FC = () => {
                       className="flex items-center justify-center gap-2 w-full bg-white/5 border border-white/10 border-dashed rounded-lg px-4 py-8 text-white/60 hover:text-white hover:bg-white/10 transition-colors cursor-pointer"
                     >
                       <Upload size={20} />
-                      {imageFile ? imageFile.name : "Upload Image (Will implement later)"}
+                      {imageFile ? imageFile.name : (editingStudent ? "Upload New Image (Optional)" : "Upload Image")}
                     </label>
                   </div>
-                  <p className="text-[10px] text-white/40 mt-2">
-                    Note: File upload to Convex storage will be implemented later. A placeholder will be used for now.
-                  </p>
                 </div>
 
                 <button 
                   type="submit"
-                  className="w-full bg-tech-blue text-black font-bold py-3 rounded-lg mt-4 hover:bg-tech-blue/90 transition-colors"
+                  disabled={isUploading}
+                  className="w-full bg-tech-blue text-black font-bold py-3 rounded-lg mt-4 hover:bg-tech-blue/90 transition-colors disabled:opacity-50"
                 >
-                  Add to Directory
+                  {isUploading ? 'Saving...' : (editingStudent ? 'Save Changes' : 'Add to Directory')}
                 </button>
               </form>
             </motion.div>
