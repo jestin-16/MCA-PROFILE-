@@ -243,28 +243,38 @@ export const StudentDirectory: React.FC = () => {
 
       <motion.div 
         layout
-        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
+        className="relative flex flex-col gap-16 md:gap-32 py-10"
       >
+        {/* The Path Line */}
+        <div className="absolute top-0 bottom-0 left-1/2 w-1 bg-gradient-to-b from-tech-blue/0 via-tech-blue/20 to-tech-blue/0 -translate-x-1/2 hidden md:block" />
+
         {convexStudents === undefined ? (
-          <div className="col-span-full flex justify-center items-center py-20">
+          <div className="flex justify-center items-center py-20 w-full">
             <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-tech-blue"></div>
           </div>
         ) : (
           <AnimatePresence mode='popLayout'>
-            {displayedStudents.map((student) => (
+            {displayedStudents.map((student, index) => (
               <motion.div
                 key={student._id || student.id}
                 layout
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.9 }}
-              transition={{ duration: 0.3 }}
-            >
-              <motion.div
-                whileHover={{ y: -8, scale: 1.02 }}
-                transition={{ type: "spring", stiffness: 300, damping: 20 }}
-                className="h-[400px] w-full"
+                initial={{ opacity: 0, y: 50 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-100px" }}
+                transition={{ duration: 0.6 }}
+                className={`relative flex w-full ${index % 2 === 0 ? 'md:justify-start' : 'md:justify-end'} items-center`}
               >
+                {/* Center dot */}
+                <div className="hidden md:block absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-4 h-4 rounded-full bg-tech-blue/80 border-2 border-[#050505] z-10 shadow-[0_0_15px_rgba(0,210,255,0.5)]" />
+                
+                {/* Connector Line */}
+                <div className={`hidden md:block absolute top-1/2 -translate-y-1/2 h-[2px] bg-tech-blue/30 w-[5%] ${index % 2 === 0 ? 'right-1/2' : 'left-1/2'}`} />
+
+                <motion.div
+                  whileHover={{ y: -8, scale: 1.02 }}
+                  transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                  className="h-[400px] w-full md:w-[45%]"
+                >
                 <GlassCard className="group relative overflow-hidden h-full p-0 border border-white/10 hover:border-tech-blue/50 transition-all duration-500 hover:shadow-[0_0_30px_rgba(0,210,255,0.15)]">
                   {/* Full Bleed Background Image */}
                   <img 
