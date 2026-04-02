@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import { motion, AnimatePresence } from 'motion/react';
+import { motion, AnimatePresence, useScroll, useTransform, useMotionValue, useSpring, useMotionTemplate } from 'motion/react';
 import { Search, Github, Linkedin, Twitter, Database, Plus, X, Upload, Camera, Edit2 } from 'lucide-react';
 import { STUDENTS as FALLBACK_STUDENTS } from '../constants';
 import { GlassCard } from './GlassCard';
@@ -18,6 +18,12 @@ export const StudentDirectory: React.FC = () => {
   const [uploadingStudentId, setUploadingStudentId] = useState<string | null>(null);
   
   const { user } = useAuth();
+  const containerRef = useRef<HTMLElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start end", "end end"]
+  });
+  const pathHeight = useTransform(scrollYProgress, [0, 1], ["0%", "100%"]);
   
   const [formData, setFormData] = useState({
     name: '',
@@ -196,8 +202,8 @@ export const StudentDirectory: React.FC = () => {
   const hasMore = visibleCount < sortedStudents.length;
 
   return (
-    <section id="directory" className="py-24 px-6 max-w-7xl mx-auto relative font-mono">
-      <div className="flex flex-col md:flex-row justify-between items-end mb-12 gap-6 border-b-2 border-green-500/30 pb-6">
+    <section ref={containerRef} id="directory" className="py-24 px-6 max-w-7xl mx-auto relative">
+      <div className="flex flex-col md:flex-row justify-between items-end mb-12 gap-6">
         <motion.div
           initial="hidden"
           whileInView="visible"
@@ -209,21 +215,21 @@ export const StudentDirectory: React.FC = () => {
         >
           <motion.h2 
             variants={{
-              hidden: { opacity: 0, x: -20 },
-              visible: { opacity: 1, x: 0 }
+              hidden: { opacity: 0, y: 20 },
+              visible: { opacity: 1, y: 0, transition: { type: "spring", stiffness: 300, damping: 24 } }
             }}
-            className="text-4xl font-bold tracking-tight mb-2 text-green-500 uppercase"
+            className="text-4xl font-bold tracking-tight mb-2"
           >
-            &gt; ./student_directory.sh
+            Student Directory
           </motion.h2>
           <motion.p 
             variants={{
-              hidden: { opacity: 0, x: -20 },
-              visible: { opacity: 1, x: 0 }
+              hidden: { opacity: 0, y: 20 },
+              visible: { opacity: 1, y: 0, transition: { type: "spring", stiffness: 300, damping: 24 } }
             }}
-            className="text-green-500/60"
+            className="text-white/50"
           >
-            Loading brilliant_minds_2025_2027.dat ...
+            Meet the brilliant minds of the 2025-2027 batch.
           </motion.p>
         </motion.div>
         
@@ -232,34 +238,34 @@ export const StudentDirectory: React.FC = () => {
             <button 
               onClick={handleSeedDatabase}
               disabled={isSeeding}
-              className="flex items-center justify-center gap-2 bg-green-900/30 hover:bg-green-500/20 text-green-500 px-4 py-3 rounded-none transition-colors border border-green-500/50 disabled:opacity-50 uppercase text-sm font-bold"
+              className="flex items-center justify-center gap-2 bg-tech-blue/20 hover:bg-tech-blue/30 text-tech-blue px-4 py-3 rounded-full transition-colors border border-tech-blue/30 disabled:opacity-50"
             >
               <Database size={16} />
-              {isSeeding ? 'EXECUTING...' : 'INIT_DB'}
+              {isSeeding ? 'Seeding...' : 'Seed Convex DB'}
             </button>
           )}
           
           {user?.role === 'admin' && (
             <button 
               onClick={openAddModal}
-              className="flex items-center justify-center gap-2 bg-green-900/30 hover:bg-green-500/20 text-green-500 px-4 py-3 rounded-none transition-colors border border-green-500/50 uppercase text-sm font-bold"
+              className="flex items-center justify-center gap-2 bg-white/10 hover:bg-white/20 text-white px-4 py-3 rounded-full transition-colors border border-white/10"
             >
               <Plus size={16} />
-              ADD_RECORD
+              Add Student
             </button>
           )}
 
           <div className="relative w-full md:w-80">
-            <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-green-500/50 w-4 h-4" />
+            <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-white/30 w-4 h-4" />
             <input
               type="text"
-              placeholder="grep pattern..."
+              placeholder="Search name or tech stack..."
               value={search}
               onChange={(e) => {
                 setSearch(e.target.value);
                 setVisibleCount(6); // Reset pagination on search
               }}
-              className="w-full bg-black border border-green-500/50 rounded-none py-3 pl-12 pr-6 text-sm focus:outline-none focus:border-green-500 text-green-500 placeholder:text-green-500/30 transition-colors font-mono"
+              className="w-full bg-white/5 border border-white/10 rounded-full py-3 pl-12 pr-6 text-sm focus:outline-none focus:border-tech-blue/50 transition-colors"
             />
           </div>
         </div>
@@ -270,8 +276,8 @@ export const StudentDirectory: React.FC = () => {
         className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 py-10"
       >
         {convexStudents === undefined ? (
-          <div className="col-span-full flex justify-center items-center py-20 w-full text-green-500">
-            <span className="animate-pulse">LOADING_DATA...</span>
+          <div className="col-span-full flex justify-center items-center py-20 w-full">
+            <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-tech-blue"></div>
           </div>
         ) : (
           <AnimatePresence mode='popLayout'>
@@ -290,10 +296,10 @@ export const StudentDirectory: React.FC = () => {
       </motion.div>
 
       {convexStudents !== undefined && displayedStudents.length === 0 && (
-        <div className="text-center py-20 text-green-500/50 font-mono">
+        <div className="text-center py-20 text-white/30">
           {convexStudents.length === 0 
-            ? "DATABASE_EMPTY" 
-            : "NO_MATCHES_FOUND"}
+            ? "Database is empty. Click 'Seed Convex DB' to populate."
+            : "No students found matching your search."}
         </div>
       )}
 
@@ -301,9 +307,9 @@ export const StudentDirectory: React.FC = () => {
         <div className="mt-12 flex justify-center">
           <button
             onClick={() => setVisibleCount(prev => prev + 6)}
-            className="px-8 py-3 bg-transparent hover:bg-green-500/10 border border-green-500/50 text-green-500 font-mono font-bold uppercase transition-all hover:scale-105 active:scale-95 flex items-center gap-2"
+            className="px-8 py-3 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 text-white font-medium transition-all hover:scale-105 active:scale-95"
           >
-            LOAD_MORE_RECORDS <span className="animate-pulse">_</span>
+            Load More Students
           </button>
         </div>
       )}
@@ -426,116 +432,173 @@ export const StudentDirectory: React.FC = () => {
 };
 
 const StudentCard = ({ student, index, user, handlePhotoUploadClick, openEditModal }: any) => {
+  const x = useMotionValue(0);
+  const y = useMotionValue(0);
+
+  const mouseXSpring = useSpring(x);
+  const mouseYSpring = useSpring(y);
+
+  const rotateX = useTransform(mouseYSpring, [-0.5, 0.5], ["10deg", "-10deg"]);
+  const rotateY = useTransform(mouseXSpring, [-0.5, 0.5], ["-10deg", "10deg"]);
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const width = rect.width;
+    const height = rect.height;
+    const mouseX = e.clientX - rect.left;
+    const mouseY = e.clientY - rect.top;
+    const xPct = mouseX / width - 0.5;
+    const yPct = mouseY / height - 0.5;
+    x.set(xPct);
+    y.set(yPct);
+  };
+
+  const handleMouseLeave = () => {
+    x.set(0);
+    y.set(0);
+  };
+
   return (
     <motion.div
       layout
-      initial={{ opacity: 0, x: -20 }}
-      whileInView={{ opacity: 1, x: 0 }}
+      initial={{ opacity: 0, scale: 0.9, y: 20 }}
+      whileInView={{ opacity: 1, scale: 1, y: 0 }}
       viewport={{ once: true, margin: "-50px" }}
-      transition={{ duration: 0.3, delay: (index % 3) * 0.1 }}
-      className="w-full font-mono"
+      transition={{ duration: 0.5, delay: (index % 3) * 0.1 }}
+      className="w-full perspective-1000"
     >
-      <div className="relative overflow-hidden bg-black border border-green-500/30 group hover:border-green-500 transition-colors duration-300 p-4 flex flex-col h-full">
-        
-        {/* Scanline effect */}
-        <div className="absolute inset-0 pointer-events-none bg-[linear-gradient(transparent_50%,rgba(0,255,0,0.05)_50%)] bg-[length:100%_4px] z-50 opacity-20" />
+      <motion.div
+        onMouseMove={handleMouseMove}
+        onMouseLeave={handleMouseLeave}
+        style={{
+          rotateY,
+          rotateX,
+          transformStyle: "preserve-3d",
+        }}
+        className="w-full relative z-20"
+      >
+        <GlassCard className="group relative overflow-hidden p-0 flex flex-col sm:flex-row h-auto sm:h-48 border border-white/10 hover:border-tech-blue/50 transition-all duration-500 hover:shadow-[0_0_30px_rgba(0,210,255,0.15)] bg-[#050505]/80 backdrop-blur-xl">
+          
+          {/* Holographic Glare Effect */}
+          <motion.div 
+            className="absolute inset-0 z-50 opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity duration-500 mix-blend-overlay"
+            style={{
+              background: useMotionTemplate`radial-gradient(
+                circle at ${useTransform(x, [-0.5, 0.5], [0, 100])}% ${useTransform(y, [-0.5, 0.5], [0, 100])}%, 
+                rgba(255,255,255,0.4) 0%, 
+                rgba(0,210,255,0.2) 20%, 
+                rgba(255,0,255,0.1) 40%, 
+                transparent 60%
+              )`
+            }}
+          />
 
-        <div className="flex gap-4 mb-4">
           {/* Image Section */}
-          <div className="w-24 h-24 shrink-0 border border-green-500/30 relative overflow-hidden bg-green-900/20">
-            <img 
+          <div className="w-full sm:w-48 h-48 sm:h-full relative shrink-0 overflow-hidden">
+            <motion.img 
               src={student.image} 
               alt={student.name} 
-              className="absolute inset-0 w-full h-full object-cover grayscale contrast-150 mix-blend-luminosity opacity-80 group-hover:opacity-100 transition-opacity"
+              style={{ transform: "translateZ(10px) scale(1.05)" }}
+              className="absolute inset-0 w-full h-full object-cover transition-all duration-700 md:grayscale-[0.4] md:group-hover:grayscale-0"
               referrerPolicy="no-referrer"
             />
-            <div className="absolute inset-0 bg-green-500/20 mix-blend-color" />
-          </div>
-
-          {/* Header Info */}
-          <div className="flex-1 flex flex-col justify-between py-1">
-            <div>
-              <div className="text-[10px] text-green-500/50 mb-1">ID: {student._id?.slice(-6) || "000000"}</div>
-              <h3 className="font-bold text-lg text-green-500 uppercase leading-none mb-1 truncate">
-                {student.name}
-              </h3>
-              <p className="text-xs text-green-500/70 uppercase">
-                CLASS_OF_27
-              </p>
-            </div>
+            {/* Gradient fade into content */}
+            <div className="absolute inset-0 bg-gradient-to-t sm:bg-gradient-to-r from-transparent via-[#050505]/50 to-[#050505] opacity-90" />
             
-            {/* Social Links */}
-            <div className="flex gap-3 mt-2">
-              {student.github && (
-                <a href={student.github} target="_blank" rel="noreferrer" className="text-green-500/50 hover:text-green-400 transition-colors">
-                  <Github size={14} />
-                </a>
-              )}
-              {student.linkedin && (
-                <a href={student.linkedin} target="_blank" rel="noreferrer" className="text-green-500/50 hover:text-green-400 transition-colors">
-                  <Linkedin size={14} />
-                </a>
-              )}
-              {student.twitter && (
-                <a href={student.twitter} target="_blank" rel="noreferrer" className="text-green-500/50 hover:text-green-400 transition-colors">
-                  <Twitter size={14} />
-                </a>
-              )}
+            {/* ID Badge Overlay */}
+            <div className="absolute top-3 left-3 px-2 py-1 bg-tech-blue/20 backdrop-blur-md border border-tech-blue/30 rounded text-[8px] font-mono text-tech-blue uppercase tracking-widest">
+              ID: {student._id?.slice(-6) || "000000"}
             </div>
           </div>
-        </div>
 
-        {/* Tech Stack Section */}
-        <div className="flex-1 border-t border-green-500/30 pt-3 mt-2">
-          <div className="text-[10px] text-green-500/50 mb-2">&gt; DEPENDENCIES:</div>
-          <div className="flex flex-wrap gap-2">
-            {student.techStack.slice(0, 6).map((tech: string) => (
-              <span 
-                key={tech} 
-                className="text-[10px] uppercase px-1.5 py-0.5 bg-green-900/30 text-green-400 border border-green-500/30"
+          {/* Content Section */}
+          <motion.div 
+            style={{ transform: "translateZ(30px)" }}
+            className="p-5 flex flex-col justify-between flex-1 relative z-10 -mt-12 sm:mt-0"
+          >
+            <div>
+              <div className="flex justify-between items-start">
+                <div>
+                  <h3 className="font-black text-2xl tracking-tight text-white uppercase leading-none mb-1 group-hover:text-tech-blue transition-colors duration-300">
+                    {student.name}
+                  </h3>
+                  <p className="text-xs text-tech-blue/80 uppercase tracking-widest font-mono font-semibold mb-4">
+                    MCA '27
+                  </p>
+                </div>
+                
+                {/* Social Links */}
+                <div className="flex gap-2">
+                  {student.github && (
+                    <a href={student.github} target="_blank" rel="noreferrer" className="text-white/40 hover:text-white transition-colors p-1.5 bg-white/5 rounded-full hover:bg-white/10">
+                      <Github size={14} />
+                    </a>
+                  )}
+                  {student.linkedin && (
+                    <a href={student.linkedin} target="_blank" rel="noreferrer" className="text-white/40 hover:text-[#0A66C2] transition-colors p-1.5 bg-white/5 rounded-full hover:bg-white/10">
+                      <Linkedin size={14} />
+                    </a>
+                  )}
+                  {student.twitter && (
+                    <a href={student.twitter} target="_blank" rel="noreferrer" className="text-white/40 hover:text-[#1DA1F2] transition-colors p-1.5 bg-white/5 rounded-full hover:bg-white/10">
+                      <Twitter size={14} />
+                    </a>
+                  )}
+                </div>
+              </div>
+
+              {/* Tech Stack */}
+              <div className="flex flex-wrap gap-1.5">
+                {student.techStack.slice(0, 5).map((tech: string) => (
+                  <span 
+                    key={tech} 
+                    className="text-[9px] uppercase tracking-wider font-bold px-2 py-1 rounded bg-white/5 text-white/70 border border-white/10 group-hover:border-tech-blue/30 group-hover:text-white transition-colors"
+                  >
+                    {tech}
+                  </span>
+                ))}
+                {student.techStack.length > 5 && (
+                  <span className="text-[9px] uppercase tracking-wider font-bold px-2 py-1 rounded bg-white/5 text-white/40 border border-white/5">
+                    +{student.techStack.length - 5}
+                  </span>
+                )}
+              </div>
+            </div>
+          </motion.div>
+
+          {/* Action Buttons */}
+          <div className="absolute bottom-3 right-3 flex gap-2 z-30">
+            {user?.role === 'user' && (
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handlePhotoUploadClick(student._id);
+                }}
+                className="bg-black/50 hover:bg-black/80 backdrop-blur-md p-1.5 rounded border border-white/20 text-white transition-colors flex items-center"
+                title="Update Photo"
               >
-                {tech}
-              </span>
-            ))}
-            {student.techStack.length > 6 && (
-              <span className="text-[10px] uppercase px-1.5 py-0.5 bg-green-900/30 text-green-500/50 border border-green-500/30">
-                +{student.techStack.length - 6}
-              </span>
+                <Camera size={14} />
+              </button>
+            )}
+            {user?.role === 'admin' && (
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  openEditModal(student);
+                }}
+                className="bg-tech-blue/20 hover:bg-tech-blue/40 backdrop-blur-md p-1.5 rounded border border-tech-blue/30 text-tech-blue transition-colors flex items-center"
+                title="Edit Student"
+              >
+                <Edit2 size={14} />
+              </button>
             )}
           </div>
-        </div>
 
-        {/* Action Buttons */}
-        <div className="absolute top-2 right-2 flex gap-2 z-30 opacity-0 group-hover:opacity-100 transition-opacity">
-          {user?.role === 'user' && (
-            <button
-              onClick={(e) => {
-                e.stopPropagation();
-                handlePhotoUploadClick(student._id);
-              }}
-              className="bg-black p-1.5 border border-green-500 text-green-500 hover:bg-green-900/50 transition-colors"
-              title="Update Photo"
-            >
-              <Camera size={12} />
-            </button>
-          )}
-          {user?.role === 'admin' && (
-            <button
-              onClick={(e) => {
-                e.stopPropagation();
-                openEditModal(student);
-              }}
-              className="bg-black p-1.5 border border-green-500 text-green-500 hover:bg-green-900/50 transition-colors"
-              title="Edit Student"
-            >
-              <Edit2 size={12} />
-            </button>
-          )}
-        </div>
-        
-        {/* Blinking cursor effect on hover */}
-        <div className="absolute bottom-4 right-4 w-2 h-4 bg-green-500 opacity-0 group-hover:animate-pulse" />
-      </div>
+          {/* Decorative Elements */}
+          <div className="absolute top-0 right-0 w-16 h-16 bg-tech-blue/5 blur-2xl rounded-full group-hover:bg-tech-blue/20 transition-colors duration-500" />
+          <div className="absolute bottom-0 left-0 w-1 h-full bg-gradient-to-b from-tech-blue/0 via-tech-blue/50 to-tech-blue/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+        </GlassCard>
+      </motion.div>
     </motion.div>
   );
 };
