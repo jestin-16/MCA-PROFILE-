@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Search, Github, Linkedin, Twitter, Database, Plus, X, Upload, Camera, Edit2 } from 'lucide-react';
 import { STUDENTS as FALLBACK_STUDENTS } from '../constants';
@@ -196,46 +196,70 @@ export const StudentDirectory: React.FC = () => {
   const hasMore = visibleCount < sortedStudents.length;
 
   return (
-    <section id="directory" className="py-24 px-6 max-w-7xl mx-auto relative">
-      <div className="flex flex-col md:flex-row justify-between items-end mb-12 gap-6">
-        <div>
-          <h2 className="text-4xl font-bold tracking-tight mb-2">Student Directory</h2>
-          <p className="text-white/50">Meet the brilliant minds of the 2025-2027 batch.</p>
-        </div>
+    <section id="directory" className="py-24 px-6 max-w-7xl mx-auto relative font-mono">
+      <div className="flex flex-col md:flex-row justify-between items-end mb-12 gap-6 border-b-2 border-green-500/30 pb-6">
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          variants={{
+            hidden: { opacity: 0 },
+            visible: { opacity: 1, transition: { staggerChildren: 0.1 } }
+          }}
+        >
+          <motion.h2 
+            variants={{
+              hidden: { opacity: 0, x: -20 },
+              visible: { opacity: 1, x: 0 }
+            }}
+            className="text-4xl font-bold tracking-tight mb-2 text-green-500 uppercase"
+          >
+            &gt; ./student_directory.sh
+          </motion.h2>
+          <motion.p 
+            variants={{
+              hidden: { opacity: 0, x: -20 },
+              visible: { opacity: 1, x: 0 }
+            }}
+            className="text-green-500/60"
+          >
+            Loading brilliant_minds_2025_2027.dat ...
+          </motion.p>
+        </motion.div>
         
         <div className="flex flex-col md:flex-row gap-4 w-full md:w-auto">
           {user?.role === 'admin' && convexStudents !== undefined && convexStudents.length === 0 && (
             <button 
               onClick={handleSeedDatabase}
               disabled={isSeeding}
-              className="flex items-center justify-center gap-2 bg-tech-blue/20 hover:bg-tech-blue/30 text-tech-blue px-4 py-3 rounded-full transition-colors border border-tech-blue/30 disabled:opacity-50"
+              className="flex items-center justify-center gap-2 bg-green-900/30 hover:bg-green-500/20 text-green-500 px-4 py-3 rounded-none transition-colors border border-green-500/50 disabled:opacity-50 uppercase text-sm font-bold"
             >
               <Database size={16} />
-              {isSeeding ? 'Seeding...' : 'Seed Convex DB'}
+              {isSeeding ? 'EXECUTING...' : 'INIT_DB'}
             </button>
           )}
           
           {user?.role === 'admin' && (
             <button 
               onClick={openAddModal}
-              className="flex items-center justify-center gap-2 bg-white/10 hover:bg-white/20 text-white px-4 py-3 rounded-full transition-colors border border-white/10"
+              className="flex items-center justify-center gap-2 bg-green-900/30 hover:bg-green-500/20 text-green-500 px-4 py-3 rounded-none transition-colors border border-green-500/50 uppercase text-sm font-bold"
             >
               <Plus size={16} />
-              Add Student
+              ADD_RECORD
             </button>
           )}
 
           <div className="relative w-full md:w-80">
-            <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-white/30 w-4 h-4" />
+            <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-green-500/50 w-4 h-4" />
             <input
               type="text"
-              placeholder="Search name or tech stack..."
+              placeholder="grep pattern..."
               value={search}
               onChange={(e) => {
                 setSearch(e.target.value);
                 setVisibleCount(6); // Reset pagination on search
               }}
-              className="w-full bg-white/5 border border-white/10 rounded-full py-3 pl-12 pr-6 text-sm focus:outline-none focus:border-tech-blue/50 transition-colors"
+              className="w-full bg-black border border-green-500/50 rounded-none py-3 pl-12 pr-6 text-sm focus:outline-none focus:border-green-500 text-green-500 placeholder:text-green-500/30 transition-colors font-mono"
             />
           </div>
         </div>
@@ -243,150 +267,33 @@ export const StudentDirectory: React.FC = () => {
 
       <motion.div 
         layout
-        className="relative flex flex-col gap-16 md:gap-32 py-10"
+        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 py-10"
       >
-        {/* The Path Line */}
-        <div className="absolute top-0 bottom-0 left-1/2 w-1 bg-gradient-to-b from-tech-blue/0 via-tech-blue/20 to-tech-blue/0 -translate-x-1/2 hidden md:block" />
-
         {convexStudents === undefined ? (
-          <div className="flex justify-center items-center py-20 w-full">
-            <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-tech-blue"></div>
+          <div className="col-span-full flex justify-center items-center py-20 w-full text-green-500">
+            <span className="animate-pulse">LOADING_DATA...</span>
           </div>
         ) : (
           <AnimatePresence mode='popLayout'>
             {displayedStudents.map((student, index) => (
-              <motion.div
-                key={student._id || student.id}
-                layout
-                initial={{ opacity: 0, y: 50 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-100px" }}
-                transition={{ duration: 0.6 }}
-                className={`relative flex w-full ${index % 2 === 0 ? 'md:justify-start' : 'md:justify-end'} items-center`}
-              >
-                {/* Center dot */}
-                <div className="hidden md:block absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-4 h-4 rounded-full bg-tech-blue/80 border-2 border-[#050505] z-10 shadow-[0_0_15px_rgba(0,210,255,0.5)]" />
-                
-                {/* Connector Line */}
-                <div className={`hidden md:block absolute top-1/2 -translate-y-1/2 h-[2px] bg-tech-blue/30 w-[5%] ${index % 2 === 0 ? 'right-1/2' : 'left-1/2'}`} />
-
-                <motion.div
-                  whileHover={{ y: -8, scale: 1.02 }}
-                  transition={{ type: "spring", stiffness: 300, damping: 20 }}
-                  className="h-[400px] w-full md:w-[45%]"
-                >
-                <GlassCard className="group relative overflow-hidden h-full p-0 border border-white/10 hover:border-tech-blue/50 transition-all duration-500 hover:shadow-[0_0_30px_rgba(0,210,255,0.15)]">
-                  {/* Full Bleed Background Image */}
-                  <img 
-                    src={student.image} 
-                    alt={student.name} 
-                    className="absolute inset-0 w-full h-full object-cover transition-all duration-700 md:group-hover:scale-110 md:grayscale-[0.2] md:group-hover:grayscale-0 md:blur-md md:group-hover:blur-none"
-                    referrerPolicy="no-referrer"
-                  />
-                  
-                  {/* Gradient Overlay for Text Readability */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#050505] via-[#050505]/40 to-transparent opacity-90 md:group-hover:opacity-100 transition-opacity duration-500" />
-
-                  {/* Content Container */}
-                  <div className="absolute bottom-0 left-0 w-full p-6 flex flex-col justify-end z-10">
-                    <div className="flex justify-between items-end">
-                      <div className="flex-1">
-                        <h3 className="font-black text-2xl sm:text-3xl tracking-tighter text-white uppercase leading-none mb-1 md:group-hover:text-tech-blue transition-colors duration-300 drop-shadow-lg">
-                          {student.name}
-                        </h3>
-                        <p className="text-xs text-white/60 uppercase tracking-widest font-mono font-semibold">
-                          MCA '27
-                        </p>
-                      </div>
-                      
-                      {/* Social Links */}
-                      <div className="flex gap-3 pb-1">
-                        {student.github && (
-                          <a href={student.github} target="_blank" rel="noreferrer" className="text-white/50 hover:text-white transition-colors transform hover:scale-110">
-                            <Github size={18} />
-                          </a>
-                        )}
-                        {student.linkedin && (
-                          <a href={student.linkedin} target="_blank" rel="noreferrer" className="text-white/50 hover:text-[#0A66C2] transition-colors transform hover:scale-110">
-                            <Linkedin size={18} />
-                          </a>
-                        )}
-                        {student.twitter && (
-                          <a href={student.twitter} target="_blank" rel="noreferrer" className="text-white/50 hover:text-[#1DA1F2] transition-colors transform hover:scale-110">
-                            <Twitter size={18} />
-                          </a>
-                        )}
-                      </div>
-                    </div>
-
-                    {/* Tech Stack - Appears on Hover */}
-                    <div className="overflow-hidden">
-                      <div className="flex flex-wrap gap-1.5 mt-4 transform md:translate-y-8 md:opacity-0 md:group-hover:translate-y-0 md:group-hover:opacity-100 transition-all duration-500">
-                        {student.techStack.slice(0, 4).map((tech) => (
-                          <span 
-                            key={tech} 
-                            className="text-[9px] uppercase tracking-wider font-bold px-2 py-1 rounded-sm bg-white/10 text-white/90 backdrop-blur-md border border-white/10"
-                          >
-                            {tech}
-                          </span>
-                        ))}
-                        {student.techStack.length > 4 && (
-                          <span className="text-[9px] uppercase tracking-wider font-bold px-2 py-1 rounded-sm bg-white/5 text-white/50 backdrop-blur-md border border-white/5">
-                            +{student.techStack.length - 4}
-                          </span>
-                        )}
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* User Action: Edit Photo */}
-                  {user?.role === 'user' && (
-                    <div className="absolute top-4 right-4 z-30 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-300">
-                      <button
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          handlePhotoUploadClick(student._id);
-                        }}
-                        className="bg-black/50 hover:bg-black/80 backdrop-blur-md p-2 rounded-full border border-white/20 text-white transition-colors flex items-center gap-2"
-                      >
-                        <Camera size={16} />
-                        <span className="text-xs font-medium pr-1">Update Photo</span>
-                      </button>
-                    </div>
-                  )}
-
-                  {/* Admin Action: Edit Student */}
-                  {user?.role === 'admin' && (
-                    <div className="absolute top-4 right-4 z-30 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-300">
-                      <button
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          openEditModal(student);
-                        }}
-                        className="bg-tech-blue/20 hover:bg-tech-blue/40 backdrop-blur-md p-2 rounded-full border border-tech-blue/30 text-tech-blue transition-colors flex items-center gap-2"
-                      >
-                        <Edit2 size={16} />
-                        <span className="text-xs font-medium pr-1">Edit</span>
-                      </button>
-                    </div>
-                  )}
-
-                  {/* Animated Corner Accents */}
-                  <div className="absolute top-0 left-0 w-8 h-8 border-t-2 border-l-2 border-tech-blue/0 md:group-hover:border-tech-blue/50 transition-colors duration-500 rounded-tl-2xl z-20" />
-                  <div className="absolute bottom-0 right-0 w-8 h-8 border-b-2 border-r-2 border-tech-violet/0 md:group-hover:border-tech-violet/50 transition-colors duration-500 rounded-br-2xl z-20" />
-                </GlassCard>
-              </motion.div>
-            </motion.div>
-          ))}
-        </AnimatePresence>
+              <StudentCard 
+                key={student._id || student.id} 
+                student={student} 
+                index={index} 
+                user={user} 
+                handlePhotoUploadClick={handlePhotoUploadClick} 
+                openEditModal={openEditModal} 
+              />
+            ))}
+          </AnimatePresence>
         )}
       </motion.div>
 
       {convexStudents !== undefined && displayedStudents.length === 0 && (
-        <div className="text-center py-20 text-white/30">
+        <div className="text-center py-20 text-green-500/50 font-mono">
           {convexStudents.length === 0 
-            ? "Database is empty. Click 'Seed Convex DB' to populate."
-            : "No students found matching your search."}
+            ? "DATABASE_EMPTY" 
+            : "NO_MATCHES_FOUND"}
         </div>
       )}
 
@@ -394,9 +301,9 @@ export const StudentDirectory: React.FC = () => {
         <div className="mt-12 flex justify-center">
           <button
             onClick={() => setVisibleCount(prev => prev + 6)}
-            className="px-8 py-3 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 text-white font-medium transition-all hover:scale-105 active:scale-95"
+            className="px-8 py-3 bg-transparent hover:bg-green-500/10 border border-green-500/50 text-green-500 font-mono font-bold uppercase transition-all hover:scale-105 active:scale-95 flex items-center gap-2"
           >
-            Load More Students
+            LOAD_MORE_RECORDS <span className="animate-pulse">_</span>
           </button>
         </div>
       )}
@@ -515,5 +422,120 @@ export const StudentDirectory: React.FC = () => {
         )}
       </AnimatePresence>
     </section>
+  );
+};
+
+const StudentCard = ({ student, index, user, handlePhotoUploadClick, openEditModal }: any) => {
+  return (
+    <motion.div
+      layout
+      initial={{ opacity: 0, x: -20 }}
+      whileInView={{ opacity: 1, x: 0 }}
+      viewport={{ once: true, margin: "-50px" }}
+      transition={{ duration: 0.3, delay: (index % 3) * 0.1 }}
+      className="w-full font-mono"
+    >
+      <div className="relative overflow-hidden bg-black border border-green-500/30 group hover:border-green-500 transition-colors duration-300 p-4 flex flex-col h-full">
+        
+        {/* Scanline effect */}
+        <div className="absolute inset-0 pointer-events-none bg-[linear-gradient(transparent_50%,rgba(0,255,0,0.05)_50%)] bg-[length:100%_4px] z-50 opacity-20" />
+
+        <div className="flex gap-4 mb-4">
+          {/* Image Section */}
+          <div className="w-24 h-24 shrink-0 border border-green-500/30 relative overflow-hidden bg-green-900/20">
+            <img 
+              src={student.image} 
+              alt={student.name} 
+              className="absolute inset-0 w-full h-full object-cover grayscale contrast-150 mix-blend-luminosity opacity-80 group-hover:opacity-100 transition-opacity"
+              referrerPolicy="no-referrer"
+            />
+            <div className="absolute inset-0 bg-green-500/20 mix-blend-color" />
+          </div>
+
+          {/* Header Info */}
+          <div className="flex-1 flex flex-col justify-between py-1">
+            <div>
+              <div className="text-[10px] text-green-500/50 mb-1">ID: {student._id?.slice(-6) || "000000"}</div>
+              <h3 className="font-bold text-lg text-green-500 uppercase leading-none mb-1 truncate">
+                {student.name}
+              </h3>
+              <p className="text-xs text-green-500/70 uppercase">
+                CLASS_OF_27
+              </p>
+            </div>
+            
+            {/* Social Links */}
+            <div className="flex gap-3 mt-2">
+              {student.github && (
+                <a href={student.github} target="_blank" rel="noreferrer" className="text-green-500/50 hover:text-green-400 transition-colors">
+                  <Github size={14} />
+                </a>
+              )}
+              {student.linkedin && (
+                <a href={student.linkedin} target="_blank" rel="noreferrer" className="text-green-500/50 hover:text-green-400 transition-colors">
+                  <Linkedin size={14} />
+                </a>
+              )}
+              {student.twitter && (
+                <a href={student.twitter} target="_blank" rel="noreferrer" className="text-green-500/50 hover:text-green-400 transition-colors">
+                  <Twitter size={14} />
+                </a>
+              )}
+            </div>
+          </div>
+        </div>
+
+        {/* Tech Stack Section */}
+        <div className="flex-1 border-t border-green-500/30 pt-3 mt-2">
+          <div className="text-[10px] text-green-500/50 mb-2">&gt; DEPENDENCIES:</div>
+          <div className="flex flex-wrap gap-2">
+            {student.techStack.slice(0, 6).map((tech: string) => (
+              <span 
+                key={tech} 
+                className="text-[10px] uppercase px-1.5 py-0.5 bg-green-900/30 text-green-400 border border-green-500/30"
+              >
+                {tech}
+              </span>
+            ))}
+            {student.techStack.length > 6 && (
+              <span className="text-[10px] uppercase px-1.5 py-0.5 bg-green-900/30 text-green-500/50 border border-green-500/30">
+                +{student.techStack.length - 6}
+              </span>
+            )}
+          </div>
+        </div>
+
+        {/* Action Buttons */}
+        <div className="absolute top-2 right-2 flex gap-2 z-30 opacity-0 group-hover:opacity-100 transition-opacity">
+          {user?.role === 'user' && (
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                handlePhotoUploadClick(student._id);
+              }}
+              className="bg-black p-1.5 border border-green-500 text-green-500 hover:bg-green-900/50 transition-colors"
+              title="Update Photo"
+            >
+              <Camera size={12} />
+            </button>
+          )}
+          {user?.role === 'admin' && (
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                openEditModal(student);
+              }}
+              className="bg-black p-1.5 border border-green-500 text-green-500 hover:bg-green-900/50 transition-colors"
+              title="Edit Student"
+            >
+              <Edit2 size={12} />
+            </button>
+          )}
+        </div>
+        
+        {/* Blinking cursor effect on hover */}
+        <div className="absolute bottom-4 right-4 w-2 h-4 bg-green-500 opacity-0 group-hover:animate-pulse" />
+      </div>
+    </motion.div>
   );
 };

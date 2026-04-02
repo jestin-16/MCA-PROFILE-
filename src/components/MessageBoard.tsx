@@ -67,23 +67,36 @@ export const MessageBoard: React.FC = () => {
         </form>
       </GlassCard>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div className="relative flex flex-col gap-16 md:gap-32 py-10">
         <AnimatePresence>
-          {messages.map((msg) => (
+          {messages.map((msg, index) => (
             <motion.div
               key={msg.id}
-              initial={{ opacity: 0, scale: 0.9, y: 20 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.9 }}
-              className="relative"
+              initial={{ opacity: 0, y: 50 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-100px" }}
+              transition={{ duration: 0.6 }}
+              className={`relative flex w-full ${index % 2 === 0 ? 'md:justify-start' : 'md:justify-end'} items-center`}
             >
-              <GlassCard className={msg.color === 'tech-blue' ? 'neon-blue' : 'neon-violet'}>
-                <p className="text-lg font-medium mb-4 italic">"{msg.text}"</p>
-                <div className="flex justify-between items-center text-xs text-white/40">
-                  <span className="font-bold uppercase tracking-widest">— {msg.author}</span>
-                  <span>{new Date(msg.timestamp).toLocaleDateString()}</span>
-                </div>
-              </GlassCard>
+              {/* Center dot */}
+              <div className={`hidden md:block absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-4 h-4 rounded-full ${msg.color === 'tech-blue' ? 'bg-tech-blue/80 shadow-[0_0_15px_rgba(0,210,255,0.5)]' : 'bg-tech-violet/80 shadow-[0_0_15px_rgba(139,92,246,0.5)]'} border-2 border-[#050505] z-10`} />
+              
+              {/* Connector Line */}
+              <div className={`hidden md:block absolute top-1/2 -translate-y-1/2 h-[2px] ${msg.color === 'tech-blue' ? 'bg-tech-blue/30' : 'bg-tech-violet/30'} w-[5%] ${index % 2 === 0 ? 'right-1/2' : 'left-1/2'}`} />
+
+              <motion.div
+                whileHover={{ y: -8, scale: 1.02 }}
+                transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                className="w-full md:w-[45%]"
+              >
+                <GlassCard className={msg.color === 'tech-blue' ? 'neon-blue' : 'neon-violet'}>
+                  <p className="text-lg font-medium mb-4 italic">"{msg.text}"</p>
+                  <div className="flex justify-between items-center text-xs text-white/40">
+                    <span className="font-bold uppercase tracking-widest">— {msg.author}</span>
+                    <span>{new Date(msg.timestamp).toLocaleDateString()}</span>
+                  </div>
+                </GlassCard>
+              </motion.div>
             </motion.div>
           ))}
         </AnimatePresence>
