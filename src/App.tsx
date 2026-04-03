@@ -12,15 +12,15 @@ export default function App() {
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
 
   return (
-    <div className="relative selection:bg-tech-blue/30">
+    <div className="relative min-h-screen scanlines">
       <Navbar onLoginClick={() => setIsLoginModalOpen(true)} />
       
-      <main>
+      <main className="relative z-10">
         <Hero />
         
         <div className="relative">
           {/* Global Walkway Path Line */}
-          <div className="absolute top-0 bottom-0 left-1/2 w-1 bg-gradient-to-b from-transparent via-tech-blue/20 to-transparent -translate-x-1/2 hidden md:block z-0" />
+          <div className="absolute top-0 bottom-0 left-1/2 w-[2px] bg-gradient-to-b from-transparent via-cyber-cyan/30 to-transparent -translate-x-1/2 hidden md:block z-0 shadow-[0_0_15px_rgba(0,240,255,0.5)]" />
           
           <StudentDirectory />
           <MemoryLane />

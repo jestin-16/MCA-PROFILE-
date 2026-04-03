@@ -1,13 +1,12 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { Send, User } from 'lucide-react';
+import { Send, User, Terminal } from 'lucide-react';
 import { Message } from '../types';
-import { GlassCard } from './GlassCard';
 
 export const MessageBoard: React.FC = () => {
   const [messages, setMessages] = useState<Message[]>([
-    { id: '1', text: "MCA 2025-27 is going to be legendary! 🚀", author: "Alex", timestamp: Date.now(), color: "tech-blue" },
-    { id: '2', text: "Who's ready for the next hackathon?", author: "Sarah", timestamp: Date.now() - 100000, color: "tech-violet" },
+    { id: '1', text: "MCA 2025-27 is going to be legendary! 🚀", author: "Alex", timestamp: Date.now(), color: "cyber-cyan" },
+    { id: '2', text: "Who's ready for the next hackathon?", author: "Sarah", timestamp: Date.now() - 100000, color: "cyber-magenta" },
   ]);
   const [newMessage, setNewMessage] = useState('');
   const [author, setAuthor] = useState('');
@@ -21,7 +20,7 @@ export const MessageBoard: React.FC = () => {
       text: newMessage,
       author: author,
       timestamp: Date.now(),
-      color: Math.random() > 0.5 ? 'tech-blue' : 'tech-violet'
+      color: Math.random() > 0.5 ? 'cyber-cyan' : 'cyber-magenta'
     };
 
     setMessages([msg, ...messages]);
@@ -29,73 +28,77 @@ export const MessageBoard: React.FC = () => {
   };
 
   return (
-    <section id="wall" className="py-24 px-6 max-w-5xl mx-auto">
+    <section id="wall" className="py-24 px-6 max-w-5xl mx-auto relative z-10">
       <div className="text-center mb-16">
-        <h2 className="text-4xl font-bold tracking-tight mb-4">Digital Graffiti Wall</h2>
-        <p className="text-white/50">Leave a note, a shoutout, or just your mark on our batch portal.</p>
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="inline-flex items-center gap-2 mb-4"
+        >
+          <Terminal className="text-cyber-cyan w-5 h-5" />
+          <span className="text-cyber-cyan font-mono text-xs uppercase tracking-[0.3em]">System.Comms</span>
+        </motion.div>
+        <h2 className="text-4xl md:text-5xl font-black tracking-tighter uppercase mb-4">
+          Digital <span className="text-cyber-cyan">Graffiti</span> Wall
+        </h2>
+        <p className="text-white/50 font-mono text-sm uppercase tracking-widest">Leave a note, a shoutout, or just your mark on our batch portal.</p>
       </div>
 
-      <GlassCard className="mb-12">
+      <div className="holo-card mb-12 p-6 border border-cyber-cyan/30 bg-void-black/80 shadow-[0_0_20px_rgba(0,255,255,0.1)]">
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="flex flex-col md:flex-row gap-4">
             <div className="relative flex-grow">
               <input
                 type="text"
-                placeholder="Your message..."
+                placeholder="TRANSMIT_MESSAGE..."
                 value={newMessage}
                 onChange={(e) => setNewMessage(e.target.value)}
-                className="w-full bg-white/5 border border-white/10 rounded-xl py-4 px-6 text-sm focus:outline-none focus:border-tech-blue/50 transition-colors"
+                className="w-full bg-void-black border border-cyber-cyan/30 rounded-none py-4 px-6 text-sm font-mono focus:outline-none focus:border-cyber-cyan focus:shadow-[0_0_10px_rgba(0,255,255,0.3)] transition-all text-white placeholder-white/30"
               />
             </div>
             <div className="relative w-full md:w-48">
-              <User className="absolute left-4 top-1/2 -translate-y-1/2 text-white/30 w-4 h-4" />
+              <User className="absolute left-4 top-1/2 -translate-y-1/2 text-cyber-cyan/50 w-4 h-4" />
               <input
                 type="text"
-                placeholder="Name"
+                placeholder="USER_ID"
                 value={author}
                 onChange={(e) => setAuthor(e.target.value)}
-                className="w-full bg-white/5 border border-white/10 rounded-xl py-4 pl-12 pr-6 text-sm focus:outline-none focus:border-tech-blue/50 transition-colors"
+                className="w-full bg-void-black border border-cyber-cyan/30 rounded-none py-4 pl-12 pr-6 text-sm font-mono focus:outline-none focus:border-cyber-cyan focus:shadow-[0_0_10px_rgba(0,255,255,0.3)] transition-all text-white placeholder-white/30 uppercase"
               />
             </div>
             <button
               type="submit"
-              className="bg-gradient-to-r from-tech-blue to-tech-violet text-white font-bold px-8 py-4 rounded-xl hover:opacity-90 transition-opacity flex items-center justify-center gap-2"
+              className="bg-cyber-cyan text-void-black font-black px-8 py-4 rounded-none hover:bg-white transition-colors flex items-center justify-center gap-2 uppercase tracking-widest shadow-[0_0_15px_rgba(0,255,255,0.4)]"
             >
               Post <Send size={16} />
             </button>
           </div>
         </form>
-      </GlassCard>
+      </div>
 
-      <div className="relative flex flex-col gap-16 md:gap-32 py-10">
+      <div className="relative flex flex-col gap-8 py-10">
         <AnimatePresence>
           {messages.map((msg, index) => (
             <motion.div
               key={msg.id}
-              initial={{ opacity: 0, y: 50 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-100px" }}
-              transition={{ duration: 0.6 }}
+              initial={{ opacity: 0, x: index % 2 === 0 ? -50 : 50 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5 }}
               className={`relative flex w-full ${index % 2 === 0 ? 'md:justify-start' : 'md:justify-end'} items-center`}
             >
-              {/* Center dot */}
-              <div className={`hidden md:block absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-4 h-4 rounded-full ${msg.color === 'tech-blue' ? 'bg-tech-blue/80 shadow-[0_0_15px_rgba(0,210,255,0.5)]' : 'bg-tech-violet/80 shadow-[0_0_15px_rgba(139,92,246,0.5)]'} border-2 border-[#050505] z-10`} />
-              
-              {/* Connector Line */}
-              <div className={`hidden md:block absolute top-1/2 -translate-y-1/2 h-[2px] ${msg.color === 'tech-blue' ? 'bg-tech-blue/30' : 'bg-tech-violet/30'} w-[5%] ${index % 2 === 0 ? 'right-1/2' : 'left-1/2'}`} />
-
               <motion.div
-                whileHover={{ y: -8, scale: 1.02 }}
-                transition={{ type: "spring", stiffness: 300, damping: 20 }}
-                className="w-full md:w-[45%]"
+                whileHover={{ scale: 1.02 }}
+                className="w-full md:w-[60%]"
               >
-                <GlassCard className={msg.color === 'tech-blue' ? 'neon-blue' : 'neon-violet'}>
-                  <p className="text-lg font-medium mb-4 italic">"{msg.text}"</p>
-                  <div className="flex justify-between items-center text-xs text-white/40">
-                    <span className="font-bold uppercase tracking-widest">— {msg.author}</span>
-                    <span>{new Date(msg.timestamp).toLocaleDateString()}</span>
+                <div className={`holo-card p-6 border-l-4 ${msg.color === 'cyber-cyan' ? 'border-l-cyber-cyan border-cyber-cyan/20 shadow-[0_0_15px_rgba(0,255,255,0.1)]' : 'border-l-cyber-magenta border-cyber-magenta/20 shadow-[0_0_15px_rgba(255,0,60,0.1)]'} bg-void-black/90`}>
+                  <p className="text-lg font-mono mb-4 text-white/90">"{msg.text}"</p>
+                  <div className="flex justify-between items-center text-xs">
+                    <span className={`font-black uppercase tracking-widest ${msg.color === 'cyber-cyan' ? 'text-cyber-cyan' : 'text-cyber-magenta'}`}>USER // {msg.author}</span>
+                    <span className="font-mono text-white/30">{new Date(msg.timestamp).toLocaleTimeString()}</span>
                   </div>
-                </GlassCard>
+                </div>
               </motion.div>
             </motion.div>
           ))}

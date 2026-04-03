@@ -21,32 +21,32 @@ export const Navbar: React.FC<NavbarProps> = ({ onLoginClick }) => {
   }, []);
 
   const navItems = [
-    { name: 'Home', href: '#home' },
-    { name: 'Directory', href: '#directory' },
-    { name: 'Memories', href: '#memories' },
-    { name: 'Projects', href: '#projects' },
-    { name: 'Wall', href: '#wall' },
+    { name: 'HOME', href: '#home' },
+    { name: 'DIR', href: '#directory' },
+    { name: 'MEM', href: '#memories' },
+    { name: 'PRJ', href: '#projects' },
+    { name: 'WALL', href: '#wall' },
   ];
 
   return (
     <nav className={cn(
-      "fixed top-0 left-0 right-0 z-50 transition-all duration-300 px-6 py-4",
-      isScrolled ? "bg-[#050505]/80 backdrop-blur-md border-b border-white/10" : "bg-transparent"
+      "fixed top-4 left-1/2 -translate-x-1/2 z-50 transition-all duration-500 w-[95%] max-w-5xl rounded-full px-6 py-3",
+      isScrolled ? "glass-panel neon-border" : "bg-transparent"
     )}>
-      <div className="max-w-7xl mx-auto flex justify-between items-center">
+      <div className="flex justify-between items-center">
         <motion.div 
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
-          className="text-xl font-bold tracking-tighter flex items-center gap-2"
+          className="text-xl font-bold tracking-widest flex items-center gap-3"
         >
-          <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-tech-blue to-tech-violet flex items-center justify-center text-white text-xs">
+          <div className="w-10 h-10 rounded-full bg-void-black border border-cyber-cyan/50 shadow-[0_0_15px_rgba(0,240,255,0.3)] flex items-center justify-center text-cyber-cyan text-xs font-mono">
             MCA
           </div>
-          <span className="hidden sm:inline">BATCH PORTAL</span>
+          <span className="hidden sm:inline font-mono text-sm uppercase tracking-[0.2em] neon-text">SYS.PORTAL</span>
         </motion.div>
 
         <div className="flex items-center gap-8">
-          <div className="hidden md:flex gap-8">
+          <div className="hidden md:flex gap-6">
             {navItems.map((item, idx) => (
               <motion.a
                 key={item.name}
@@ -54,9 +54,10 @@ export const Navbar: React.FC<NavbarProps> = ({ onLoginClick }) => {
                 initial={{ opacity: 0, y: -10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: idx * 0.1 }}
-                className="text-sm font-medium text-white/70 hover:text-tech-blue transition-colors"
+                className="text-xs font-mono font-medium text-white/50 hover:text-cyber-cyan hover:drop-shadow-[0_0_8px_rgba(0,240,255,0.8)] transition-all uppercase tracking-widest relative group"
               >
                 {item.name}
+                <span className="absolute -bottom-1 left-0 w-0 h-[1px] bg-cyber-cyan transition-all duration-300 group-hover:w-full shadow-[0_0_8px_rgba(0,240,255,0.8)]"></span>
               </motion.a>
             ))}
           </div>
@@ -67,25 +68,25 @@ export const Navbar: React.FC<NavbarProps> = ({ onLoginClick }) => {
           >
             {user ? (
               <div className="flex items-center gap-4">
-                <div className="flex items-center gap-2 text-sm text-white/70">
-                  <User size={16} />
-                  <span className="hidden sm:inline">{user.username} ({user.role})</span>
+                <div className="flex items-center gap-2 text-xs font-mono text-cyber-cyan">
+                  <User size={14} />
+                  <span className="hidden sm:inline">{user.username} [{user.role}]</span>
                 </div>
                 <button 
                   onClick={logout}
-                  className="flex items-center gap-2 text-sm text-red-400 hover:text-red-300 transition-colors"
+                  className="flex items-center gap-2 text-xs font-mono text-cyber-magenta hover:text-white transition-colors"
                 >
-                  <LogOut size={16} />
-                  <span className="hidden sm:inline">Logout</span>
+                  <LogOut size={14} />
+                  <span className="hidden sm:inline">LOGOUT</span>
                 </button>
               </div>
             ) : (
               <button 
                 onClick={onLoginClick}
-                className="flex items-center gap-2 text-sm text-tech-blue hover:text-tech-blue/80 transition-colors bg-tech-blue/10 px-4 py-2 rounded-full border border-tech-blue/20"
+                className="flex items-center gap-2 text-xs font-mono text-cyber-cyan hover:text-white transition-all bg-cyber-cyan/10 px-5 py-2 rounded-full border border-cyber-cyan/30 hover:shadow-[0_0_15px_rgba(0,240,255,0.4)] hover:bg-cyber-cyan/20 uppercase tracking-widest"
               >
-                <LogIn size={16} />
-                <span>Login</span>
+                <LogIn size={14} />
+                <span>Auth</span>
               </button>
             )}
           </motion.div>
