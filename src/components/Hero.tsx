@@ -1,6 +1,31 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'motion/react';
 
+const titleText = "RMCA";
+const subtitleText = "25-27";
+
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.15,
+      delayChildren: 0.2,
+    }
+  }
+};
+
+const charVariants = {
+  hidden: { opacity: 0, y: 40, filter: "blur(10px)", scale: 0.8 },
+  visible: { 
+    opacity: 1, 
+    y: 0, 
+    filter: "blur(0px)", 
+    scale: 1,
+    transition: { duration: 0.8, ease: [0.2, 0.65, 0.3, 0.9] } 
+  }
+};
+
 export const Hero: React.FC = () => {
   const [timeSince, setTimeSince] = useState({
     days: 0,
@@ -43,18 +68,31 @@ export const Hero: React.FC = () => {
             <h2 className="text-cyber-cyan font-mono tracking-[0.3em] text-xs uppercase">SYS.INIT // MCA_REGULAR</h2>
           </div>
           
-          <h1 className="text-7xl md:text-[12rem] font-black tracking-tighter mb-4 leading-none relative group">
-            <span className="block text-white mix-blend-overlay opacity-90 group-hover:opacity-100 transition-opacity">RMCA</span>
-            <span className="absolute inset-0 text-cyber-cyan opacity-0 group-hover:opacity-50 translate-x-1 translate-y-1 transition-all duration-75 mix-blend-screen blur-[2px]">RMCA</span>
-            <span className="absolute inset-0 text-cyber-magenta opacity-0 group-hover:opacity-50 -translate-x-1 -translate-y-1 transition-all duration-75 mix-blend-screen blur-[2px]">RMCA</span>
-            <span className="block bg-gradient-to-r from-cyber-cyan via-white to-cyber-purple bg-clip-text text-transparent drop-shadow-[0_0_20px_rgba(0,240,255,0.4)]">25-27</span>
-          </h1>
+          <motion.h1 
+            variants={containerVariants}
+            initial="hidden"
+            animate="visible"
+            className="text-7xl md:text-[12rem] font-black tracking-tighter mb-4 leading-none relative group flex flex-col items-center"
+          >
+            <div className="flex relative">
+              {titleText.split('').map((char, index) => (
+                <motion.span key={index} variants={charVariants} className="inline-block text-white mix-blend-overlay opacity-90 group-hover:opacity-100 transition-opacity">
+                  {char}
+                </motion.span>
+              ))}
+              <span className="absolute inset-0 text-cyber-cyan opacity-0 group-hover:opacity-50 translate-x-1 translate-y-1 transition-all duration-75 mix-blend-screen blur-[2px] pointer-events-none">{titleText}</span>
+              <span className="absolute inset-0 text-cyber-magenta opacity-0 group-hover:opacity-50 -translate-x-1 -translate-y-1 transition-all duration-75 mix-blend-screen blur-[2px] pointer-events-none">{titleText}</span>
+            </div>
+            <motion.div variants={charVariants} className="block bg-gradient-to-r from-cyber-cyan via-white to-cyber-purple bg-clip-text text-transparent drop-shadow-[0_0_20px_rgba(0,240,255,0.4)]">
+              {subtitleText}
+            </motion.div>
+          </motion.h1>
         </motion.div>
 
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.5, duration: 1 }}
+          transition={{ delay: 1.2, duration: 1 }}
           className="flex gap-4 md:gap-8 justify-center mt-16"
         >
           {[
@@ -76,7 +114,7 @@ export const Hero: React.FC = () => {
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ delay: 1 }}
+          transition={{ delay: 1.8 }}
           className="mt-16 flex items-center justify-center gap-4 text-white/40 font-mono tracking-[0.2em] uppercase text-xs"
         >
           <div className="w-12 h-[1px] bg-white/20" />
