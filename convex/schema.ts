@@ -15,4 +15,9 @@ export default defineSchema({
     password: v.string(),
     role: v.union(v.literal("admin"), v.literal("user")),
   }).index("by_username", ["username"]),
+  memories: defineTable({
+    url: v.string(),
+    caption: v.string(),
+    type: v.union(v.literal("image"), v.literal("video")),
+  }),
 });
