@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'motion/react';
-import { ExternalLink, Code2 } from 'lucide-react';
+import { ExternalLink, Layers } from 'lucide-react';
 import { PROJECTS } from '../constants';
 
 export const ProjectShowcase: React.FC = () => {
@@ -11,70 +11,69 @@ export const ProjectShowcase: React.FC = () => {
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="inline-flex items-center gap-2 mb-4"
+          className="flex flex-col items-center"
         >
-          <Code2 className="text-cyber-magenta w-5 h-5" />
-          <span className="text-cyber-magenta font-mono text-xs uppercase tracking-[0.3em]">System.Projects</span>
+          <div className="inline-flex items-center gap-2 mb-4">
+            <Layers className="text-atmos-accent w-5 h-5 opacity-70" />
+            <span className="font-sans text-xs tracking-widest text-atmos-accent/80 uppercase">Selected Works</span>
+          </div>
+          <h2 className="title-serif text-5xl md:text-6xl mb-6">
+            Project <span className="text-atmos-accent italic">Showcase</span>
+          </h2>
+          <p className="font-sans text-white/50 text-sm tracking-wide max-w-2xl mx-auto font-light">
+            Highlighting innovation, technical excellence, and creative problem-solving from our members.
+          </p>
         </motion.div>
-        <h2 className="text-4xl md:text-5xl font-black tracking-tighter uppercase mb-4">
-          Project <span className="text-cyber-magenta">Showcase</span>
-        </h2>
-        <p className="text-white/50 font-mono text-sm uppercase tracking-widest">Innovation and creativity from our batch members.</p>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 py-10">
         {PROJECTS.map((project, index) => (
           <motion.div
             key={project.id}
-            initial={{ opacity: 0, y: 50 }}
+            initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: index * 0.1 }}
-            className="w-full"
+            transition={{ duration: 0.8, delay: index * 0.1, ease: [0.2, 0.65, 0.3, 0.9] }}
+            className="w-full h-full"
           >
-            <div className="holo-card p-0 overflow-hidden flex flex-col h-full group border border-cyber-magenta/20 hover:border-cyber-magenta/80 transition-all duration-500 hover:shadow-[0_0_30px_rgba(255,0,60,0.2)] bg-void-black/80">
-              <div className="relative h-64 overflow-hidden border-b border-cyber-magenta/20">
+            <div className="glass-panel overflow-hidden flex flex-col h-full group">
+              <div className="relative h-64 overflow-hidden">
                 <motion.img 
                   src={project.image} 
                   alt={project.title} 
-                  className="w-full h-full object-cover transition-transform duration-700 md:group-hover:scale-105 grayscale group-hover:grayscale-0 mix-blend-luminosity group-hover:mix-blend-normal"
+                  className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105 opacity-80 group-hover:opacity-100"
                   referrerPolicy="no-referrer"
                 />
-                <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0IiBoZWlnaHQ9IjQiPgo8cmVjdCB3aWR0aD0iNCIgaGVpZ2h0PSI0IiBmaWxsPSJ0cmFuc3BhcmVudCIvPgo8cmVjdCB3aWR0aD0iNCIgaGVpZ2h0PSIxIiBmaWxsPSJyZ2JhKDI1NSwyNTUsMjU1LDAuMSkiLz4KPC9zdmc+')] opacity-50 mix-blend-overlay pointer-events-none" />
-                <div className="absolute inset-0 bg-gradient-to-t from-void-black via-void-black/20 to-transparent opacity-90" />
+                <div className="absolute inset-0 bg-gradient-to-t from-atmos-bg via-atmos-bg/20 to-transparent" />
                 
-                <div className="absolute top-4 right-4">
-                  <div className="bg-void-black/80 p-2 border border-cyber-magenta/50 text-cyber-magenta hover:bg-cyber-magenta/20 hover:text-white cursor-pointer transition-colors shadow-[0_0_10px_rgba(255,0,60,0.3)]">
-                    <ExternalLink size={18} />
+                <div className="absolute top-6 right-6">
+                  <div className="bg-white/5 backdrop-blur-md p-3 rounded-full border border-white/10 text-white/60 hover:text-white hover:border-white/30 cursor-pointer transition-all hover:scale-110">
+                    <ExternalLink size={18} strokeWidth={1.5} />
                   </div>
                 </div>
-
-                {/* Corner Accents */}
-                <div className="absolute top-0 left-0 w-4 h-4 border-t-2 border-l-2 border-cyber-magenta/50" />
-                <div className="absolute bottom-0 right-0 w-4 h-4 border-b-2 border-r-2 border-cyber-magenta/50" />
               </div>
               
-              <div className="p-8 flex flex-col flex-grow relative z-10 bg-void-black/90">
+              <div className="p-8 flex flex-col flex-grow relative z-10 bg-gradient-to-b from-atmos-bg to-atmos-bg/40">
                 <div className="flex justify-between items-start mb-4">
-                  <h3 className="text-2xl font-black uppercase tracking-tight group-hover:text-cyber-magenta transition-colors drop-shadow-[0_0_5px_rgba(255,0,60,0.5)]">{project.title}</h3>
-                  <span className="text-[10px] font-mono text-cyber-magenta/70 uppercase tracking-widest bg-cyber-magenta/10 px-2 py-1 border border-cyber-magenta/30">BY {project.author}</span>
+                  <h3 className="title-serif text-3xl group-hover:text-atmos-accent transition-colors">{project.title}</h3>
+                </div>
+                <div className="mb-6">
+                  <span className="text-xs font-sans text-white/40 tracking-wider">Created By:</span>
+                  <span className="text-sm font-sans text-white/80 ml-2">{project.author}</span>
                 </div>
                 
-                <p className="text-white/60 mb-6 flex-grow font-mono text-sm leading-relaxed">{project.description}</p>
+                <p className="text-white/60 mb-8 flex-grow font-sans text-sm leading-relaxed font-light">{project.description}</p>
                 
-                <div className="flex items-center gap-4 mt-auto">
+                <div className="flex items-center gap-4 mt-auto border-t border-white/5 pt-6">
                   <div className="flex flex-wrap gap-2">
                     {project.techStack.map(tech => (
-                      <span key={tech} className="text-[9px] font-mono font-bold text-cyber-magenta/80 uppercase tracking-widest bg-cyber-magenta/5 border border-cyber-magenta/20 px-2 py-1">
+                      <span key={tech} className="text-xs font-sans text-white/50 bg-white/5 border border-white/10 rounded-full px-4 py-1.5 transition-colors hover:bg-white/10">
                         {tech}
                       </span>
                     ))}
                   </div>
                 </div>
               </div>
-
-              {/* Decorative Elements */}
-              <div className="absolute bottom-0 left-0 w-full h-[2px] bg-gradient-to-r from-transparent via-cyber-magenta to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
             </div>
           </motion.div>
         ))}
@@ -82,3 +81,4 @@ export const ProjectShowcase: React.FC = () => {
     </section>
   );
 };
+

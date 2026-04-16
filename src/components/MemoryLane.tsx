@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { MEMORIES } from '../constants';
-import { AlertTriangle, Plus, X, Upload } from 'lucide-react';
+import { Sparkles, Plus, X, Upload } from 'lucide-react';
 import { useQuery, useMutation } from 'convex/react';
 import { api } from '../../convex/_generated/api';
 import { useAuth } from '../AuthContext';
@@ -55,28 +55,29 @@ export const MemoryLane: React.FC = () => {
     <section id="memories" className="py-24 px-6 relative z-10">
       <div className="max-w-7xl mx-auto">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-16 gap-6">
-          <div className="text-left border-l-4 border-cyber-green pl-6">
+          <div className="text-left">
             <motion.div 
-              initial={{ opacity: 0, x: -20 }}
-              whileInView={{ opacity: 1, x: 0 }}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              className="inline-flex items-center gap-2 mb-2"
             >
-              <AlertTriangle className="text-cyber-green w-5 h-5" />
-              <span className="text-cyber-green font-mono text-xs uppercase tracking-[0.3em]">Raw_Data_Dump</span>
+              <div className="inline-flex items-center gap-2 mb-4">
+                <Sparkles className="text-atmos-accent w-4 h-4 opacity-70" />
+                <span className="font-sans text-xs tracking-widest text-atmos-accent/80 uppercase">Moments Captured</span>
+              </div>
+              <h2 className="title-serif text-5xl md:text-7xl mb-4 text-white">
+                Memory <span className="text-atmos-accent italic">Fragments</span>
+              </h2>
+              <p className="font-sans text-white/50 text-sm tracking-wide max-w-2xl font-light">
+                A visual journey through time, preserving moments of collaboration, learning, and shared experiences in an atmospheric gallery.
+              </p>
             </motion.div>
-            <h2 className="text-4xl md:text-6xl font-black tracking-tighter uppercase mb-4">
-              Memory <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyber-green to-cyber-cyan">Fragments</span>
-            </h2>
-            <p className="text-white/50 font-mono text-sm uppercase tracking-widest max-w-2xl">
-              Unfiltered visual records. Size and resolution may vary due to data corruption.
-            </p>
           </div>
 
           {user?.role === 'admin' && (
             <button
               onClick={() => setIsAdding(true)}
-              className="flex items-center gap-2 bg-cyber-green/10 text-cyber-green border border-cyber-green/30 px-4 py-2 font-mono text-sm uppercase tracking-widest hover:bg-cyber-green hover:text-void-black transition-colors"
+              className="glass-button flex items-center gap-2"
             >
               <Plus size={16} /> Add Fragment
             </button>
@@ -91,44 +92,44 @@ export const MemoryLane: React.FC = () => {
               exit={{ opacity: 0, height: 0 }}
               className="mb-12 overflow-hidden"
             >
-              <div className="bg-void-black border border-cyber-green/30 p-6 relative">
+              <div className="glass-panel p-8 relative max-w-2xl">
                 <button 
                   onClick={() => setIsAdding(false)}
-                  className="absolute top-4 right-4 text-white/50 hover:text-cyber-green"
+                  className="absolute top-6 right-6 text-white/40 hover:text-white transition-colors"
                 >
                   <X size={20} />
                 </button>
-                <h3 className="text-cyber-green font-mono uppercase tracking-widest mb-6 flex items-center gap-2">
-                  <Upload size={16} /> Upload New Fragment
+                <h3 className="title-serif text-3xl mb-6 text-white flex items-center gap-3">
+                  <Upload size={24} className="text-atmos-accent" /> New Memory Fragment
                 </h3>
-                <form onSubmit={handleAddSubmit} className="space-y-4">
+                <form onSubmit={handleAddSubmit} className="space-y-6">
                   <div>
-                    <label className="block text-xs font-mono text-white/50 mb-1 uppercase">Image URL</label>
+                    <label className="block text-xs font-sans text-white/60 mb-2 font-medium">Image URL</label>
                     <input
                       type="url"
                       value={newUrl}
                       onChange={(e) => setNewUrl(e.target.value)}
                       placeholder="https://example.com/image.jpg"
-                      className="w-full bg-void-black border border-white/20 p-3 text-white font-mono text-sm focus:border-cyber-green focus:outline-none"
+                      className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-atmos-accent/50 transition-all font-light"
                       required
                     />
                   </div>
                   <div>
-                    <label className="block text-xs font-mono text-white/50 mb-1 uppercase">Caption</label>
+                    <label className="block text-xs font-sans text-white/60 mb-2 font-medium">Caption</label>
                     <input
                       type="text"
                       value={newCaption}
                       onChange={(e) => setNewCaption(e.target.value)}
-                      placeholder="Enter memory description..."
-                      className="w-full bg-void-black border border-white/20 p-3 text-white font-mono text-sm focus:border-cyber-green focus:outline-none"
+                      placeholder="Enter a meaningful description..."
+                      className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-atmos-accent/50 transition-all font-light"
                       required
                     />
                   </div>
                   <button
                     type="submit"
-                    className="bg-cyber-green text-void-black font-bold uppercase tracking-widest px-6 py-3 hover:bg-white transition-colors"
+                    className="w-full sm:w-auto bg-white text-atmos-bg font-medium px-8 py-3 rounded-xl hover:bg-atmos-accent hover:text-white transition-colors"
                   >
-                    Save Fragment
+                    Save Memory
                   </button>
                 </form>
               </div>
@@ -136,57 +137,37 @@ export const MemoryLane: React.FC = () => {
           )}
         </AnimatePresence>
 
-        <div className="grid grid-cols-1 md:grid-cols-12 auto-rows-[250px] gap-4 md:grid-flow-dense">
+        <div className="grid grid-cols-1 md:grid-cols-12 auto-rows-[250px] gap-6 md:grid-flow-dense">
           {displayMemories.map((memory: any, index: number) => {
             const id = memory._id || memory.id;
             return (
               <motion.div
                 key={id}
-                initial={{ opacity: 0, scale: 0.95 }}
-                whileInView={{ opacity: 1, scale: 1 }}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.4, delay: (index % 5) * 0.1 }}
-                className={`group relative overflow-hidden bg-void-black border border-white/10 hover:border-cyber-green transition-colors duration-300 ${getGridItemClass(index)}`}
+                transition={{ duration: 0.8, delay: (index % 5) * 0.1, ease: [0.2, 0.65, 0.3, 0.9] }}
+                className={`group relative overflow-hidden rounded-2xl bg-white/5 border border-white/5 hover:border-white/15 transition-colors duration-500 ${getGridItemClass(index)}`}
               >
-                {/* Rugged Background Pattern */}
-                <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI4IiBoZWlnaHQ9IjgiPgo8cmVjdCB3aWR0aD0iOCIgaGVpZ2h0PSI4IiBmaWxsPSJ0cmFuc3BhcmVudCIvPgo8cGF0aCBkPSJNMCAwTDggOFpNOCAwTDAgOFoiIHN0cm9rZT0icmdiYSgyNTUsMjU1LDI1NSwwLjAyKSIgc3Ryb2tlLXdpZHRoPSIxIi8+Cjwvc3ZnPg==')] opacity-50" />
-
                 <img
                   src={memory.url}
                   alt={memory.caption}
-                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                  className="w-full h-full object-cover transition-all duration-1000 group-hover:scale-105 group-hover:blur-[2px] opacity-80 group-hover:opacity-60"
                   referrerPolicy="no-referrer"
                 />
                 
-                {/* Industrial Tape / Accent */}
-                <div className="absolute top-4 -right-10 bg-cyber-green text-void-black text-[8px] font-black uppercase tracking-widest py-1 px-10 rotate-45 shadow-lg z-20">
-                  RAW_FILE
-                </div>
-
-                {/* Overlay Gradient for Text Readability */}
-                <div className="absolute inset-0 bg-gradient-to-t from-void-black via-void-black/20 to-transparent opacity-80 group-hover:opacity-60 transition-opacity duration-300" />
+                {/* Smooth Gradient Overlay */}
+                <div className="absolute inset-0 bg-gradient-to-t from-atmos-bg/90 via-atmos-bg/20 to-transparent transition-opacity duration-500" />
                 
                 {/* Content */}
-                <div className="absolute bottom-0 left-0 w-full p-4 md:p-6 z-10 flex flex-col justify-end h-full pointer-events-none">
-                  <div className="translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
-                    <div className="flex items-center gap-2 mb-2">
-                      <div className="w-2 h-2 bg-cyber-green animate-pulse" />
-                      <span className="text-[10px] font-mono text-cyber-green uppercase tracking-widest bg-void-black/80 px-2 py-0.5 border border-cyber-green/30">
-                        ID_{id.slice(0,6)}
-                      </span>
-                    </div>
-                    <p className="text-lg md:text-xl font-black uppercase tracking-tight text-white drop-shadow-md line-clamp-2">
+                <div className="absolute inset-0 p-6 md:p-8 z-10 flex flex-col justify-end pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                  <div className="translate-y-4 group-hover:translate-y-0 transition-transform duration-700 ease-out">
+                    <p className="title-serif text-xl md:text-3xl font-light text-white leading-tight">
                       {memory.caption}
                     </p>
+                    <div className="mt-4 w-12 h-px bg-atmos-accent/60" />
                   </div>
                 </div>
-
-                {/* Rugged Borders / Crosshairs */}
-                <div className="absolute top-2 left-2 w-3 h-3 border-t-2 border-l-2 border-white/30 group-hover:border-cyber-green transition-colors z-20" />
-                <div className="absolute bottom-2 right-2 w-3 h-3 border-b-2 border-r-2 border-white/30 group-hover:border-cyber-green transition-colors z-20" />
-                
-                {/* Glitch Overlay on Hover */}
-                <div className="absolute inset-0 bg-cyber-green/10 opacity-0 group-hover:opacity-100 mix-blend-color transition-opacity duration-300 pointer-events-none z-20" />
               </motion.div>
             );
           })}
@@ -195,3 +176,4 @@ export const MemoryLane: React.FC = () => {
     </section>
   );
 };
+
