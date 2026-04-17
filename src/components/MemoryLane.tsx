@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { MEMORIES } from '../constants';
-import { Sparkles, Plus, X, Upload } from 'lucide-react';
+import { Sparkles, Plus, X, Upload, Link, FileImage } from 'lucide-react';
 import { useQuery, useMutation } from 'convex/react';
 import { api } from '../../convex/_generated/api';
 import { useAuth } from '../AuthContext';
@@ -27,11 +27,49 @@ export const MemoryLane: React.FC = () => {
   const addMemory = useMutation(api.memories.add);
   
   const [isAdding, setIsAdding] = useState(false);
+  const [uploadMethod, setUploadMethod] = useState<'url' | 'file'>('file');
   const [newUrl, setNewUrl] = useState('');
   const [newCaption, setNewCaption] = useState('');
+  const [fileName, setFileName] = useState('');
 
   // Use DB memories if available, otherwise fallback to constants
   const displayMemories = dbMemories && dbMemories.length > 0 ? dbMemories : MEMORIES;
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      setFileName(file.name);
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        const img = new Image();
+        img.onload = () => {
+          const canvas = document.createElement('canvas');
+          let width = img.width;
+          let height = img.height;
+          const MAX_SIZE = 800; // Limit size to prevent DB payload too large
+          if (width > height) {
+            if (width > MAX_SIZE) {
+              height *= MAX_SIZE / width;
+              width = MAX_SIZE;
+            }
+          } else {
+            if (height > MAX_SIZE) {
+              width *= MAX_SIZE / height;
+              height = MAX_SIZE;
+            }
+          }
+          canvas.width = width;
+          canvas.height = height;
+          const ctx = canvas.getContext('2d');
+          ctx?.drawImage(img, 0, 0, width, height);
+          const dataUrl = canvas.toDataURL('image/jpeg', 0.8);
+          setNewUrl(dataUrl);
+        };
+        img.src = reader.result as string;
+      };
+      reader.readAsDataURL(file);
+    }
+  };
 
   const handleAddSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -46,6 +84,7 @@ export const MemoryLane: React.FC = () => {
       setIsAdding(false);
       setNewUrl('');
       setNewCaption('');
+      setFileName('');
     } catch (error) {
       console.error("Failed to add memory:", error);
     }
@@ -103,17 +142,52 @@ export const MemoryLane: React.FC = () => {
                   <Upload size={24} className="text-atmos-accent" /> New Memory Fragment
                 </h3>
                 <form onSubmit={handleAddSubmit} className="space-y-6">
-                  <div>
-                    <label className="block text-xs font-sans text-white/60 mb-2 font-medium">Image URL</label>
-                    <input
-                      type="url"
-                      value={newUrl}
-                      onChange={(e) => setNewUrl(e.target.value)}
-                      placeholder="https://example.com/image.jpg"
-                      className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-atmos-accent/50 transition-all font-light"
-                      required
-                    />
+                  <div className="flex gap-4 mb-4">
+                    <button
+                      type="button"
+                      onClick={() => { setUploadMethod('file'); setNewUrl(''); setFileName(''); }}
+                      className={`flex-1 py-3 rounded-xl flex items-center justify-center gap-2 text-sm transition-all ${uploadMethod === 'file' ? 'bg-atmos-accent text-white' : 'bg-white/5 text-white/60 hover:bg-white/10'}`}
+                    >
+                      <FileImage size={18} /> Upload Photo
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => { setUploadMethod('url'); setNewUrl(''); setFileName(''); }}
+                      className={`flex-1 py-3 rounded-xl flex items-center justify-center gap-2 text-sm transition-all ${uploadMethod === 'url' ? 'bg-atmos-accent text-white' : 'bg-white/5 text-white/60 hover:bg-white/10'}`}
+                    >
+                      <Link size={18} /> Paste URL
+                    </button>
                   </div>
+                  
+                  {uploadMethod === 'url' ? (
+                    <div>
+                      <label className="block text-xs font-sans text-white/60 mb-2 font-medium">Image URL</label>
+                      <input
+                        type="url"
+                        value={newUrl}
+                        onChange={(e) => setNewUrl(e.target.value)}
+                        placeholder="https://example.com/image.jpg"
+                        className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-atmos-accent/50 transition-all font-light"
+                        required
+                      />
+                    </div>
+                  ) : (
+                    <div>
+                      <label className="block text-xs font-sans text-white/60 mb-2 font-medium">Select Photo</label>
+                      <label className="w-full flex-col bg-white/5 border border-white/10 border-dashed rounded-xl px-4 py-8 text-white hover:border-atmos-accent/50 transition-all font-light flex items-center justify-center cursor-pointer hover:bg-white/10">
+                        <Upload size={24} className="mb-2 text-white/40" />
+                        <span className="text-sm font-medium">{fileName || "Click to browse"}</span>
+                        <input
+                          type="file"
+                          accept="image/*"
+                          onChange={handleFileChange}
+                          className="hidden"
+                          required={!newUrl}
+                        />
+                      </label>
+                    </div>
+                  )}
+
                   <div>
                     <label className="block text-xs font-sans text-white/60 mb-2 font-medium">Caption</label>
                     <input
