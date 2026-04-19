@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { Send, User, MessageSquare } from 'lucide-react';
+import { Send, User, MessageSquare, Ghost } from 'lucide-react';
 import { Message } from '../types';
 
 export const MessageBoard: React.FC = () => {
@@ -10,21 +10,24 @@ export const MessageBoard: React.FC = () => {
   ]);
   const [newMessage, setNewMessage] = useState('');
   const [author, setAuthor] = useState('');
+  const [isAnonymous, setIsAnonymous] = useState(false);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!newMessage.trim() || !author.trim()) return;
+    if (!newMessage.trim()) return;
+    if (!isAnonymous && !author.trim()) return;
 
     const msg: Message = {
       id: Math.random().toString(36).substr(2, 9),
       text: newMessage,
-      author: author,
+      author: isAnonymous ? "Anonymous Student" : author,
       timestamp: Date.now(),
       color: Math.random() > 0.5 ? 'atmos-accent' : 'white'
     };
 
     setMessages([msg, ...messages]);
     setNewMessage('');
+    if (!isAnonymous) setAuthor('');
   };
 
   return (
@@ -63,7 +66,7 @@ export const MessageBoard: React.FC = () => {
           transition={{ duration: 0.8 }}
           className="glass-panel p-8 mb-20 relative overflow-hidden group shadow-2xl"
         >
-          <form onSubmit={handleSubmit} className="relative z-10">
+          <form onSubmit={handleSubmit} className="relative z-10 space-y-4">
             <div className="flex flex-col md:flex-row gap-4 lg:gap-6">
               <div className="relative flex-grow">
                 <input
@@ -74,21 +77,37 @@ export const MessageBoard: React.FC = () => {
                   className="w-full bg-white/5 border border-white/10 rounded-2xl py-4 px-6 text-sm font-sans focus:outline-none focus:border-atmos-accent/50 transition-all text-white placeholder-white/30 font-light"
                 />
               </div>
-              <div className="relative w-full md:w-64">
-                <User className="absolute left-5 top-1/2 -translate-y-1/2 text-white/40 w-4 h-4" />
-                <input
-                  type="text"
-                  placeholder="Your Name"
-                  value={author}
-                  onChange={(e) => setAuthor(e.target.value)}
-                  className="w-full bg-white/5 border border-white/10 rounded-2xl py-4 pl-12 pr-6 text-sm font-sans focus:outline-none focus:border-atmos-accent/50 transition-all text-white placeholder-white/30 font-light"
-                />
-              </div>
+              {!isAnonymous && (
+                <div className="relative w-full md:w-64">
+                  <User className="absolute left-5 top-1/2 -translate-y-1/2 text-white/40 w-4 h-4" />
+                  <input
+                    type="text"
+                    placeholder="Your Name"
+                    value={author}
+                    onChange={(e) => setAuthor(e.target.value)}
+                    className="w-full bg-white/5 border border-white/10 rounded-2xl py-4 pl-12 pr-6 text-sm font-sans focus:outline-none focus:border-atmos-accent/50 transition-all text-white placeholder-white/30 font-light"
+                    required
+                  />
+                </div>
+              )}
               <button
                 type="submit"
                 className="w-full md:w-auto bg-white text-atmos-bg font-medium px-8 py-4 rounded-2xl hover:bg-atmos-accent hover:text-white transition-colors flex items-center justify-center gap-2"
               >
                 Post <Send size={16} />
+              </button>
+            </div>
+            
+            <div className="flex items-center gap-2 px-2">
+              <button
+                type="button"
+                onClick={() => setIsAnonymous(!isAnonymous)}
+                className={`flex items-center gap-2 text-xs font-sans tracking-wider transition-colors ${isAnonymous ? 'text-atmos-accent' : 'text-white/40 hover:text-white/60'}`}
+              >
+                <div className={`w-4 h-4 rounded border flex items-center justify-center transition-colors ${isAnonymous ? 'bg-atmos-accent border-atmos-accent' : 'border-white/20'}`}>
+                  {isAnonymous && <Ghost size={10} className="text-white" />}
+                </div>
+                Post Anonymously
               </button>
             </div>
           </form>
@@ -119,7 +138,8 @@ export const MessageBoard: React.FC = () => {
                     <p className="font-serif text-xl md:text-2xl mb-8 text-white/90 leading-relaxed font-light">"{msg.text}"</p>
                     <div className="flex justify-between items-center text-xs border-t border-white/5 pt-6">
                       <span className={`font-sans tracking-wide flex items-center gap-2 ${msg.color === 'atmos-accent' ? 'text-atmos-accent' : 'text-white/60'}`}>
-                        <User size={14} className="opacity-70" /> {msg.author}
+                        {msg.author === "Anonymous Student" ? <Ghost size={14} className="opacity-70" /> : <User size={14} className="opacity-70" />} 
+                        {msg.author}
                       </span>
                       <span className="font-sans text-white/30 tracking-wider bg-white/5 px-3 py-1.5 rounded-full">{new Date(msg.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
                     </div>
