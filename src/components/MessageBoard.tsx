@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { Send, User, MessageSquare, Ghost } from 'lucide-react';
+import { Send, User, MessageSquare, Ghost, Lock } from 'lucide-react';
 import { Message } from '../types';
+import { useAuth } from '../AuthContext';
 
 export const MessageBoard: React.FC = () => {
+  const { user } = useAuth();
   const [messages, setMessages] = useState<Message[]>([
     { id: '1', text: "MCA 2025-27 is going to be legendary! 🌅", author: "Alex", timestamp: Date.now(), color: "atmos-accent" },
     { id: '2', text: "Who's ready for the next hackathon?", author: "Sarah", timestamp: Date.now() - 100000, color: "white" },
@@ -14,6 +16,7 @@ export const MessageBoard: React.FC = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    if (!user) return;
     if (!newMessage.trim()) return;
     if (!isAnonymous && !author.trim()) return;
 
@@ -66,51 +69,63 @@ export const MessageBoard: React.FC = () => {
           transition={{ duration: 0.8 }}
           className="glass-panel p-8 mb-20 relative overflow-hidden group shadow-2xl"
         >
-          <form onSubmit={handleSubmit} className="relative z-10 space-y-4">
-            <div className="flex flex-col md:flex-row gap-4 lg:gap-6">
-              <div className="relative flex-grow">
-                <input
-                  type="text"
-                  placeholder="Share your thoughts..."
-                  value={newMessage}
-                  onChange={(e) => setNewMessage(e.target.value)}
-                  className="w-full bg-white/5 border border-white/10 rounded-2xl py-4 px-6 text-sm font-sans focus:outline-none focus:border-atmos-accent/50 transition-all text-white placeholder-white/30 font-light"
-                />
-              </div>
-              {!isAnonymous && (
-                <div className="relative w-full md:w-64">
-                  <User className="absolute left-5 top-1/2 -translate-y-1/2 text-white/40 w-4 h-4" />
+          {user ? (
+            <form onSubmit={handleSubmit} className="relative z-10 space-y-4">
+              <div className="flex flex-col md:flex-row gap-4 lg:gap-6">
+                <div className="relative flex-grow">
                   <input
                     type="text"
-                    placeholder="Your Name"
-                    value={author}
-                    onChange={(e) => setAuthor(e.target.value)}
-                    className="w-full bg-white/5 border border-white/10 rounded-2xl py-4 pl-12 pr-6 text-sm font-sans focus:outline-none focus:border-atmos-accent/50 transition-all text-white placeholder-white/30 font-light"
-                    required
+                    placeholder="Share your thoughts..."
+                    value={newMessage}
+                    onChange={(e) => setNewMessage(e.target.value)}
+                    className="w-full bg-white/5 border border-white/10 rounded-2xl py-4 px-6 text-sm font-sans focus:outline-none focus:border-atmos-accent/50 transition-all text-white placeholder-white/30 font-light"
                   />
                 </div>
-              )}
-              <button
-                type="submit"
-                className="w-full md:w-auto bg-white text-atmos-bg font-medium px-8 py-4 rounded-2xl hover:bg-atmos-accent hover:text-white transition-colors flex items-center justify-center gap-2"
-              >
-                Post <Send size={16} />
-              </button>
+                {!isAnonymous && (
+                  <div className="relative w-full md:w-64">
+                    <User className="absolute left-5 top-1/2 -translate-y-1/2 text-white/40 w-4 h-4" />
+                    <input
+                      type="text"
+                      placeholder="Your Name"
+                      value={author}
+                      onChange={(e) => setAuthor(e.target.value)}
+                      className="w-full bg-white/5 border border-white/10 rounded-2xl py-4 pl-12 pr-6 text-sm font-sans focus:outline-none focus:border-atmos-accent/50 transition-all text-white placeholder-white/30 font-light"
+                      required
+                    />
+                  </div>
+                )}
+                <button
+                  type="submit"
+                  className="w-full md:w-auto bg-white text-atmos-bg font-medium px-8 py-4 rounded-2xl hover:bg-atmos-accent hover:text-white transition-colors flex items-center justify-center gap-2"
+                >
+                  Post <Send size={16} />
+                </button>
+              </div>
+              
+              <div className="flex items-center gap-2 px-2">
+                <button
+                  type="button"
+                  onClick={() => setIsAnonymous(!isAnonymous)}
+                  className={`flex items-center gap-2 text-xs font-sans tracking-wider transition-colors ${isAnonymous ? 'text-atmos-accent' : 'text-white/40 hover:text-white/60'}`}
+                >
+                  <div className={`w-4 h-4 rounded border flex items-center justify-center transition-colors ${isAnonymous ? 'bg-atmos-accent border-atmos-accent' : 'border-white/20'}`}>
+                    {isAnonymous && <Ghost size={10} className="text-white" />}
+                  </div>
+                  Post Anonymously
+                </button>
+              </div>
+            </form>
+          ) : (
+            <div className="text-center py-6 relative z-10 flex flex-col items-center">
+              <div className="w-12 h-12 rounded-full border border-white/10 bg-white/5 flex items-center justify-center mb-4">
+                <Lock className="w-5 h-5 text-white/40" />
+              </div>
+              <h3 className="title-serif text-2xl text-white mb-2">Authentication Required</h3>
+              <p className="font-sans text-sm text-white/50 font-light max-w-sm mx-auto">
+                Connect using your student profile to add to the digital graffiti wall.
+              </p>
             </div>
-            
-            <div className="flex items-center gap-2 px-2">
-              <button
-                type="button"
-                onClick={() => setIsAnonymous(!isAnonymous)}
-                className={`flex items-center gap-2 text-xs font-sans tracking-wider transition-colors ${isAnonymous ? 'text-atmos-accent' : 'text-white/40 hover:text-white/60'}`}
-              >
-                <div className={`w-4 h-4 rounded border flex items-center justify-center transition-colors ${isAnonymous ? 'bg-atmos-accent border-atmos-accent' : 'border-white/20'}`}>
-                  {isAnonymous && <Ghost size={10} className="text-white" />}
-                </div>
-                Post Anonymously
-              </button>
-            </div>
-          </form>
+          )}
         </motion.div>
 
         <div className="relative flex flex-col gap-10 py-10">
