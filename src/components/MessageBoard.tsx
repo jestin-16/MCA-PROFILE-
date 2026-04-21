@@ -62,14 +62,14 @@ export const MessageBoard: React.FC = () => {
           </motion.div>
         </div>
 
-        <motion.div 
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
-          className="glass-panel p-8 mb-20 relative overflow-hidden group shadow-2xl"
-        >
-          {user ? (
+        {user && (
+          <motion.div 
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+            className="glass-panel p-8 mb-20 relative overflow-hidden group shadow-2xl"
+          >
             <form onSubmit={handleSubmit} className="relative z-10 space-y-4">
               <div className="flex flex-col md:flex-row gap-4 lg:gap-6">
                 <div className="relative flex-grow">
@@ -115,18 +115,8 @@ export const MessageBoard: React.FC = () => {
                 </button>
               </div>
             </form>
-          ) : (
-            <div className="text-center py-6 relative z-10 flex flex-col items-center">
-              <div className="w-12 h-12 rounded-full border border-white/10 bg-white/5 flex items-center justify-center mb-4">
-                <Lock className="w-5 h-5 text-white/40" />
-              </div>
-              <h3 className="title-serif text-2xl text-white mb-2">Authentication Required</h3>
-              <p className="font-sans text-sm text-white/50 font-light max-w-sm mx-auto">
-                Connect using your student profile to add to the digital graffiti wall.
-              </p>
-            </div>
-          )}
-        </motion.div>
+          </motion.div>
+        )}
 
         <div className="relative flex flex-col gap-10 py-10">
           {/* Subtle Timeline Line */}

@@ -16,9 +16,22 @@ export const Navbar: React.FC<NavbarProps> = ({ onLoginClick }) => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50);
     };
+    
+    const handleKeyDown = (e: KeyboardEvent) => {
+      // Secret combo: Ctrl + Shift + L
+      if (e.ctrlKey && e.shiftKey && e.key.toLowerCase() === 'l') {
+        e.preventDefault();
+        onLoginClick();
+      }
+    };
+
     window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+    window.addEventListener('keydown', handleKeyDown);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [onLoginClick]);
 
   const navItems = [
     { name: 'Home', href: '#home' },
@@ -80,15 +93,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onLoginClick }) => {
                   <span className="hidden sm:inline">Logout</span>
                 </button>
               </div>
-            ) : (
-              <button 
-                onClick={onLoginClick}
-                className="glass-button flex items-center gap-2"
-              >
-                <LogIn size={14} />
-                <span>Sign In</span>
-              </button>
-            )}
+            ) : null}
           </motion.div>
         </div>
       </div>
