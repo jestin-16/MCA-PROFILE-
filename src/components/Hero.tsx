@@ -81,8 +81,45 @@ export const Hero: React.FC = () => {
                 </motion.span>
               ))}
             </div>
-            <motion.div variants={charVariants} className="block font-sans font-light text-3xl md:text-6xl text-atmos-accent drop-shadow-[0_0_30px_rgba(255,78,0,0.5)] mt-4">
-              {subtitleText}
+            <motion.div 
+              variants={containerVariants}
+              animate={{
+                y: [0, -10, 0],
+              }}
+              transition={{
+                duration: 6,
+                repeat: Infinity,
+                ease: "easeInOut"
+              }}
+              className="flex items-center justify-center gap-1 mt-4"
+            >
+              {subtitleText.split('').map((char, index) => (
+                <motion.span 
+                  key={index} 
+                  variants={charVariants}
+                  className="inline-block font-mono font-light text-4xl md:text-8xl text-atmos-accent relative group px-1 [text-shadow:0_0_20px_rgba(99,102,241,0.5)]"
+                  whileHover={{ 
+                    scale: 1.2, 
+                    color: "#fff",
+                    textShadow: "0 0 40px rgba(99,102,241,0.8)",
+                    transition: { duration: 0.2 } 
+                  }}
+                >
+                  {char}
+                  <motion.span
+                    animate={{ 
+                      opacity: [0.2, 0.5, 0.2],
+                    }}
+                    transition={{ 
+                      duration: 3, 
+                      repeat: Infinity, 
+                      ease: "easeInOut",
+                      delay: index * 0.3
+                    }}
+                    className="absolute -inset-2 blur-3xl bg-atmos-accent/30 rounded-full -z-10"
+                  />
+                </motion.span>
+              ))}
             </motion.div>
           </motion.h1>
         </motion.div>
