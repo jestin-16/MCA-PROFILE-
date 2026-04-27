@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'motion/react';
-import { ArrowUpRight, Github, Twitter, Linkedin, Mail } from 'lucide-react';
+import { ArrowUpRight } from 'lucide-react';
 
 export const Footer: React.FC = () => {
   const scrollToTop = () => {
@@ -64,15 +64,6 @@ export const Footer: React.FC = () => {
 
           {/* Socials & Interaction */}
           <div className="flex flex-col gap-6">
-            <h4 className="text-white/80 font-mono text-[10px] tracking-[0.2em] uppercase mb-1">Connect</h4>
-            <div className="flex gap-4">
-              {[Github, Twitter, Linkedin, Mail].map((Icon, i) => (
-                <a key={i} href="#" className="w-12 h-12 rounded-full border border-white/10 bg-white/5 flex items-center justify-center text-white/50 hover:text-white hover:border-atmos-accent hover:bg-atmos-accent/20 transition-all duration-300 hover:shadow-[0_0_15px_rgba(99,102,241,0.3)]">
-                  <Icon strokeWidth={1.5} width={18} height={18} />
-                </a>
-              ))}
-            </div>
-            
             <button 
               onClick={scrollToTop}
               className="mt-auto flex items-center gap-4 text-xs font-mono text-atmos-accent uppercase tracking-widest hover:text-white transition-colors group w-fit pt-4"
