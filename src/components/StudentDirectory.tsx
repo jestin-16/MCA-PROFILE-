@@ -253,7 +253,7 @@ export const StudentDirectory: React.FC = () => {
 
       <motion.div 
         layout
-        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 py-10"
+        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 py-10 [perspective:1000px]"
       >
         {convexStudents === undefined ? (
           <div className="col-span-full flex justify-center py-20 w-full">
@@ -418,11 +418,25 @@ const StudentCard = ({ student, index, user, handlePhotoUploadClick, openEditMod
   return (
     <motion.div
       layout
-      initial={{ opacity: 0, y: 30 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.8, delay: (index % 3) * 0.1, ease: [0.2, 0.65, 0.3, 0.9] }}
-      className="glass-panel overflow-hidden group"
+      initial={{ opacity: 0, y: 50, scale: 0.9 }}
+      whileInView={{ opacity: 1, y: 0, scale: 1 }}
+      whileHover={{ 
+        y: -15, 
+        scale: 1.02,
+        rotateY: 5,
+        rotateX: -5,
+        z: 50
+      }}
+      viewport={{ once: true, margin: "-100px" }}
+      transition={{ 
+        layout: { duration: 0.4 },
+        opacity: { duration: 0.8, delay: (index % 3) * 0.1 + 0.1 },
+        y: { duration: 0.8, delay: (index % 3) * 0.1 + 0.1, ease: [0.23, 1, 0.32, 1] },
+        scale: { duration: 0.8, delay: (index % 3) * 0.1 + 0.1, ease: [0.23, 1, 0.32, 1] },
+        rotateY: { type: "spring", stiffness: 300, damping: 20 },
+        rotateX: { type: "spring", stiffness: 300, damping: 20 }
+      }}
+      className="glass-panel overflow-hidden group border border-white/5 hover:border-atmos-accent/40 hover:shadow-[0_20px_50px_rgba(99,102,241,0.15)] transition-all duration-500 rounded-3xl [transform-style:preserve-3d]"
     >
       <div className="relative aspect-[4/3] overflow-hidden">
         <motion.img 
