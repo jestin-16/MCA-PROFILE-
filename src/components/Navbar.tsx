@@ -50,12 +50,16 @@ export const Navbar: React.FC<NavbarProps> = ({ onLoginClick }) => {
         <motion.div 
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
-          className="text-xl flex items-center gap-4 group cursor-pointer"
+          className="flex items-center gap-4 group cursor-pointer"
         >
-          <div className="w-10 h-10 rounded-full border border-white/10 bg-white/5 flex items-center justify-center text-white/90 group-hover:bg-white/10 transition-colors">
-            <Cpu size={20} className="text-atmos-accent/80 group-hover:text-atmos-accent transition-colors" />
+          <div className="relative w-10 h-10 rounded-full border border-white/20 bg-white/5 flex items-center justify-center text-white overflow-hidden shadow-[0_0_15px_rgba(99,102,241,0.1)] group-hover:shadow-[0_0_20px_rgba(99,102,241,0.3)] transition-all duration-500">
+            <div className="absolute inset-0 bg-atmos-accent/20 translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-out" />
+            <Cpu size={18} className="text-white relative z-10 group-hover:scale-110 transition-transform duration-500" />
           </div>
-          <span className="hidden sm:inline font-sans font-light tracking-widest text-sm text-white/80 uppercase group-hover:text-white transition-colors">MCA PROFILE</span>
+          <span className="hidden sm:flex flex-col">
+            <span className="font-serif italic text-xl tracking-wide text-white group-hover:text-atmos-accent transition-colors duration-500 leading-none">MCA</span>
+            <span className="font-mono text-[9px] tracking-[0.4em] text-white/50 uppercase mt-1">Profile '27</span>
+          </span>
         </motion.div>
 
         <div className="flex items-center gap-8">
