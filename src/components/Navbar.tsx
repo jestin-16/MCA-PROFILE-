@@ -47,22 +47,20 @@ export const Navbar: React.FC<NavbarProps> = ({ onLoginClick }) => {
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
       className={cn(
-        "fixed top-4 md:top-6 left-1/2 -translate-x-1/2 z-50 w-[95%] max-w-6xl transition-all duration-700",
+        "fixed top-0 inset-x-0 z-50 transition-all duration-500 border-b",
+        isScrolled 
+          ? "bg-atmos-bg/90 backdrop-blur-2xl border-white/10 shadow-[0_10px_40px_-10px_rgba(0,0,0,0.5)] py-4" 
+          : "bg-gradient-to-b from-atmos-bg/80 to-transparent border-transparent py-8"
       )}
     >
-      <nav className={cn(
-        "flex justify-between items-center transition-all duration-500 rounded-full",
-        isScrolled 
-          ? "px-6 py-3 bg-black/40 backdrop-blur-xl border border-white/10 shadow-[0_20px_40px_rgba(0,0,0,0.5),0_0_20px_rgba(99,102,241,0.05)]" 
-          : "px-4 py-4 bg-transparent border border-transparent"
-      )}>
+      <div className="max-w-7xl mx-auto px-6 lg:px-12 flex justify-between items-center">
         {/* Brand */}
         <motion.div 
           className="flex items-center gap-4 group cursor-pointer"
           whileHover={{ scale: 1.02 }}
         >
-          <div className="relative w-10 h-10 rounded-full border border-white/20 bg-white/5 flex items-center justify-center text-white overflow-hidden shadow-[0_0_15px_rgba(99,102,241,0.2)] group-hover:shadow-[0_0_25px_rgba(99,102,241,0.4)] group-hover:border-atmos-accent/50 transition-all duration-500">
-            <div className="absolute inset-0 bg-gradient-to-tr from-atmos-accent/40 to-transparent translate-y-full group-hover:translate-y-0 transition-transform duration-700 ease-out" />
+          <div className="relative w-10 h-10 border border-white/20 bg-white/5 flex items-center justify-center text-white overflow-hidden shadow-[0_0_15px_rgba(99,102,241,0.1)] group-hover:border-atmos-accent/50 transition-all duration-500">
+            <div className="absolute inset-0 bg-atmos-accent/20 translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-out" />
             <Cpu size={18} className="text-white relative z-10 group-hover:scale-110 transition-transform duration-500" />
           </div>
           <span className="hidden sm:flex flex-col">
@@ -72,15 +70,15 @@ export const Navbar: React.FC<NavbarProps> = ({ onLoginClick }) => {
         </motion.div>
 
         {/* Center Nav */}
-        <div className="hidden md:flex items-center p-1 bg-white/[0.02] border border-white/5 rounded-full backdrop-blur-md">
+        <div className="hidden md:flex items-center gap-10">
           {navItems.map((item) => (
             <a
               key={item.name}
               href={item.href}
-              className="relative px-6 py-2 rounded-full text-[11px] font-mono tracking-[0.2em] text-white/60 hover:text-white transition-all uppercase group overflow-hidden"
+              className="relative text-[11px] font-mono tracking-[0.2em] text-white/60 hover:text-white transition-all uppercase group py-1"
             >
-              <span className="relative z-10">{item.name}</span>
-              <span className="absolute inset-0 bg-white/10 rounded-full scale-50 opacity-0 group-hover:scale-100 group-hover:opacity-100 transition-all duration-300" />
+              {item.name}
+              <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-[1px] bg-atmos-accent group-hover:w-full transition-all duration-500 ease-out" />
             </a>
           ))}
         </div>
@@ -88,9 +86,9 @@ export const Navbar: React.FC<NavbarProps> = ({ onLoginClick }) => {
         {/* Right Section */}
         <div className="flex items-center min-w-[120px] justify-end">
           {user ? (
-            <div className="flex items-center gap-4 bg-white/5 border border-white/10 rounded-full py-1.5 px-4 backdrop-blur-md hover:bg-white/10 transition-colors duration-300">
+            <div className="flex items-center gap-4 bg-transparent border border-white/10 py-1.5 px-4 backdrop-blur-md hover:border-atmos-accent/50 transition-colors duration-300">
               <div className="flex items-center gap-2 text-[11px] font-mono tracking-widest text-white/80 uppercase">
-                <span className="w-1.5 h-1.5 rounded-full bg-atmos-accent animate-pulse shadow-[0_0_8px_rgba(99,102,241,0.8)]" />
+                <span className="w-1.5 h-1.5 bg-atmos-accent animate-pulse shadow-[0_0_8px_rgba(99,102,241,0.8)]" />
                 <span className="hidden sm:inline">{user.username} <span className="opacity-50">[{user.role}]</span></span>
               </div>
               <div className="w-[1px] h-4 bg-white/20 mx-2" />
@@ -106,7 +104,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onLoginClick }) => {
              <div className="w-10 h-10" />
           )}
         </div>
-      </nav>
+      </div>
     </motion.header>
   );
 };
