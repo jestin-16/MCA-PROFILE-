@@ -45,63 +45,73 @@ export const Navbar: React.FC<NavbarProps> = ({ onLoginClick }) => {
     <motion.header
       initial={{ y: -50, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
-      transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
+      transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
       className={cn(
-        "fixed top-0 inset-x-0 z-50 transition-all duration-500 border-b",
-        isScrolled 
-          ? "bg-atmos-bg/90 backdrop-blur-2xl border-white/10 shadow-[0_10px_40px_-10px_rgba(0,0,0,0.5)] py-4" 
-          : "bg-gradient-to-b from-atmos-bg/80 to-transparent border-transparent py-8"
+        "fixed top-0 inset-x-0 z-50 transition-all duration-300 border-b border-white/10 font-mono",
+        isScrolled
+          ? "bg-atmos-bg/90 backdrop-blur-xl shadow-[0_10px_30px_rgba(0,0,0,0.5)]"
+          : "bg-atmos-bg/40 backdrop-blur-md"
       )}
     >
-      <div className="max-w-7xl mx-auto px-6 lg:px-12 flex justify-between items-center">
+      <div className="w-full flex justify-between h-16 md:h-20 max-w-[1600px] mx-auto">
         {/* Brand */}
-        <motion.div 
-          className="flex items-center gap-4 group cursor-pointer"
-          whileHover={{ scale: 1.02 }}
-        >
-          <div className="relative w-10 h-10 border border-white/20 bg-white/5 flex items-center justify-center text-white overflow-hidden shadow-[0_0_15px_rgba(99,102,241,0.1)] group-hover:border-atmos-accent/50 transition-all duration-500">
-            <div className="absolute inset-0 bg-atmos-accent/20 translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-out" />
-            <Cpu size={18} className="text-white relative z-10 group-hover:scale-110 transition-transform duration-500" />
+        <div className="flex items-center gap-4 px-6 md:px-8 border-r border-white/10 hover:bg-white/5 transition-colors cursor-pointer group w-fit md:w-72 shrink-0">
+          <div className="text-atmos-accent">
+            <Cpu size={20} strokeWidth={1.5} className="group-hover:rotate-180 transition-transform duration-700 ease-out" />
           </div>
-          <span className="hidden sm:flex flex-col">
-            <span className="font-serif italic text-xl tracking-wide text-white group-hover:text-atmos-accent transition-colors duration-500 leading-none">MCA</span>
-            <span className="font-mono text-[9px] tracking-[0.4em] text-white/50 uppercase mt-1">Profile '27</span>
-          </span>
-        </motion.div>
+          <div className="flex flex-col justify-center">
+            <span className="text-white text-sm font-medium tracking-wide group-hover:text-atmos-accent transition-colors">MCA_PROFILE</span>
+            <span className="text-white/40 text-[9px] tracking-[0.3em] uppercase mt-0.5">Build.v27</span>
+          </div>
+        </div>
 
-        {/* Center Nav */}
-        <div className="hidden md:flex items-center gap-10">
+        {/* Center Nav Nodes */}
+        <div className="hidden md:flex flex-1">
           {navItems.map((item) => (
             <a
               key={item.name}
               href={item.href}
-              className="relative text-[11px] font-mono tracking-[0.2em] text-white/60 hover:text-white transition-all uppercase group py-1"
+              className="flex-1 flex items-center justify-center border-r border-white/10 hover:bg-white/5 text-[10px] tracking-[0.2em] text-white/50 hover:text-white transition-all uppercase relative group overflow-hidden"
             >
-              {item.name}
-              <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-[1px] bg-atmos-accent group-hover:w-full transition-all duration-500 ease-out" />
+              <div className="absolute inset-0 bg-gradient-to-b from-atmos-accent/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+              <span className="relative z-10 flex items-center gap-2">
+                <span className="text-atmos-accent/0 group-hover:text-atmos-accent transition-colors duration-300">{"//"}</span>
+                {item.name}
+              </span>
+              <div className="absolute bottom-0 left-0 w-full h-[2px] bg-atmos-accent scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left" />
             </a>
           ))}
         </div>
 
         {/* Right Section */}
-        <div className="flex items-center min-w-[120px] justify-end">
+        <div className="flex items-center px-6 md:px-8 justify-end shrink-0 w-fit md:w-72 hover:bg-white/5 transition-colors border-l md:border-l-0 border-white/10">
           {user ? (
-            <div className="flex items-center gap-4 bg-transparent border border-white/10 py-1.5 px-4 backdrop-blur-md hover:border-atmos-accent/50 transition-colors duration-300">
-              <div className="flex items-center gap-2 text-[11px] font-mono tracking-widest text-white/80 uppercase">
-                <span className="w-1.5 h-1.5 bg-atmos-accent animate-pulse shadow-[0_0_8px_rgba(99,102,241,0.8)]" />
-                <span className="hidden sm:inline">{user.username} <span className="opacity-50">[{user.role}]</span></span>
+            <div className="flex items-center gap-4 w-full justify-between group cursor-pointer">
+              <div className="flex flex-col items-start hidden sm:flex">
+                <div className="flex items-center gap-2 text-[10px] tracking-[0.2em] text-white/80 uppercase">
+                  <span className="w-1.5 h-1.5 bg-green-500 animate-pulse shadow-[0_0_8px_rgba(34,197,94,0.8)]" />
+                  <span className="font-mono">{user.username}</span>
+                </div>
+                <span className="text-white/40 text-[9px] tracking-[0.3em] uppercase mt-0.5 ml-3.5">Role: {user.role}</span>
               </div>
-              <div className="w-[1px] h-4 bg-white/20 mx-2" />
+              <div className="flex items-center gap-2 text-[10px] tracking-[0.2em] text-white/80 uppercase sm:hidden">
+                <span className="w-1.5 h-1.5 bg-green-500 animate-pulse" />
+                <span>ME</span>
+              </div>
               <button 
-                onClick={logout}
-                className="flex items-center justify-center text-white/40 hover:text-red-400 transition-colors group p-1"
-                title="Logout"
+                onClick={(e) => { e.stopPropagation(); logout(); }}
+                className="flex items-center justify-center text-white/30 hover:text-red-400 transition-colors p-2"
+                title="Terminate Session"
               >
-                <LogOut size={14} className="group-hover:scale-110 transition-transform" />
+                <LogOut size={16} className="group-hover:scale-110 transition-transform" />
               </button>
             </div>
           ) : (
-             <div className="w-10 h-10" />
+            <div className="flex items-center gap-2 text-[10px] tracking-[0.2em] text-white/40 uppercase cursor-pointer hover:text-white transition-colors group">
+               <span className="w-1.5 h-1.5 border border-white/40 group-hover:border-atmos-accent group-hover:bg-atmos-accent/20 transition-all" />
+               <span className="hidden sm:inline">Guest_Session</span>
+               <span className="sm:hidden">Guest</span>
+            </div>
           )}
         </div>
       </div>
