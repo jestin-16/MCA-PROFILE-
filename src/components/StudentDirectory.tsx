@@ -436,7 +436,7 @@ const StudentCard = ({ student, index, user, handlePhotoUploadClick, openEditMod
         rotateY: { type: "spring", stiffness: 300, damping: 20 },
         rotateX: { type: "spring", stiffness: 300, damping: 20 }
       }}
-      className="glass-panel overflow-hidden group border border-white/5 hover:border-atmos-accent/40 hover:shadow-[0_20px_50px_rgba(99,102,241,0.15)] transition-all duration-500 rounded-3xl [transform-style:preserve-3d]"
+      className="glass-panel overflow-hidden group border border-white/5 hover:border-atmos-accent/40 hover:shadow-[0_20px_50px_rgba(245,158,11,0.12)] transition-all duration-500 rounded-3xl [transform-style:preserve-3d]"
     >
       <div className="relative aspect-[4/3] overflow-hidden">
         <motion.img 

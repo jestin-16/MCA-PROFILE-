@@ -44,7 +44,7 @@ export const ProjectShowcase: React.FC = () => {
                 index === 0 ? 'lg:col-span-12' : 'lg:col-span-6'
               } group`}
             >
-              <div className="relative glass-panel rounded-3xl overflow-hidden border border-white/5 transition-all duration-700 hover:border-atmos-accent/20 hover:shadow-[0_0_50px_rgba(99,102,241,0.05)]">
+              <div className="relative glass-panel rounded-3xl overflow-hidden border border-white/5 transition-all duration-700 hover:border-atmos-accent/20 hover:shadow-[0_0_50px_rgba(245,158,11,0.05)]">
                 <div className={`flex flex-col ${index === 0 ? 'lg:flex-row' : ''}`}>
                   {/* Image Container */}
                   <div className={`relative overflow-hidden ${index === 0 ? 'lg:w-3/5 aspect-[16/9]' : 'aspect-video'}`}>

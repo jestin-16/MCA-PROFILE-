@@ -97,11 +97,11 @@ export const Hero: React.FC = () => {
                 <motion.span 
                   key={index} 
                   variants={charVariants}
-                  className="inline-block font-mono font-light text-4xl md:text-8xl text-atmos-accent relative group px-1 [text-shadow:0_0_20px_rgba(99,102,241,0.5)]"
+                  className="inline-block font-mono font-light text-4xl md:text-8xl text-atmos-accent relative group px-1 [text-shadow:0_0_20px_rgba(245,158,11,0.5)]"
                   whileHover={{ 
                     scale: 1.2, 
                     color: "#fff",
-                    textShadow: "0 0 40px rgba(99,102,241,0.8)",
+                    textShadow: "0 0 40px rgba(245,158,11,0.8)",
                     transition: { duration: 0.2 } 
                   }}
                 >
