@@ -127,7 +127,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onLoginClick }) => {
             
             <div className="flex flex-col">
               <div className="flex items-center gap-2">
-                <span className="font-serif italic text-base tracking-widest text-white font-bold leading-none uppercase group-hover:text-[#f59e0b] transition-colors">RMCA</span>
+                <span className="font-serif italic text-base tracking-widest text-[#f59e0b] font-bold leading-none uppercase group-hover:text-white transition-colors duration-300 [text-shadow:0_0_12px_rgba(245,158,11,0.30)]">RMCA</span>
                 <span className="relative flex h-1.5 w-1.5">
                   <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#f59e0b] opacity-75"></span>
                   <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-[#f59e0b]"></span>
@@ -157,8 +157,8 @@ export const Navbar: React.FC<NavbarProps> = ({ onLoginClick }) => {
                       className={cn(
                         "relative px-4 py-2 rounded-full text-center group flex flex-col items-center transition-all duration-300",
                         isActive 
-                          ? "text-white font-medium" 
-                          : "text-white/45 hover:text-white/90"
+                          ? "text-[#f59e0b] font-semibold" 
+                          : "text-amber-100/50 hover:text-[#f59e0b]"
                       )}
                     >
                       {/* Dynamic Magnetic Background Hover Capsule */}
@@ -230,7 +230,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onLoginClick }) => {
                 <div className="flex flex-col items-start leading-none gap-0.5 select-none">
                   <div className="flex items-center gap-1.5">
                     <span className="w-1 h-1 rounded-full bg-green-500 shadow-[0_0_6px_rgba(34,197,94,0.6)]" />
-                    <span className="max-w-[70px] truncate font-mono text-[9px] text-white/90 uppercase tracking-wider font-semibold">{user.username}</span>
+                    <span className="max-w-[70px] truncate font-mono text-[9px] text-white/90 uppercase tracking-wider font-semibold group-hover:text-[#f59e0b] transition-colors">{user.username}</span>
                   </div>
                 </div>
                 <div className="w-[1px] h-3 bg-white/10" />
@@ -247,9 +247,9 @@ export const Navbar: React.FC<NavbarProps> = ({ onLoginClick }) => {
                 whileHover={{ scale: 1.03, boxShadow: "0 0 15px rgba(245,158,11,0.18)" }}
                 whileTap={{ scale: 0.97 }}
                 onClick={onLoginClick}
-                className="hidden sm:flex items-center gap-2 px-4.5 py-2 rounded-full border border-white/15 bg-white/[0.02] text-white/80 hover:text-white hover:bg-white/5 hover:border-[#f59e0b]/55 transition-all font-mono text-[9px] tracking-[0.16em] uppercase group shadow-[0_4px_12px_rgba(0,0,0,0.1)] cursor-pointer"
+                className="hidden sm:flex items-center gap-2 px-4.5 py-2 rounded-full border border-white/15 bg-white/[0.02] text-[#f59e0b] hover:text-white hover:bg-white/5 hover:border-[#f59e0b]/55 transition-all font-mono text-[9px] tracking-[0.16em] uppercase group shadow-[0_4px_12px_rgba(0,0,0,0.1)] cursor-pointer"
               >
-                <User size={12} className="group-hover:scale-110 group-hover:text-[#f59e0b] transition-all duration-300" />
+                <User size={12} className="group-hover:scale-110 group-hover:text-white transition-all duration-300" />
                 <span>LOG NODE</span>
               </motion.button>
             )}
