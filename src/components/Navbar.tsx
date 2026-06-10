@@ -119,27 +119,33 @@ export const Navbar: React.FC<NavbarProps> = ({ onLoginClick }) => {
             onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
-            className="flex items-center gap-3 cursor-pointer group select-none relative z-10"
+            className="flex items-center gap-3.5 cursor-pointer group select-none relative z-10"
           >
-            <div className="w-10 h-10 rounded-xl border border-white/10 bg-white/[0.02] flex items-center justify-center text-white/90 group-hover:bg-[#f59e0b]/10 group-hover:border-[#f59e0b]/45 transition-all duration-500 shadow-[0_4px_15px_rgba(0,0,0,0.3)]">
-              <Cpu size={18} className="text-[#f59e0b] group-hover:rotate-180 transition-transform duration-700" />
+            <div className="relative">
+              {/* Outer Golden Pulsing Halo surrounding logo in default style */}
+              <div className="absolute -inset-1 rounded-xl bg-gradient-to-tr from-[#f59e0b] to-[#ea580c] opacity-20 blur-sm group-hover:opacity-60 transition-opacity duration-500" />
+              <div className="relative w-11 h-11 rounded-xl border border-white/10 bg-[#0c0a09] flex items-center justify-center text-white/90 group-hover:bg-[#f59e0b]/10 group-hover:border-[#f59e0b]/50 transition-all duration-500 shadow-[0_4px_20px_rgba(0,0,0,0.4)]">
+                <Cpu size={20} className="text-[#f59e0b] group-hover:rotate-180 transition-transform duration-700 ease-out" />
+              </div>
             </div>
             
             <div className="flex flex-col">
               <div className="flex items-center gap-2">
-                <span className="font-serif italic text-base tracking-widest text-[#f59e0b] font-bold leading-none uppercase group-hover:text-white transition-colors duration-300 [text-shadow:0_0_12px_rgba(245,158,11,0.30)]">RMCA</span>
-                <span className="relative flex h-1.5 w-1.5">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#f59e0b] opacity-75"></span>
-                  <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-[#f59e0b]"></span>
+                <span className="font-serif italic text-lg tracking-widest text-[#f59e0b] font-black leading-none uppercase group-hover:text-white transition-colors duration-300 [text-shadow:0_0_15px_rgba(245,158,11,0.4)]">RMCA</span>
+                <span className="relative flex h-2 w-2">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#f59e0b] opacity-80"></span>
+                  <span className="relative inline-flex rounded-full h-2 w-2 bg-[#f59e0b]"></span>
                 </span>
               </div>
-              <span className="font-mono text-[7px] tracking-[0.25em] text-white/40 uppercase mt-1">CLASS OF '27 // COHORT</span>
+              <span className="font-mono text-[7.5px] tracking-[0.25em] text-white/40 uppercase mt-1.5 font-bold flex items-center gap-1">
+                <span className="inline-block w-1.5 h-[1px] bg-amber-500/50" /> BATCH OF '27
+              </span>
             </div>
           </motion.div>
 
           {/* WEB DESKTOP NAVIGATION INNER DECK */}
-          <nav className="hidden md:flex flex-1 justify-center max-w-xl mx-auto relative">
-            <ul className="flex items-center gap-1.5 bg-white/[0.01] hover:bg-white/[0.02] border border-white/5 py-1 px-1.5 rounded-full backdrop-blur-2xl transition-all duration-300">
+          <nav className="hidden md:flex flex-1 justify-center max-w-2xl mx-auto relative">
+            <ul className="flex items-center gap-1.5 bg-[#030202]/30 border border-white/[0.06] p-1.5 rounded-2xl backdrop-blur-3xl transition-all duration-300 shadow-[2px_10px_30px_rgba(0,0,0,0.5)]">
               {navItems.map((item) => {
                 const isActive = activeItem === item.name;
                 const isHovered = hoveredItem === item.name;
@@ -155,10 +161,10 @@ export const Navbar: React.FC<NavbarProps> = ({ onLoginClick }) => {
                       href={item.href}
                       onClick={() => setActiveItem(item.name)}
                       className={cn(
-                        "relative px-4 py-2 rounded-full text-center group flex flex-col items-center transition-all duration-300",
+                        "relative px-4.5 py-2.5 rounded-xl text-center group flex flex-col items-center transition-all duration-300",
                         isActive 
-                          ? "text-[#f59e0b] font-semibold" 
-                          : "text-amber-100/50 hover:text-[#f59e0b]"
+                          ? "text-white font-semibold" 
+                          : "text-white/45 hover:text-white"
                       )}
                     >
                       {/* Dynamic Magnetic Background Hover Capsule */}
@@ -166,10 +172,10 @@ export const Navbar: React.FC<NavbarProps> = ({ onLoginClick }) => {
                         {isHovered && !isActive && (
                           <motion.span 
                             layoutId="menuHoverBg"
-                            className="absolute inset-0 rounded-full bg-white/[0.03] border border-white/5 z-0"
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: 1 }}
-                            exit={{ opacity: 0 }}
+                            className="absolute inset-0 rounded-xl bg-white/[0.03] border border-white/5 z-0"
+                            initial={{ opacity: 0, scale: 0.95 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            exit={{ opacity: 0, scale: 0.95 }}
                             transition={{ type: "spring", stiffness: 380, damping: 28 }}
                           />
                         )}
@@ -179,21 +185,21 @@ export const Navbar: React.FC<NavbarProps> = ({ onLoginClick }) => {
                       {isActive && (
                         <motion.span 
                           layoutId="menuActiveBg"
-                          className="absolute inset-0 rounded-full bg-[#0c0a09] border border-white/10 shadow-[inset_0_1px_4px_rgba(255,255,255,0.05),0_4px_12px_rgba(0,0,0,0.5)] z-0"
+                          className="absolute inset-0 rounded-xl bg-[#0c0a09]/90 border border-[#f59e0b]/25 shadow-[inset_0_1px_4px_rgba(255,255,255,0.05),0_0_15px_rgba(245,158,11,0.1)] z-0"
                           transition={{ type: "spring", stiffness: 350, damping: 26 }}
                         />
                       )}
 
                       {/* Monospace Super-Tighter label */}
                       <span className={cn(
-                        "font-mono text-[6px] tracking-[0.2em] mb-0.5 relative z-10 transition-colors duration-300",
-                        isActive ? "text-[#f59e0b] font-semibold" : "text-white/20 group-hover:text-[#f59e0b]/70"
+                        "font-mono text-[7px] tracking-[0.2em] mb-1.5 relative z-10 transition-colors duration-300",
+                        isActive ? "text-[#f59e0b] font-bold" : "text-white/20 group-hover:text-[#f59e0b]"
                       )}>
-                        {item.code} {item.category}
+                        [{item.code}]
                       </span>
 
                       {/* Actual Name Tag */}
-                      <span className="text-[10px] font-sans tracking-[0.08em] uppercase font-medium leading-none block relative z-10">
+                      <span className="text-[10px] font-sans tracking-[0.1em] uppercase font-semibold leading-none block relative z-10 transition-colors duration-200">
                         {item.name}
                       </span>
 
@@ -201,7 +207,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onLoginClick }) => {
                       {isActive && (
                         <motion.span 
                           layoutId="activeUnderGlow"
-                          className="absolute bottom-1 w-1.5 h-1.5 rounded-full bg-[#f59e0b] shadow-[0_0_8px_rgba(245,158,11,0.85)] z-10"
+                          className="absolute bottom-1 w-2.5 h-[2px] rounded-full bg-[#f59e0b] shadow-[0_0_10px_rgba(245,158,11,0.9)] z-10"
                           transition={{ type: 'spring', stiffness: 300, damping: 22 }}
                         />
                       )}
@@ -213,30 +219,30 @@ export const Navbar: React.FC<NavbarProps> = ({ onLoginClick }) => {
           </nav>
 
           {/* TELEMETRY METRIC OR AUTH CONTROL (Right Section) */}
-          <div className="flex items-center justify-end md:w-44 gap-3 relative z-10">
+          <div className="flex items-center justify-end md:w-52 gap-4.5 relative z-10">
             
             {/* Live Clock Indicator for Desktop */}
-            <div className="hidden lg:flex flex-col text-right mr-2 select-none border-r border-white/5 pr-4 h-8 justify-center">
-              <span className="text-[7px] font-mono tracking-widest text-[#f59e0b] leading-none uppercase">NODE CLOCK</span>
-              <span className="text-[11px] font-mono text-white/70 mt-0.5 tracking-wider font-semibold">{time || '00:00'}</span>
+            <div className="hidden lg:flex flex-col text-right select-none border-r border-[#f59e0b]/15 pr-4 h-9 justify-center">
+              <span className="text-[7.5px] font-mono tracking-widest text-[#f59e0b] leading-none uppercase font-bold">SYSTEM ACTIVE</span>
+              <span className="text-[11px] font-mono text-white/80 mt-1 tracking-wider font-bold">{time || '00:00'}</span>
             </div>
 
             {/* Authenticated/Login Badge with Gold Halo hover */}
             {user ? (
               <motion.div 
                 whileHover={{ y: -1 }}
-                className="hidden sm:flex items-center gap-3 bg-[#0c0a09] border border-white/10 rounded-full py-1.5 pl-3.5 pr-1.5 backdrop-blur-md hover:border-[#f59e0b]/40 shadow-[0_4px_12px_rgba(0,0,0,0.3)] transition-all duration-300"
+                className="hidden sm:flex items-center gap-3 bg-[#0c0a09]/95 border border-white/10 rounded-xl py-1.5 pl-3.5 pr-1.5 backdrop-blur-md hover:border-[#f59e0b]/40 shadow-[0_4px_15px_rgba(0,0,0,0.4)] transition-all duration-300 group"
               >
                 <div className="flex flex-col items-start leading-none gap-0.5 select-none">
                   <div className="flex items-center gap-1.5">
-                    <span className="w-1 h-1 rounded-full bg-green-500 shadow-[0_0_6px_rgba(34,197,94,0.6)]" />
-                    <span className="max-w-[70px] truncate font-mono text-[9px] text-white/90 uppercase tracking-wider font-semibold group-hover:text-[#f59e0b] transition-colors">{user.username}</span>
+                    <span className="w-1.5 h-1.5 rounded-full bg-green-500 shadow-[0_0_8px_rgba(34,197,94,0.8)]" />
+                    <span className="max-w-[75px] truncate font-mono text-[9px] text-white/90 uppercase tracking-widest font-bold group-hover:text-[#f59e0b] transition-colors">{user.username}</span>
                   </div>
                 </div>
-                <div className="w-[1px] h-3 bg-white/10" />
+                <div className="w-[1px] h-3.5 bg-white/10" />
                 <button 
                   onClick={logout}
-                  className="w-7 h-7 rounded-full bg-white/5 hover:bg-red-500/10 text-white/40 hover:text-red-400 flex items-center justify-center transition-all duration-300"
+                  className="w-7 h-7 rounded-lg bg-white/5 hover:bg-red-500/10 text-white/40 hover:text-red-400 flex items-center justify-center transition-all duration-300 cursor-pointer"
                   title="Disconnect Session"
                 >
                   <LogOut size={12} />
@@ -244,13 +250,13 @@ export const Navbar: React.FC<NavbarProps> = ({ onLoginClick }) => {
               </motion.div>
             ) : (
               <motion.button 
-                whileHover={{ scale: 1.03, boxShadow: "0 0 15px rgba(245,158,11,0.18)" }}
+                whileHover={{ scale: 1.03, boxShadow: "0 0 18px rgba(245,158,11,0.2)" }}
                 whileTap={{ scale: 0.97 }}
                 onClick={onLoginClick}
-                className="hidden sm:flex items-center gap-2 px-4.5 py-2 rounded-full border border-white/15 bg-white/[0.02] text-[#f59e0b] hover:text-white hover:bg-white/5 hover:border-[#f59e0b]/55 transition-all font-mono text-[9px] tracking-[0.16em] uppercase group shadow-[0_4px_12px_rgba(0,0,0,0.1)] cursor-pointer"
+                className="hidden sm:flex items-center gap-2 px-5 py-2.5 rounded-xl border border-white/10 bg-white/[0.02] text-[#f59e0b] hover:text-white hover:bg-[#f59e0b]/10 hover:border-[#f59e0b]/60 transition-all duration-300 font-mono text-[9px] tracking-[0.18em] uppercase group shadow-[0_4px_15px_rgba(0,0,0,0.2)] cursor-pointer"
               >
                 <User size={12} className="group-hover:scale-110 group-hover:text-white transition-all duration-300" />
-                <span>LOG NODE</span>
+                <span>CONNECT SESSION</span>
               </motion.button>
             )}
 
