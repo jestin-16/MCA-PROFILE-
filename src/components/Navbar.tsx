@@ -91,30 +91,44 @@ export const Navbar: React.FC<NavbarProps> = ({ onLoginClick }) => {
         className={cn(
           "fixed top-0 inset-x-0 z-50 transition-all duration-500 px-6 lg:px-12",
           isScrolled 
-            ? "py-3 top-4 max-w-6xl mx-auto"
+            ? "py-3.5 top-4 max-w-6xl mx-auto"
             : "py-6 top-0 max-w-7xl mx-auto"
         )}
       >
-        {/* Sleek Floating Glass Capsule Container */}
+        {/* Sleek Floating Glass Capsule Container with Laser Corner Accents */}
         <div className={cn(
           "relative w-full transition-all duration-500 flex items-center justify-between border",
           isScrolled 
-            ? "bg-[#0c0a09]/80 backdrop-blur-3xl border-white/10 rounded-2xl px-6 py-3.5 shadow-[0_20px_50px_rgba(0,0,0,0.8)]"
-            : "bg-transparent border-transparent rounded-none py-2"
+            ? "bg-[#090707]/90 backdrop-blur-3xl border-amber-500/15 rounded-xl px-6 py-3.5 shadow-[0_24px_60px_rgba(0,0,0,0.95)]"
+            : "bg-[#030202]/10 backdrop-blur-xs border-white/[0.04] rounded-xl px-6 py-4"
         )}>
+          {/* Laser Corner sights on scrolled/floating bar */}
+          {isScrolled && (
+            <>
+              <div className="absolute top-0 left-0 w-3 h-[1px] bg-amber-500/50" />
+              <div className="absolute top-0 left-0 w-[1px] h-3 bg-amber-500/50" />
+              <div className="absolute top-0 right-0 w-3 h-[1px] bg-amber-500/50" />
+              <div className="absolute top-0 right-0 w-[1px] h-3 bg-amber-500/50" />
+              <div className="absolute bottom-0 left-0 w-3 h-[1px] bg-amber-500/50" />
+              <div className="absolute bottom-0 left-0 w-[1px] h-3 bg-amber-500/50" />
+              <div className="absolute bottom-0 right-0 w-3 h-[1px] bg-amber-500/50" />
+              <div className="absolute bottom-0 right-0 w-[1px] h-3 bg-amber-500/50" />
+            </>
+          )}
+
           {/* Accent Gold top-line on floating banner */}
           <AnimatePresence>
             {isScrolled && (
               <motion.div 
                 initial={{ opacity: 0, scaleX: 0.8 }}
-                animate={{ opacity: 0.7, scaleX: 1 }}
+                animate={{ opacity: 0.9, scaleX: 1 }}
                 exit={{ opacity: 0, scaleX: 0.8 }}
-                className="absolute top-0 inset-x-12 h-[1px] bg-gradient-to-r from-transparent via-[#f59e0b]/40 to-transparent pointer-events-none"
+                className="absolute top-0 inset-x-12 h-[1px] bg-gradient-to-r from-transparent via-amber-500/40 to-transparent pointer-events-none"
               />
             )}
           </AnimatePresence>
 
-          {/* BRAND/DASMBOARD TERMINAL LOGO */}
+          {/* BRAND/DASHBOARD TERMINAL LOGO */}
           <motion.div 
             onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
             whileHover={{ scale: 1.02 }}
@@ -123,29 +137,31 @@ export const Navbar: React.FC<NavbarProps> = ({ onLoginClick }) => {
           >
             <div className="relative">
               {/* Outer Golden Pulsing Halo surrounding logo in default style */}
-              <div className="absolute -inset-1 rounded-xl bg-gradient-to-tr from-[#f59e0b] to-[#ea580c] opacity-20 blur-sm group-hover:opacity-60 transition-opacity duration-500" />
-              <div className="relative w-11 h-11 rounded-xl border border-white/10 bg-[#0c0a09] flex items-center justify-center text-white/90 group-hover:bg-[#f59e0b]/10 group-hover:border-[#f59e0b]/50 transition-all duration-500 shadow-[0_4px_20px_rgba(0,0,0,0.4)]">
-                <Cpu size={20} className="text-[#f59e0b] group-hover:rotate-180 transition-transform duration-700 ease-out" />
+              <div className="absolute -inset-1.5 rounded-lg bg-gradient-to-tr from-amber-500 to-orange-600 opacity-20 blur-sm group-hover:opacity-70 transition-opacity duration-500" />
+              <div className="relative w-10 h-10 rounded-lg border border-amber-500/20 bg-[#0d0a0a] flex items-center justify-center text-white/90 group-hover:bg-amber-500/10 group-hover:border-amber-500/50 transition-all duration-500 shadow-[0_4px_20px_rgba(0,0,0,0.5)]">
+                <Cpu size={18} className="text-amber-500 group-hover:rotate-180 transition-transform duration-700 ease-out" />
               </div>
             </div>
             
             <div className="flex flex-col">
               <div className="flex items-center gap-2">
-                <span className="font-serif italic text-lg tracking-widest text-[#f59e0b] font-black leading-none uppercase group-hover:text-white transition-colors duration-300 [text-shadow:0_0_15px_rgba(245,158,11,0.4)]">RMCA</span>
+                <span className="font-mono text-base tracking-[0.2em] text-white font-extrabold leading-none uppercase group-hover:text-amber-500 transition-colors duration-300 [text-shadow:0_0_12px_rgba(245,158,11,0.25)]">
+                  [RMCA]
+                </span>
                 <span className="relative flex h-2 w-2">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#f59e0b] opacity-80"></span>
-                  <span className="relative inline-flex rounded-full h-2 w-2 bg-[#f59e0b]"></span>
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-500 opacity-80"></span>
+                  <span className="relative inline-flex rounded-full h-2 w-2 bg-amber-500"></span>
                 </span>
               </div>
-              <span className="font-mono text-[7.5px] tracking-[0.25em] text-white/40 uppercase mt-1.5 font-bold flex items-center gap-1">
-                <span className="inline-block w-1.5 h-[1px] bg-amber-500/50" /> BATCH OF '27
+              <span className="font-mono text-[7px] tracking-[0.25em] text-white/40 uppercase mt-1 font-bold flex items-center gap-1">
+                <span className="inline-block w-1.5 h-[1px] bg-amber-500/40" /> SYSTEM BATCH '27
               </span>
             </div>
           </motion.div>
 
-          {/* WEB DESKTOP NAVIGATION INNER DECK */}
+          {/* WEB DESKTOP NAVIGATION INNER DECK - Tactile Brackets styling */}
           <nav className="hidden md:flex flex-1 justify-center max-w-2xl mx-auto relative">
-            <ul className="flex items-center gap-1.5 bg-[#030202]/30 border border-white/[0.06] p-1.5 rounded-2xl backdrop-blur-3xl transition-all duration-300 shadow-[2px_10px_30px_rgba(0,0,0,0.5)]">
+            <ul className="flex items-center gap-2 bg-[#090707]/60 border border-white/[0.05] p-1.5 rounded-xl backdrop-blur-3xl transition-all duration-300 shadow-[0_10px_40px_rgba(0,0,0,0.6)]">
               {navItems.map((item) => {
                 const isActive = activeItem === item.name;
                 const isHovered = hoveredItem === item.name;
@@ -161,18 +177,28 @@ export const Navbar: React.FC<NavbarProps> = ({ onLoginClick }) => {
                       href={item.href}
                       onClick={() => setActiveItem(item.name)}
                       className={cn(
-                        "relative px-4.5 py-2.5 rounded-xl text-center group flex flex-col items-center transition-all duration-300",
+                        "relative px-4 py-2 rounded-lg text-center group flex flex-col items-center transition-all duration-300",
                         isActive 
                           ? "text-white font-semibold" 
-                          : "text-white/45 hover:text-white"
+                          : "text-white/45 hover:text-amber-500/90"
                       )}
                     >
+                      {/* Laser Frame Target corners when active */}
+                      {isActive && (
+                        <>
+                          <span className="absolute top-0.5 left-0.5 w-[3px] h-[3px] border-t border-l border-amber-500" />
+                          <span className="absolute top-0.5 right-0.5 w-[3px] h-[3px] border-t border-r border-amber-500" />
+                          <span className="absolute bottom-0.5 left-0.5 w-[3px] h-[3px] border-b border-l border-amber-500" />
+                          <span className="absolute bottom-0.5 right-0.5 w-[3px] h-[3px] border-b border-r border-amber-500" />
+                        </>
+                      )}
+
                       {/* Dynamic Magnetic Background Hover Capsule */}
                       <AnimatePresence>
                         {isHovered && !isActive && (
                           <motion.span 
                             layoutId="menuHoverBg"
-                            className="absolute inset-0 rounded-xl bg-white/[0.03] border border-white/5 z-0"
+                            className="absolute inset-0 rounded-lg bg-amber-500/[0.04] border border-amber-500/10 z-0"
                             initial={{ opacity: 0, scale: 0.95 }}
                             animate={{ opacity: 1, scale: 1 }}
                             exit={{ opacity: 0, scale: 0.95 }}
@@ -185,29 +211,29 @@ export const Navbar: React.FC<NavbarProps> = ({ onLoginClick }) => {
                       {isActive && (
                         <motion.span 
                           layoutId="menuActiveBg"
-                          className="absolute inset-0 rounded-xl bg-[#0c0a09]/90 border border-[#f59e0b]/25 shadow-[inset_0_1px_4px_rgba(255,255,255,0.05),0_0_15px_rgba(245,158,11,0.1)] z-0"
+                          className="absolute inset-x-0.5 inset-y-0.5 rounded-md bg-amber-500/[0.06] border border-amber-500/20 shadow-[0_0_12px_rgba(245,158,11,0.08)] z-0"
                           transition={{ type: "spring", stiffness: 350, damping: 26 }}
                         />
                       )}
 
-                      {/* Monospace Super-Tighter label */}
+                      {/* Monospace Code Indicator */}
                       <span className={cn(
-                        "font-mono text-[7px] tracking-[0.2em] mb-1.5 relative z-10 transition-colors duration-300",
-                        isActive ? "text-[#f59e0b] font-bold" : "text-white/20 group-hover:text-[#f59e0b]"
+                        "font-mono text-[6.5px] tracking-[0.2em] mb-1 relative z-10 transition-colors duration-300",
+                        isActive ? "text-amber-500 font-bold" : "text-white/25 group-hover:text-amber-500/70"
                       )}>
                         [{item.code}]
                       </span>
 
-                      {/* Actual Name Tag */}
-                      <span className="text-[10px] font-sans tracking-[0.1em] uppercase font-semibold leading-none block relative z-10 transition-colors duration-200">
+                      {/* Real Name Tag */}
+                      <span className="text-[10px] font-sans tracking-[0.12em] uppercase font-bold leading-none block relative z-10 transition-colors duration-200">
                         {item.name}
                       </span>
 
-                      {/* Ground Active Glow indicator */}
+                      {/* Micro Active indicator underlay */}
                       {isActive && (
                         <motion.span 
                           layoutId="activeUnderGlow"
-                          className="absolute bottom-1 w-2.5 h-[2px] rounded-full bg-[#f59e0b] shadow-[0_0_10px_rgba(245,158,11,0.9)] z-10"
+                          className="absolute bottom-0.5 w-1.5 h-1.5 rounded-full bg-amber-500 shadow-[0_0_8px_rgba(245,158,11,0.9)] z-10"
                           transition={{ type: 'spring', stiffness: 300, damping: 22 }}
                         />
                       )}
@@ -219,44 +245,44 @@ export const Navbar: React.FC<NavbarProps> = ({ onLoginClick }) => {
           </nav>
 
           {/* TELEMETRY METRIC OR AUTH CONTROL (Right Section) */}
-          <div className="flex items-center justify-end md:w-52 gap-4.5 relative z-10">
+          <div className="flex items-center justify-end md:w-56 gap-4 relative z-10">
             
             {/* Live Clock Indicator for Desktop */}
-            <div className="hidden lg:flex flex-col text-right select-none border-r border-[#f59e0b]/15 pr-4 h-9 justify-center">
-              <span className="text-[7.5px] font-mono tracking-widest text-[#f59e0b] leading-none uppercase font-bold">SYSTEM ACTIVE</span>
-              <span className="text-[11px] font-mono text-white/80 mt-1 tracking-wider font-bold">{time || '00:00'}</span>
+            <div className="hidden lg:flex flex-col text-right select-none border-r border-amber-500/15 pr-4 h-9 justify-center">
+              <span className="text-[7px] font-mono tracking-widest text-[#f59e0b] leading-none uppercase font-bold">SYSTEM ACTIVE</span>
+              <span className="text-[11px] font-mono text-white/85 mt-1 tracking-wider font-bold">{time || '00:00'}</span>
             </div>
 
             {/* Authenticated/Login Badge with Gold Halo hover */}
             {user ? (
               <motion.div 
                 whileHover={{ y: -1 }}
-                className="hidden sm:flex items-center gap-3 bg-[#0c0a09]/95 border border-white/10 rounded-xl py-1.5 pl-3.5 pr-1.5 backdrop-blur-md hover:border-[#f59e0b]/40 shadow-[0_4px_15px_rgba(0,0,0,0.4)] transition-all duration-300 group"
+                className="hidden sm:flex items-center gap-3 bg-[#0c0909] border border-amber-500/15 rounded-lg py-1.5 pl-3.5 pr-1.5 backdrop-blur-md hover:border-amber-500/40 shadow-[0_4px_15px_rgba(0,0,0,0.5)] transition-all duration-300 group"
               >
                 <div className="flex flex-col items-start leading-none gap-0.5 select-none">
                   <div className="flex items-center gap-1.5">
                     <span className="w-1.5 h-1.5 rounded-full bg-green-500 shadow-[0_0_8px_rgba(34,197,94,0.8)]" />
-                    <span className="max-w-[75px] truncate font-mono text-[9px] text-white/90 uppercase tracking-widest font-bold group-hover:text-[#f59e0b] transition-colors">{user.username}</span>
+                    <span className="max-w-[75px] truncate font-mono text-[9px] text-white/90 uppercase tracking-widest font-bold group-hover:text-amber-500 transition-colors">{user.username}</span>
                   </div>
                 </div>
                 <div className="w-[1px] h-3.5 bg-white/10" />
                 <button 
                   onClick={logout}
-                  className="w-7 h-7 rounded-lg bg-white/5 hover:bg-red-500/10 text-white/40 hover:text-red-400 flex items-center justify-center transition-all duration-300 cursor-pointer"
+                  className="w-7 h-7 rounded bg-white/5 hover:bg-red-500/10 text-white/40 hover:text-red-400 flex items-center justify-center transition-all duration-300 cursor-pointer border border-white/5"
                   title="Disconnect Session"
                 >
-                  <LogOut size={12} />
+                  <LogOut size={11} />
                 </button>
               </motion.div>
             ) : (
               <motion.button 
-                whileHover={{ scale: 1.03, boxShadow: "0 0 18px rgba(245,158,11,0.2)" }}
-                whileTap={{ scale: 0.97 }}
+                whileHover={{ scale: 1.02, boxShadow: "0 0 15px rgba(245,158,11,0.15)" }}
+                whileTap={{ scale: 0.98 }}
                 onClick={onLoginClick}
-                className="hidden sm:flex items-center gap-2 px-5 py-2.5 rounded-xl border border-white/10 bg-white/[0.02] text-[#f59e0b] hover:text-white hover:bg-[#f59e0b]/10 hover:border-[#f59e0b]/60 transition-all duration-300 font-mono text-[9px] tracking-[0.18em] uppercase group shadow-[0_4px_15px_rgba(0,0,0,0.2)] cursor-pointer"
+                className="hidden sm:flex items-center gap-2 px-4.5 py-2.5 rounded-lg border border-amber-500/30 bg-amber-500/[0.02] text-amber-500 hover:text-white hover:bg-amber-500/10 hover:border-amber-500/60 transition-all duration-300 font-mono text-[9px] tracking-[0.16em] uppercase group shadow-[0_4px_15px_rgba(0,0,0,0.3)] cursor-pointer"
               >
-                <User size={12} className="group-hover:scale-110 group-hover:text-white transition-all duration-300" />
-                <span>CONNECT SESSION</span>
+                <User size={12} className="group-hover:scale-105 transition-transform" />
+                <span>SYS.CONNECT_SESSION()</span>
               </motion.button>
             )}
 
