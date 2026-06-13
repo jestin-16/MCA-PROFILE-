@@ -91,28 +91,22 @@ export const Navbar: React.FC<NavbarProps> = ({ onLoginClick }) => {
         className={cn(
           "fixed top-0 inset-x-0 z-50 transition-all duration-500 px-6 lg:px-12",
           isScrolled 
-            ? "py-3.5 top-4 max-w-6xl mx-auto"
+            ? "py-3.5 top-4 max-w-5xl mx-auto"
             : "py-6 top-0 max-w-7xl mx-auto"
         )}
       >
-        {/* Sleek Floating Glass Capsule Container with Laser Corner Accents */}
+        {/* Sleek Floating Glass Capsule Container with Dynamic Rounded Design */}
         <div className={cn(
           "relative w-full transition-all duration-500 flex items-center justify-between border",
           isScrolled 
-            ? "bg-[#090707]/90 backdrop-blur-3xl border-amber-500/15 rounded-xl px-6 py-3.5 shadow-[0_24px_60px_rgba(0,0,0,0.95)]"
-            : "bg-[#030202]/10 backdrop-blur-xs border-white/[0.04] rounded-xl px-6 py-4"
+            ? "bg-[#090707]/92 backdrop-blur-3xl border-amber-500/20 rounded-full px-8 py-3 shadow-[0_24px_60px_rgba(0,0,0,0.95)]"
+            : "bg-[#030202]/30 backdrop-blur-md border-white/[0.05] rounded-full px-8 py-3.5 shadow-[0_12px_40px_rgba(0,0,0,0.4)]"
         )}>
-          {/* Laser Corner sights on scrolled/floating bar */}
+          {/* Subtle Dynamic Arcs underlay on scrolled capsule edges */}
           {isScrolled && (
             <>
-              <div className="absolute top-0 left-0 w-3 h-[1px] bg-amber-500/50" />
-              <div className="absolute top-0 left-0 w-[1px] h-3 bg-amber-500/50" />
-              <div className="absolute top-0 right-0 w-3 h-[1px] bg-amber-500/50" />
-              <div className="absolute top-0 right-0 w-[1px] h-3 bg-amber-500/50" />
-              <div className="absolute bottom-0 left-0 w-3 h-[1px] bg-amber-500/50" />
-              <div className="absolute bottom-0 left-0 w-[1px] h-3 bg-amber-500/50" />
-              <div className="absolute bottom-0 right-0 w-3 h-[1px] bg-amber-500/50" />
-              <div className="absolute bottom-0 right-0 w-[1px] h-3 bg-amber-500/50" />
+              <div className="absolute left-8 top-1/2 -translate-y-1/2 w-2 h-2 rounded-full bg-amber-500/20 blur-[1px] pointer-events-none" />
+              <div className="absolute right-8 top-1/2 -translate-y-1/2 w-2 h-2 rounded-full bg-amber-500/20 blur-[1px] pointer-events-none" />
             </>
           )}
 
@@ -123,7 +117,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onLoginClick }) => {
                 initial={{ opacity: 0, scaleX: 0.8 }}
                 animate={{ opacity: 0.9, scaleX: 1 }}
                 exit={{ opacity: 0, scaleX: 0.8 }}
-                className="absolute top-0 inset-x-12 h-[1px] bg-gradient-to-r from-transparent via-amber-500/40 to-transparent pointer-events-none"
+                className="absolute top-0 inset-x-16 h-[1.5px] bg-gradient-to-r from-transparent via-amber-500/40 to-transparent pointer-events-none"
               />
             )}
           </AnimatePresence>
@@ -137,8 +131,8 @@ export const Navbar: React.FC<NavbarProps> = ({ onLoginClick }) => {
           >
             <div className="relative">
               {/* Outer Golden Pulsing Halo surrounding logo in default style */}
-              <div className="absolute -inset-1.5 rounded-lg bg-gradient-to-tr from-amber-500 to-orange-600 opacity-20 blur-sm group-hover:opacity-70 transition-opacity duration-500" />
-              <div className="relative w-10 h-10 rounded-lg border border-amber-500/20 bg-[#0d0a0a] flex items-center justify-center text-white/90 group-hover:bg-amber-500/10 group-hover:border-amber-500/50 transition-all duration-500 shadow-[0_4px_20px_rgba(0,0,0,0.5)]">
+              <div className="absolute -inset-1.5 rounded-full bg-gradient-to-tr from-amber-500 to-orange-600 opacity-20 blur-sm group-hover:opacity-75 transition-opacity duration-500" />
+              <div className="relative w-10 h-10 rounded-full border border-amber-500/25 bg-[#0d0a0a] flex items-center justify-center text-white/90 group-hover:bg-amber-500/10 group-hover:border-amber-500/50 transition-all duration-500 shadow-[0_4px_20px_rgba(0,0,0,0.5)]">
                 <Cpu size={18} className="text-amber-500 group-hover:rotate-180 transition-transform duration-700 ease-out" />
               </div>
             </div>
@@ -159,9 +153,9 @@ export const Navbar: React.FC<NavbarProps> = ({ onLoginClick }) => {
             </div>
           </motion.div>
 
-          {/* WEB DESKTOP NAVIGATION INNER DECK - Tactile Brackets styling */}
+          {/* WEB DESKTOP NAVIGATION INNER DECK - Tactile Brackets styling with rounded-full */}
           <nav className="hidden md:flex flex-1 justify-center max-w-2xl mx-auto relative">
-            <ul className="flex items-center gap-2 bg-[#090707]/60 border border-white/[0.05] p-1.5 rounded-xl backdrop-blur-3xl transition-all duration-300 shadow-[0_10px_40px_rgba(0,0,0,0.6)]">
+            <ul className="flex items-center gap-1.5 bg-[#090707]/60 border border-white/[0.05] p-1 rounded-full backdrop-blur-3xl transition-all duration-300 shadow-[0_10px_40px_rgba(0,0,0,0.6)]">
               {navItems.map((item) => {
                 const isActive = activeItem === item.name;
                 const isHovered = hoveredItem === item.name;
@@ -177,28 +171,18 @@ export const Navbar: React.FC<NavbarProps> = ({ onLoginClick }) => {
                       href={item.href}
                       onClick={() => setActiveItem(item.name)}
                       className={cn(
-                        "relative px-4 py-2 rounded-lg text-center group flex flex-col items-center transition-all duration-300",
+                        "relative px-4.5 py-2 rounded-full text-center group flex flex-col items-center transition-all duration-300",
                         isActive 
                           ? "text-white font-semibold" 
                           : "text-white/45 hover:text-amber-500/90"
                       )}
                     >
-                      {/* Laser Frame Target corners when active */}
-                      {isActive && (
-                        <>
-                          <span className="absolute top-0.5 left-0.5 w-[3px] h-[3px] border-t border-l border-amber-500" />
-                          <span className="absolute top-0.5 right-0.5 w-[3px] h-[3px] border-t border-r border-amber-500" />
-                          <span className="absolute bottom-0.5 left-0.5 w-[3px] h-[3px] border-b border-l border-amber-500" />
-                          <span className="absolute bottom-0.5 right-0.5 w-[3px] h-[3px] border-b border-r border-amber-500" />
-                        </>
-                      )}
-
                       {/* Dynamic Magnetic Background Hover Capsule */}
                       <AnimatePresence>
                         {isHovered && !isActive && (
                           <motion.span 
                             layoutId="menuHoverBg"
-                            className="absolute inset-0 rounded-lg bg-amber-500/[0.04] border border-amber-500/10 z-0"
+                            className="absolute inset-0 rounded-full bg-amber-500/[0.05] border border-amber-500/10 z-0"
                             initial={{ opacity: 0, scale: 0.95 }}
                             animate={{ opacity: 1, scale: 1 }}
                             exit={{ opacity: 0, scale: 0.95 }}
@@ -207,18 +191,18 @@ export const Navbar: React.FC<NavbarProps> = ({ onLoginClick }) => {
                         )}
                       </AnimatePresence>
 
-                      {/* Active State Background Block */}
+                      {/* Active State Background Block - Rounded Full Pill */}
                       {isActive && (
                         <motion.span 
                           layoutId="menuActiveBg"
-                          className="absolute inset-x-0.5 inset-y-0.5 rounded-md bg-amber-500/[0.06] border border-amber-500/20 shadow-[0_0_12px_rgba(245,158,11,0.08)] z-0"
+                          className="absolute inset-0 rounded-full bg-amber-500/[0.08] border border-amber-500/25 shadow-[0_0_15px_rgba(245,158,11,0.1)] z-0"
                           transition={{ type: "spring", stiffness: 350, damping: 26 }}
                         />
                       )}
 
                       {/* Monospace Code Indicator */}
                       <span className={cn(
-                        "font-mono text-[6.5px] tracking-[0.2em] mb-1 relative z-10 transition-colors duration-300",
+                        "font-mono text-[6.5px] tracking-[0.2em] mb-0.5 relative z-10 transition-colors duration-300",
                         isActive ? "text-amber-500 font-bold" : "text-white/25 group-hover:text-amber-500/70"
                       )}>
                         [{item.code}]
@@ -257,7 +241,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onLoginClick }) => {
             {user ? (
               <motion.div 
                 whileHover={{ y: -1 }}
-                className="hidden sm:flex items-center gap-3 bg-[#0c0909] border border-amber-500/15 rounded-lg py-1.5 pl-3.5 pr-1.5 backdrop-blur-md hover:border-amber-500/40 shadow-[0_4px_15px_rgba(0,0,0,0.5)] transition-all duration-300 group"
+                className="hidden sm:flex items-center gap-3 bg-[#0c0909] border border-amber-500/15 rounded-full py-1.5 pl-4 pr-1.5 backdrop-blur-md hover:border-amber-500/40 shadow-[0_4px_15px_rgba(0,0,0,0.5)] transition-all duration-300 group"
               >
                 <div className="flex flex-col items-start leading-none gap-0.5 select-none">
                   <div className="flex items-center gap-1.5">
@@ -268,7 +252,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onLoginClick }) => {
                 <div className="w-[1px] h-3.5 bg-white/10" />
                 <button 
                   onClick={logout}
-                  className="w-7 h-7 rounded bg-white/5 hover:bg-red-500/10 text-white/40 hover:text-red-400 flex items-center justify-center transition-all duration-300 cursor-pointer border border-white/5"
+                  className="w-7 h-7 rounded-full bg-white/5 hover:bg-red-500/10 text-white/40 hover:text-red-400 flex items-center justify-center transition-all duration-300 cursor-pointer border border-white/5"
                   title="Disconnect Session"
                 >
                   <LogOut size={11} />
@@ -279,7 +263,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onLoginClick }) => {
                 whileHover={{ scale: 1.02, boxShadow: "0 0 15px rgba(245,158,11,0.15)" }}
                 whileTap={{ scale: 0.98 }}
                 onClick={onLoginClick}
-                className="hidden sm:flex items-center gap-2 px-4.5 py-2.5 rounded-lg border border-amber-500/30 bg-amber-500/[0.02] text-amber-500 hover:text-white hover:bg-amber-500/10 hover:border-amber-500/60 transition-all duration-300 font-mono text-[9px] tracking-[0.16em] uppercase group shadow-[0_4px_15px_rgba(0,0,0,0.3)] cursor-pointer"
+                className="hidden sm:flex items-center gap-2 px-5 py-2.5 rounded-full border border-amber-500/30 bg-amber-500/[0.02] text-amber-500 hover:text-white hover:bg-amber-500/10 hover:border-amber-500/60 transition-all duration-300 font-mono text-[9px] tracking-[0.16em] uppercase group shadow-[0_4px_15px_rgba(0,0,0,0.3)] cursor-pointer"
               >
                 <User size={12} className="group-hover:scale-105 transition-transform" />
                 <span>SYS.CONNECT_SESSION()</span>
@@ -290,7 +274,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onLoginClick }) => {
             <motion.button
               whileTap={{ scale: 0.92 }}
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="flex md:hidden w-10 h-10 rounded-xl border border-white/10 bg-white/[0.01] hover:bg-white/5 flex items-center justify-center text-white/70 hover:text-white transition-all cursor-pointer relative"
+              className="flex md:hidden w-10 h-10 rounded-full border border-white/10 bg-white/[0.01] hover:bg-white/5 flex items-center justify-center text-white/70 hover:text-white transition-all cursor-pointer relative"
             >
               <AnimatePresence mode="wait">
                 {isMobileMenuOpen ? (
