@@ -136,15 +136,15 @@ export const Footer: React.FC = () => {
         {/* Minimalist Dashboard Columns / Bento Deck */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 pb-20 border-b border-amber-500/10">
           
-          {/* Column A: Batch Terminal & Operational Status */}
-          <div className="lg:col-span-4 bg-gradient-to-b from-white/[0.02] to-transparent border border-white/[0.04] p-8 rounded-2xl flex flex-col justify-between group hover:border-amber-500/20 transition-all duration-500 relative">
-            <div className="absolute top-0 right-0 w-8 h-8 flex items-center justify-center border-l border-b border-white/[0.03] text-white/10 group-hover:text-amber-500/20 group-hover:border-amber-500/10 transition-all duration-500 text-[10px] font-mono select-none">
+          {/* Column A: Batch Terminal & Operational Status - custom rounded-[2rem] to match circular aesthetic */}
+          <div className="lg:col-span-4 bg-gradient-to-b from-white/[0.02] to-transparent border border-white/[0.04] p-8 rounded-[2rem] flex flex-col justify-between group hover:border-amber-500/20 transition-all duration-500 relative">
+            <div className="absolute top-0 right-0 w-8 h-8 flex items-center justify-center border-l border-b border-white/[0.03] text-white/10 group-hover:text-amber-500/20 group-hover:border-amber-500/15 transition-all duration-500 text-[10px] font-mono select-none rounded-tr-[1.9rem]">
               A1
             </div>
 
             <div>
               <div className="flex items-center gap-3.5 mb-6">
-                <div className="w-11 h-11 border border-white/10 rounded-xl flex items-center justify-center text-amber-500 bg-[#0c0908] group-hover:bg-amber-500/10 group-hover:border-amber-500/50 transition-all duration-700 shadow-[0_4px_12px_rgba(0,0,0,0.4)]">
+                <div className="w-11 h-11 border border-amber-500/10 rounded-full flex items-center justify-center text-amber-500 bg-[#0c0908] group-hover:bg-amber-500/10 group-hover:border-amber-500/50 transition-all duration-700 shadow-[0_4px_12px_rgba(0,0,0,0.4)]">
                   <Cpu className="w-5 h-5 group-hover:rotate-180 transition-transform duration-700 ease-out" />
                 </div>
                 <div className="flex flex-col">
@@ -158,23 +158,23 @@ export const Footer: React.FC = () => {
             </div>
 
             <div className="space-y-4 pt-6 mt-4 border-t border-white/[0.04]">
-              {/* Telemetry Metrics Row */}
+              {/* Telemetry Metrics Row - fully stylized rounded pills to match header widgets */}
               <div className="grid grid-cols-2 gap-4">
-                <div className="flex flex-col bg-white/[0.01] border border-white/[0.02] p-3 rounded-lg">
-                  <span className="text-[7.5px] font-mono uppercase tracking-widest text-white/30 flex items-center gap-1.5 font-bold">
+                <div className="flex flex-col bg-white/[0.01] border border-white/[0.03] p-3 px-5 rounded-full hover:border-amber-500/20 transition-colors">
+                  <span className="text-[7.5px] font-mono uppercase tracking-widest text-white/30 flex items-center gap-1.5 font-bold justify-center">
                     <Clock className="w-3 h-3 text-amber-500/80" />
                     SYSTEM TIME
                   </span>
-                  <span className="text-[13px] font-mono text-white mt-1.5 font-bold tracking-wider [text-shadow:0_0_8px_rgba(255,255,255,0.1)]">
+                  <span className="text-[12.5px] font-mono text-white mt-1 font-bold tracking-wider [text-shadow:0_0_8px_rgba(255,255,255,0.1)] text-center">
                     {time || '00:00:00'}
                   </span>
                 </div>
-                <div className="flex flex-col bg-white/[0.01] border border-white/[0.02] p-3 rounded-lg">
-                  <span className="text-[7.5px] font-mono uppercase tracking-widest text-white/30 flex items-center gap-1.5 font-bold">
+                <div className="flex flex-col bg-white/[0.01] border border-white/[0.03] p-3 px-5 rounded-full hover:border-amber-500/20 transition-colors">
+                  <span className="text-[7.5px] font-mono uppercase tracking-widest text-white/30 flex items-center gap-1.5 font-bold justify-center">
                     <Shield className="w-3 h-3 text-amber-500/80" />
                     COHORT BATCH
                   </span>
-                  <span className="text-[11.5px] font-mono text-amber-500 mt-1.5 font-bold tracking-wider uppercase">
+                  <span className="text-[10.5px] font-mono text-amber-500 mt-1 font-bold tracking-wider uppercase text-center">
                     REGULAR_DEV
                   </span>
                 </div>
@@ -200,9 +200,9 @@ export const Footer: React.FC = () => {
             </div>
           </div>
 
-          {/* Column B: Cohort Capabilities Analytics (Interactive) */}
-          <div className="lg:col-span-4 bg-gradient-to-b from-white/[0.02] to-transparent border border-white/[0.04] p-8 rounded-2xl relative overflow-hidden group hover:border-amber-500/20 transition-all duration-500">
-            <div className="absolute top-0 right-0 w-8 h-8 flex items-center justify-center border-l border-b border-white/[0.03] text-white/10 group-hover:text-amber-500/20 group-hover:border-amber-500/10 transition-all duration-500 text-[10px] font-mono select-none">
+          {/* Column B: Cohort Capabilities Analytics (Interactive) - custom rounded-[2rem] to match circular aesthetic */}
+          <div className="lg:col-span-4 bg-gradient-to-b from-white/[0.02] to-transparent border border-white/[0.04] p-8 rounded-[2rem] relative overflow-hidden group hover:border-amber-500/20 transition-all duration-500">
+            <div className="absolute top-0 right-0 w-8 h-8 flex items-center justify-center border-l border-b border-white/[0.03] text-white/10 group-hover:text-amber-500/20 group-hover:border-amber-500/15 transition-all duration-500 text-[10px] font-mono select-none rounded-tr-[1.9rem]">
               B2
             </div>
 
@@ -239,9 +239,9 @@ export const Footer: React.FC = () => {
             </div>
           </div>
 
-          {/* Column C: Seamless Cyclic Scholar Spotlight */}
-          <div className="lg:col-span-4 bg-[#0a0808]/40 border border-white/[0.04] p-8 rounded-2xl flex flex-col justify-between h-full relative overflow-hidden group hover:border-amber-500/20 transition-all duration-500 shadow-[inset_0_1px_1px_rgba(255,255,255,0.02)]">
-            <div className="absolute top-0 right-0 w-8 h-8 flex items-center justify-center border-l border-b border-white/[0.03] text-white/10 group-hover:text-amber-500/20 group-hover:border-amber-500/10 transition-all duration-500 text-[10px] font-mono select-none">
+          {/* Column C: Seamless Cyclic Scholar Spotlight - custom rounded-[2rem] to match circular aesthetic */}
+          <div className="lg:col-span-4 bg-[#0a0808]/40 border border-white/[0.04] p-8 rounded-[2rem] flex flex-col justify-between h-full relative overflow-hidden group hover:border-amber-500/20 transition-all duration-500 shadow-[inset_0_1px_1px_rgba(255,255,255,0.02)]">
+            <div className="absolute top-0 right-0 w-8 h-8 flex items-center justify-center border-l border-b border-white/[0.03] text-white/10 group-hover:text-amber-500/20 group-hover:border-amber-500/15 transition-all duration-500 text-[10px] font-mono select-none rounded-tr-[1.9rem]">
               C3
             </div>
 
@@ -261,12 +261,13 @@ export const Footer: React.FC = () => {
                     transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
                     className="flex items-center gap-4.5 absolute inset-0 py-1"
                   >
+                    {/* Double circular dynamic rings like the header circular badges */}
                     <div className="relative shrink-0 pr-1 select-none">
-                      <div className="absolute -inset-1.5 rounded-xl bg-gradient-to-tr from-amber-500 to-transparent opacity-25 blur-sm group-hover:opacity-60 transition-all duration-500 animate-pulse" />
+                      <div className="absolute -inset-1.5 rounded-full bg-gradient-to-tr from-amber-500 to-transparent opacity-25 blur-sm group-hover:opacity-60 transition-all duration-500 animate-pulse" />
                       <img 
                         src={featuredStudent.image} 
                         alt={featuredStudent.name}
-                        className="w-14 h-14 rounded-xl object-cover border border-white/10 relative z-10 filter grayscale brightness-90 group-hover:grayscale-0 group-hover:brightness-100 transition-all duration-500"
+                        className="w-14 h-14 rounded-full object-cover border border-amber-500/25 relative z-10 filter grayscale brightness-90 group-hover:grayscale-0 group-hover:brightness-100 transition-all duration-500"
                         referrerPolicy="no-referrer"
                       />
                     </div>
@@ -278,9 +279,9 @@ export const Footer: React.FC = () => {
                       <span className="text-[8.5px] text-amber-500 font-mono mt-0.5 tracking-widest font-extrabold uppercase">
                         INDEX ID: #{featuredStudent.id.padStart(3, '0')}
                       </span>
-                      <div className="flex flex-wrap gap-1 mt-2.5">
+                      <div className="flex flex-wrap gap-1.5 mt-2">
                         {featuredStudent.techStack.slice(0, 2).map((tech) => (
-                          <span key={tech} className="bg-amber-500/5 text-[7.5px] font-mono text-amber-500/90 px-2 py-0.5 rounded border border-amber-500/15">
+                          <span key={tech} className="bg-amber-500/5 text-[7.5px] font-mono text-amber-500/90 px-3 py-1 rounded-full border border-amber-500/15 uppercase font-semibold">
                             {tech}
                           </span>
                         ))}
@@ -291,19 +292,19 @@ export const Footer: React.FC = () => {
               </div>
             </div>
 
-            {/* Total Aggregate Batch Metrics */}
+            {/* Total Aggregate Batch Metrics - clean pill columns to go with header rounded widgets */}
             <div className="grid grid-cols-3 gap-3 border-t border-white/[0.04] pt-5 mt-5 relative z-10 text-center">
-              <div className="flex flex-col bg-white/[0.01]/10 border border-white/[0.02] p-2.5 rounded-lg">
-                <span className="text-[7.5px] font-mono uppercase tracking-[0.15em] text-white/35 font-bold">SCHOLARS</span>
-                <span className="text-base font-mono text-white mt-1.5 font-bold group-hover:text-amber-500 transition-colors">{STUDENTS.length}</span>
+              <div className="flex flex-col bg-white/[0.01]/10 border border-white/[0.02] p-2.5 rounded-full hover:border-amber-500/20 hover:bg-amber-500/[0.01] transition-all">
+                <span className="text-[7px] font-mono uppercase tracking-[0.15em] text-white/35 font-bold">SCHOLARS</span>
+                <span className="text-sm font-mono text-white mt-1 font-bold group-hover:text-amber-500 transition-colors">{STUDENTS.length}</span>
               </div>
-              <div className="flex flex-col bg-white/[0.01]/10 border border-white/[0.02] p-2.5 rounded-lg">
-                <span className="text-[7.5px] font-mono uppercase tracking-[0.15em] text-white/35 font-bold">BUILDS</span>
-                <span className="text-base font-mono text-white mt-1.5 font-bold group-hover:text-amber-500 transition-colors">{PROJECTS.length}</span>
+              <div className="flex flex-col bg-white/[0.01]/10 border border-white/[0.02] p-2.5 rounded-full hover:border-amber-500/20 hover:bg-amber-500/[0.01] transition-all">
+                <span className="text-[7px] font-mono uppercase tracking-[0.15em] text-white/35 font-bold">BUILDS</span>
+                <span className="text-sm font-mono text-white mt-1 font-bold group-hover:text-amber-500 transition-colors">{PROJECTS.length}</span>
               </div>
-              <div className="flex flex-col bg-white/[0.01]/10 border border-white/[0.02] p-2.5 rounded-lg">
-                <span className="text-[7.5px] font-mono uppercase tracking-[0.15em] text-white/35 font-bold">MEDIAS</span>
-                <span className="text-base font-mono text-white mt-1.5 font-bold group-hover:text-amber-500 transition-colors">{MEMORIES.length}</span>
+              <div className="flex flex-col bg-white/[0.01]/10 border border-white/[0.02] p-2.5 rounded-full hover:border-amber-500/20 hover:bg-amber-500/[0.01] transition-all">
+                <span className="text-[7px] font-mono uppercase tracking-[0.15em] text-white/35 font-bold">MEDIAS</span>
+                <span className="text-sm font-mono text-white mt-1 font-bold group-hover:text-amber-500 transition-colors">{MEMORIES.length}</span>
               </div>
             </div>
           </div>
@@ -318,34 +319,34 @@ export const Footer: React.FC = () => {
               <span>TERMINAL INDEX</span>
             </span>
             <div className="h-5 w-[1px] bg-white/10 hidden md:block" />
-            <div className="flex flex-wrap gap-x-6 gap-y-3.5">
+            <div className="flex flex-wrap gap-x-3 gap-y-3">
               {navLinks.map((link) => (
                 <motion.a 
                   key={link.name}
                   href={link.href}
-                  className="group relative flex items-center gap-2 text-xs font-sans font-light tracking-wide text-white/50 hover:text-white transition-all duration-300 py-1"
+                  className="group relative flex items-center gap-1.5 px-4.5 py-2 rounded-full border border-white/[0.03] bg-white/[0.01] text-xs font-sans font-medium tracking-wide text-white/50 hover:text-white hover:border-amber-500/20 hover:bg-amber-500/[0.02] transition-all duration-300"
                   whileHover={{ y: -1 }}
                 >
-                  <span className="text-[8.5px] font-mono text-amber-500 tracking-widest uppercase opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300">
+                  <span className="text-[8px] font-mono text-amber-500 tracking-widest uppercase">
                     [{link.code}]
                   </span>
-                  <span className="group-hover:text-amber-500 transition-colors font-medium">{link.name}</span>
+                  <span className="group-hover:text-amber-500 transition-colors">{link.name}</span>
                   <ArrowUpRight className="w-3 h-3 opacity-30 group-hover:opacity-100 group-hover:text-amber-500 transition-all" />
                 </motion.a>
               ))}
             </div>
           </div>
 
-          {/* Tactile Retro Mechanical Back-to-Top Control */}
+          {/* Tactile Retro Mechanical Back-to-Top Control - fully rounded button to match login / floating buttons */}
           <div className="flex justify-start lg:justify-end shrink-0">
             <motion.button 
               whileHover={{ scale: 1.025, borderColor: 'rgba(245,158,11,0.4)' }}
               whileTap={{ scale: 0.975 }}
               onClick={scrollToTop}
-              className="group flex items-center gap-3 bg-[#0d0909] hover:bg-amber-500/10 border border-white/10 px-5 py-3 rounded-xl transition-all duration-300 text-[9.5px] font-mono uppercase tracking-[0.25em] text-white/70 hover:text-white shadow-[0_4px_20px_rgba(0,0,0,0.5)] focus:outline-none cursor-pointer"
+              className="group flex items-center gap-3 bg-[#0d0909] hover:bg-amber-500/10 border border-white/10 px-6 py-3.5 rounded-full transition-all duration-300 text-[9.5px] font-mono uppercase tracking-[0.25em] text-white/70 hover:text-white shadow-[0_4px_20px_rgba(0,0,0,0.5)] focus:outline-none cursor-pointer"
             >
               <span>SYS.SCROLL_TOP()</span>
-              <div className="w-6 h-6 rounded bg-white/5 group-hover:bg-amber-500/20 flex items-center justify-center text-white/50 group-hover:text-amber-500 transition-all duration-300 border border-white/5">
+              <div className="w-6 h-6 rounded-full bg-white/5 group-hover:bg-amber-500/20 flex items-center justify-center text-white/50 group-hover:text-amber-500 transition-all duration-300 border border-white/5">
                 <ArrowUp className="w-3.5 h-3.5 group-hover:-translate-y-0.5 transition-transform" />
               </div>
             </motion.button>
