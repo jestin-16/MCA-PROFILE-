@@ -44,7 +44,12 @@ export const ProjectShowcase: React.FC = () => {
                 index === 0 ? 'lg:col-span-12' : 'lg:col-span-6'
               } group`}
             >
-              <div className="relative glass-panel rounded-3xl overflow-hidden border border-white/5 transition-all duration-700 hover:border-atmos-accent/20 hover:shadow-[0_0_50px_rgba(245,158,11,0.05)]">
+              <div className="relative glass-panel rounded-3xl overflow-hidden hover:border-atmos-accent/40 hover:shadow-[0_30px_60px_rgba(245,158,11,0.08)]">
+                {/* Premium Glass Reflective Sheen Sweep Overlay */}
+                <div className="absolute inset-0 pointer-events-none z-20 overflow-hidden rounded-3xl">
+                  <div className="absolute -inset-full top-0 bg-gradient-to-tr from-transparent via-white/[0.08] to-transparent transform -translate-x-full group-hover:translate-x-full transition-transform duration-[1500ms] ease-[cubic-bezier(0.16,1,0.3,1)]" />
+                </div>
+                
                 <div className={`flex flex-col ${index === 0 ? 'lg:flex-row' : ''}`}>
                   {/* Image Container */}
                   <div className={`relative overflow-hidden ${index === 0 ? 'lg:w-3/5 aspect-[16/9]' : 'aspect-video'}`}>

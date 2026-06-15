@@ -436,8 +436,13 @@ const StudentCard = ({ student, index, user, handlePhotoUploadClick, openEditMod
         rotateY: { type: "spring", stiffness: 300, damping: 20 },
         rotateX: { type: "spring", stiffness: 300, damping: 20 }
       }}
-      className="glass-panel overflow-hidden group border border-white/5 hover:border-atmos-accent/40 hover:shadow-[0_20px_50px_rgba(245,158,11,0.12)] transition-all duration-500 rounded-3xl [transform-style:preserve-3d]"
+      className="glass-panel overflow-hidden group relative hover:border-atmos-accent/40 hover:shadow-[0_30px_60px_rgba(245,158,11,0.15)] rounded-3xl [transform-style:preserve-3d]"
     >
+      {/* Premium Glass Reflective Sheen Sweep Overlay */}
+      <div className="absolute inset-0 pointer-events-none z-20 overflow-hidden rounded-3xl">
+        <div className="absolute -inset-full top-0 bg-gradient-to-tr from-transparent via-white/[0.08] to-transparent transform -translate-x-full group-hover:translate-x-full transition-transform duration-[1500ms] ease-[cubic-bezier(0.16,1,0.3,1)]" />
+      </div>
+
       <div className="relative aspect-[4/3] overflow-hidden">
         <motion.img 
           src={student.image} 
@@ -445,31 +450,31 @@ const StudentCard = ({ student, index, user, handlePhotoUploadClick, openEditMod
           className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110"
           referrerPolicy="no-referrer"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-atmos-bg via-atmos-bg/20 to-transparent opacity-80" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#030202] via-[#030202]/30 to-transparent opacity-90" />
         
-        <div className="absolute bottom-4 left-6 right-6 flex justify-between items-end">
+        <div className="absolute bottom-4 left-6 right-6 flex justify-between items-end z-10">
           <h3 className="title-serif text-2xl group-hover:text-atmos-accent transition-colors">
             {student.name}
           </h3>
           <div className="flex gap-3">
             {student.github && (
-              <a href={student.github} target="_blank" rel="noreferrer" className="text-white/60 hover:text-white transition-colors">
-                <Github size={18} />
+              <a href={student.github} target="_blank" rel="noreferrer" className="text-white/60 hover:text-white transition-colors bg-white/5 border border-white/10 p-2 rounded-full backdrop-blur-md hover:bg-white/10">
+                <Github size={15} />
               </a>
             )}
             {student.linkedin && (
-              <a href={student.linkedin} target="_blank" rel="noreferrer" className="text-white/60 hover:text-white transition-colors">
-                <Linkedin size={18} />
+              <a href={student.linkedin} target="_blank" rel="noreferrer" className="text-white/60 hover:text-white transition-colors bg-white/5 border border-white/10 p-2 rounded-full backdrop-blur-md hover:bg-white/10">
+                <Linkedin size={15} />
               </a>
             )}
           </div>
         </div>
       </div>
 
-      <div className="p-6">
+      <div className="p-6 relative z-10">
         <div className="flex flex-wrap gap-2 mb-6">
           {student.techStack.map((tech: string, i: number) => (
-            <span key={i} className="text-[11px] font-sans text-white/50 bg-white/5 border border-white/10 rounded-full px-3 py-1">
+            <span key={i} className="text-[10px] font-sans text-white/70 bg-gradient-to-r from-white/[0.04] to-white/[0.01] border border-white/[0.08] backdrop-blur-md rounded-full px-3 py-1 font-medium shadow-[inset_0_1px_1px_rgba(255,255,255,0.08)] uppercase tracking-wider">
               {tech}
             </span>
           ))}

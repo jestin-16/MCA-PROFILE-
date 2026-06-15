@@ -68,8 +68,13 @@ export const MessageBoard: React.FC = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8 }}
-            className="glass-panel p-8 mb-20 relative overflow-hidden group shadow-2xl"
+            className="glass-panel p-8 mb-20 relative overflow-hidden group hover:border-atmos-accent/20"
           >
+            {/* Premium Glass Reflective Sheen Sweep Overlay */}
+            <div className="absolute inset-0 pointer-events-none z-20 overflow-hidden rounded-3xl">
+              <div className="absolute -inset-full top-0 bg-gradient-to-tr from-transparent via-white/[0.05] to-transparent transform -translate-x-full group-hover:translate-x-full transition-transform duration-[2000ms] ease-[cubic-bezier(0.16,1,0.3,1)]" />
+            </div>
+
             <form onSubmit={handleSubmit} className="relative z-10 space-y-4">
               <div className="flex flex-col md:flex-row gap-4 lg:gap-6">
                 <div className="relative flex-grow">
@@ -139,9 +144,14 @@ export const MessageBoard: React.FC = () => {
                   whileHover={{ y: -5 }}
                   className="w-full md:w-[45%] relative group"
                 >
-                  <div className={`glass-panel p-8 border-t-2 ${msg.color === 'atmos-accent' ? 'border-t-atmos-accent' : 'border-t-transparent'} transition-all duration-500`}>
-                    <p className="font-serif text-xl md:text-2xl mb-8 text-white/90 leading-relaxed font-light">"{msg.text}"</p>
-                    <div className="flex justify-between items-center text-xs border-t border-white/5 pt-6">
+                  <div className={`glass-panel p-8 relative overflow-hidden border-t-2 ${msg.color === 'atmos-accent' ? 'border-t-atmos-accent' : 'border-[#fa0]'} hover:border-atmos-accent/40 shadow-xl`}>
+                    {/* Premium Glass Reflective Sheen Sweep Overlay */}
+                    <div className="absolute inset-0 pointer-events-none z-20 overflow-hidden rounded-3xl">
+                      <div className="absolute -inset-full top-0 bg-gradient-to-tr from-transparent via-white/[0.06] to-transparent transform -translate-x-full group-hover:translate-x-full transition-transform duration-[1500ms] ease-[cubic-bezier(0.16,1,0.3,1)]" />
+                    </div>
+
+                    <p className="font-serif text-xl md:text-2xl mb-8 text-white/90 leading-relaxed font-light relative z-10">"{msg.text}"</p>
+                    <div className="flex justify-between items-center text-xs border-t border-white/5 pt-6 relative z-10">
                       <span className={`font-sans tracking-wide flex items-center gap-2 ${msg.color === 'atmos-accent' ? 'text-atmos-accent' : 'text-white/60'}`}>
                         {msg.author === "Anonymous Student" ? <Ghost size={14} className="opacity-70" /> : <User size={14} className="opacity-70" />} 
                         {msg.author}

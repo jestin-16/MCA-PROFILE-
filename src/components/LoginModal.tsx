@@ -44,11 +44,17 @@ export const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose }) => {
             initial={{ scale: 0.95, opacity: 0, y: 20 }}
             animate={{ scale: 1, opacity: 1, y: 0 }}
             exit={{ scale: 0.95, opacity: 0, y: 20 }}
-            className="glass-panel p-8 md:p-10 w-full max-w-md relative"
+            className="glass-panel p-8 md:p-10 w-full max-w-md relative overflow-hidden group hover:border-atmos-accent/20"
           >
+            {/* Premium Glass Reflective Sheen Sweep Overlay */}
+            <div className="absolute inset-0 pointer-events-none z-20 overflow-hidden rounded-3xl">
+              <div className="absolute -inset-full top-0 bg-gradient-to-tr from-transparent via-white/[0.08] to-transparent transform -translate-x-full group-hover:translate-x-full transition-transform duration-[2000ms] ease-[cubic-bezier(0.16,1,0.3,1)]" />
+            </div>
+            
             <button 
               onClick={onClose}
-              className="absolute top-6 right-6 text-white/40 hover:text-white transition-colors"
+              className="absolute top-6 right-6 text-white/40 hover:text-white transition-colors z-30"
+              title="Close"
             >
               <X size={20} />
             </button>

@@ -221,12 +221,17 @@ export const MemoryLane: React.FC = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.8, delay: (index % 5) * 0.1, ease: [0.2, 0.65, 0.3, 0.9] }}
-                className={`group relative overflow-hidden rounded-2xl bg-white/5 border border-white/5 hover:border-white/15 transition-colors duration-500 ${getGridItemClass(index)}`}
+                className={`group relative overflow-hidden rounded-2xl glass-panel border border-white/[0.08] hover:border-atmos-accent/40 hover:shadow-[0_20px_50px_rgba(245,158,11,0.1)] ${getGridItemClass(index)}`}
               >
+                {/* Premium Glass Reflective Sheen Sweep Overlay */}
+                <div className="absolute inset-0 pointer-events-none z-20 overflow-hidden rounded-2xl">
+                  <div className="absolute -inset-full top-0 bg-gradient-to-tr from-transparent via-white/[0.1] to-transparent transform -translate-x-full group-hover:translate-x-full transition-transform duration-[1600ms] ease-[cubic-bezier(0.16,1,0.3,1)]" />
+                </div>
+
                 <img
                   src={memory.url}
                   alt={memory.caption}
-                  className="w-full h-full object-cover transition-all duration-1000 group-hover:scale-105 group-hover:blur-[2px] opacity-80 group-hover:opacity-60"
+                  className="w-full h-full object-cover transition-all duration-1000 group-hover:scale-105 group-hover:blur-[1px] opacity-75 group-hover:opacity-50"
                   referrerPolicy="no-referrer"
                 />
                 
