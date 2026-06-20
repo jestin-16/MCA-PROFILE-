@@ -97,16 +97,29 @@ export const Navbar: React.FC<NavbarProps> = ({ onLoginClick }) => {
       >
         {/* Sleek Floating Glass Capsule Container with Dynamic Rounded Design */}
         <div className={cn(
-          "relative w-full transition-all duration-500 flex items-center justify-between border",
+          "relative w-full transition-all duration-500 flex items-center justify-between border overflow-hidden group/header",
           isScrolled 
-            ? "bg-[#090707]/92 backdrop-blur-3xl border-amber-500/20 rounded-full px-8 py-3 shadow-[0_24px_60px_rgba(0,0,0,0.95)]"
-            : "bg-[#030202]/30 backdrop-blur-md border-white/[0.05] rounded-full px-8 py-3.5 shadow-[0_12px_40px_rgba(0,0,0,0.4)]"
-        )}>
+            ? "border-amber-500/25 rounded-full px-8 py-3 shadow-[0_30px_70px_rgba(0,0,0,0.9),inset_0_1px_1.5px_rgba(255,255,255,0.12)]"
+            : "border-white/[0.08] rounded-full px-8 py-4 shadow-[0_12px_40px_rgba(0,0,0,0.5),inset_0_1px_1px_rgba(255,255,255,0.15)]"
+        )}
+        style={{
+          background: isScrolled
+            ? "linear-gradient(135deg, rgba(9, 7, 7, 0.94) 0%, rgba(9, 7, 7, 0.88) 100%)"
+            : "linear-gradient(135deg, rgba(255, 255, 255, 0.04) 0%, rgba(255, 255, 255, 0.005) 100%)",
+          backdropFilter: isScrolled ? "blur(24px) saturate(180%)" : "blur(20px) saturate(150%)",
+          WebkitBackdropFilter: isScrolled ? "blur(24px) saturate(180%)" : "blur(20px) saturate(150%)"
+        }}
+        >
+          {/* Premium Glass Reflective Sheen Sweep Overlay */}
+          <div className="absolute inset-0 pointer-events-none z-20 overflow-hidden rounded-full">
+            <div className="absolute -inset-full top-0 bg-gradient-to-tr from-transparent via-white/[0.08] to-transparent transform -translate-x-full group-hover/header:translate-x-full transition-transform duration-[1850ms] ease-[cubic-bezier(0.16,1,0.3,1)]" />
+          </div>
+
           {/* Subtle Dynamic Arcs underlay on scrolled capsule edges */}
           {isScrolled && (
             <>
-              <div className="absolute left-8 top-1/2 -translate-y-1/2 w-2 h-2 rounded-full bg-amber-500/20 blur-[1px] pointer-events-none" />
-              <div className="absolute right-8 top-1/2 -translate-y-1/2 w-2 h-2 rounded-full bg-amber-500/20 blur-[1px] pointer-events-none" />
+              <div className="absolute left-8 top-1/2 -translate-y-1/2 w-2 h-2 rounded-full bg-amber-500/25 blur-[1px] pointer-events-none" />
+              <div className="absolute right-8 top-1/2 -translate-y-1/2 w-2 h-2 rounded-full bg-amber-500/25 blur-[1px] pointer-events-none" />
             </>
           )}
 
@@ -155,7 +168,14 @@ export const Navbar: React.FC<NavbarProps> = ({ onLoginClick }) => {
 
           {/* WEB DESKTOP NAVIGATION INNER DECK - Tactile Brackets styling with rounded-full */}
           <nav className="hidden md:flex flex-1 justify-center max-w-2xl mx-auto relative">
-            <ul className="flex items-center gap-1.5 bg-[#090707]/60 border border-white/[0.05] p-1 rounded-full backdrop-blur-3xl transition-all duration-300 shadow-[0_10px_40px_rgba(0,0,0,0.6)]">
+            <ul className="flex items-center gap-1.5 p-1 rounded-full border border-white/[0.08]"
+              style={{
+                background: "linear-gradient(135deg, rgba(255, 255, 255, 0.04) 0%, rgba(255, 255, 255, 0.01) 100%)",
+                backdropFilter: "blur(28px) saturate(180%)",
+                WebkitBackdropFilter: "blur(28px) saturate(180%)",
+                boxShadow: "0 16px 36px rgba(0,0,0,0.7), inset 0 1px 1px rgba(255,255,255,0.12)"
+              }}
+            >
               {navItems.map((item) => {
                 const isActive = activeItem === item.name;
                 const isHovered = hoveredItem === item.name;
@@ -182,7 +202,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onLoginClick }) => {
                         {isHovered && !isActive && (
                           <motion.span 
                             layoutId="menuHoverBg"
-                            className="absolute inset-0 rounded-full bg-amber-500/[0.05] border border-amber-500/10 z-0"
+                            className="absolute inset-0 rounded-full bg-amber-500/[0.06] border border-amber-500/15 z-0"
                             initial={{ opacity: 0, scale: 0.95 }}
                             animate={{ opacity: 1, scale: 1 }}
                             exit={{ opacity: 0, scale: 0.95 }}
@@ -195,7 +215,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onLoginClick }) => {
                       {isActive && (
                         <motion.span 
                           layoutId="menuActiveBg"
-                          className="absolute inset-0 rounded-full bg-amber-500/[0.08] border border-amber-500/25 shadow-[0_0_15px_rgba(245,158,11,0.1)] z-0"
+                          className="absolute inset-0 rounded-full bg-gradient-to-r from-amber-500/[0.12] to-amber-500/[0.04] border border-amber-500/35 shadow-[0_8px_20px_rgba(245,158,11,0.15),inset_0_1px_1px_rgba(255,255,255,0.1)] z-0"
                           transition={{ type: "spring", stiffness: 350, damping: 26 }}
                         />
                       )}
@@ -241,7 +261,10 @@ export const Navbar: React.FC<NavbarProps> = ({ onLoginClick }) => {
             {user ? (
               <motion.div 
                 whileHover={{ y: -1 }}
-                className="hidden sm:flex items-center gap-3 bg-[#0c0909] border border-amber-500/15 rounded-full py-1.5 pl-4 pr-1.5 backdrop-blur-md hover:border-amber-500/40 shadow-[0_4px_15px_rgba(0,0,0,0.5)] transition-all duration-300 group"
+                className="hidden sm:flex items-center gap-3 border border-amber-500/25 rounded-full py-1.5 pl-4 pr-1.5 backdrop-blur-xl hover:border-amber-500/40 shadow-[0_12px_24px_rgba(0,0,0,0.5),inset_0_1px_1px_rgba(255,255,255,0.08)] transition-all duration-300 group"
+                style={{
+                  background: "linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.01) 100%)"
+                }}
               >
                 <div className="flex flex-col items-start leading-none gap-0.5 select-none">
                   <div className="flex items-center gap-1.5">
@@ -260,10 +283,13 @@ export const Navbar: React.FC<NavbarProps> = ({ onLoginClick }) => {
               </motion.div>
             ) : (
               <motion.button 
-                whileHover={{ scale: 1.02, boxShadow: "0 0 15px rgba(245,158,11,0.15)" }}
-                whileTap={{ scale: 0.98 }}
+                whileHover={{ scale: 1.04, y: -1 }}
+                whileTap={{ scale: 0.96 }}
                 onClick={onLoginClick}
-                className="hidden sm:flex items-center gap-2 px-5 py-2.5 rounded-full border border-amber-500/30 bg-amber-500/[0.02] text-amber-500 hover:text-white hover:bg-amber-500/10 hover:border-amber-500/60 transition-all duration-300 font-mono text-[9px] tracking-[0.16em] uppercase group shadow-[0_4px_15px_rgba(0,0,0,0.3)] cursor-pointer"
+                className="hidden sm:flex items-center gap-2 px-5.5 py-2.5 rounded-full border border-amber-500/40 text-amber-500 hover:text-white transition-all duration-500 font-mono text-[9px] tracking-[0.16em] uppercase group shadow-[0_8px_20px_rgba(0,0,0,0.35),inset_0_1px_1px_rgba(255,255,255,0.1)] cursor-pointer backdrop-blur-md"
+                style={{
+                  background: "linear-gradient(135deg, rgba(245, 158, 11, 0.08) 0%, rgba(245, 158, 11, 0.01) 100%)"
+                }}
               >
                 <User size={12} className="group-hover:scale-105 transition-transform" />
                 <span>SYS.CONNECT_SESSION()</span>
