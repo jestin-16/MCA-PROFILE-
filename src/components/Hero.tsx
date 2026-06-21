@@ -57,15 +57,15 @@ export const Hero: React.FC = () => {
   }, []);
 
   return (
-    <section id="home" className="relative min-h-screen flex flex-col items-center justify-center pt-28 pb-20 overflow-hidden bg-[#030202]">
+    <section id="home" className="relative min-h-screen flex flex-col items-center justify-center pt-32 pb-24 overflow-hidden bg-[#030202]">
       {/* Precision Digital Aesthetics Grid overlay matching the footer */}
       <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(245,158,11,0.015)_1px,transparent_1px),linear-gradient(to_bottom,rgba(245,158,11,0.015)_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_50%,#000_85%,transparent_100%)] pointer-events-none" />
 
       {/* Futuristic Responsive Ambient Light Radiators */}
       <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-        <div className="w-[1200px] h-[550px] bg-gradient-to-tr from-[#f59e0b]/8 to-transparent blur-[140px] rounded-full mix-blend-screen opacity-70 animate-pulse" style={{ animationDuration: '6s' }} />
-        <div className="absolute top-1/4 left-1/3 w-[500px] h-[500px] bg-orange-600/5 blur-[120px] rounded-full mix-blend-screen pointer-events-none" />
-        <div className="absolute bottom-1/4 right-1/3 w-[550px] h-[550px] bg-amber-500/5 blur-[130px] rounded-full mix-blend-screen pointer-events-none" />
+        <div className="w-[1200px] h-[600px] bg-gradient-to-tr from-[#f59e0b]/8 via-transparent to-transparent blur-[160px] rounded-full mix-blend-screen opacity-80 animate-pulse" style={{ animationDuration: '8s' }} />
+        <div className="absolute top-1/4 left-1/4 w-[600px] h-[600px] bg-orange-600/5 blur-[140px] rounded-full mix-blend-screen pointer-events-none" />
+        <div className="absolute bottom-1/4 right-1/4 w-[650px] h-[650px] bg-amber-500/5 blur-[150px] rounded-full mix-blend-screen pointer-events-none" />
       </div>
 
       <div className="relative z-10 text-center px-6 w-full max-w-5xl flex flex-col items-center">
@@ -75,82 +75,93 @@ export const Hero: React.FC = () => {
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
-          className="inline-flex items-center gap-2.5 border border-white/[0.08] bg-white/[0.02] hover:border-amber-500/30 px-5.5 py-2.5 rounded-full mb-10 backdrop-blur-xl hover:bg-amber-500/[0.02] transition-all duration-500 shadow-[inset_0_1px_1px_rgba(255,255,255,0.12),0_12px_24px_rgba(0,0,0,0.4)] select-none group"
+          className="inline-flex items-center gap-2.5 border border-white/[0.08] bg-white/[0.03] hover:border-amber-500/30 px-6 py-2.5 rounded-full mb-8 backdrop-blur-xl hover:bg-[#f59e0b]/5 transition-all duration-500 shadow-[inset_0_1px_1.5px_rgba(255,255,255,0.15),0_12px_32px_rgba(0,0,0,0.5)] select-none group"
         >
-          <span className="relative flex h-2 w-2">
+          <span className="relative flex h-2.5 w-2.5">
             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#f59e0b] opacity-80" />
-            <span className="relative inline-flex rounded-full h-2 w-2 bg-[#f59e0b]" />
+            <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-[#f59e0b]" />
           </span>
-          <span className="font-mono text-[9px] uppercase tracking-[0.25em] text-white/80 group-hover:text-amber-500 transition-colors">
+          <span className="font-mono text-[9.5px] uppercase tracking-[0.25em] text-white/90 group-hover:text-amber-400 transition-colors">
             System initialization : online
           </span>
         </motion.div>
 
-        {/* High-fidelity custom Typographic Display */}
-        <div className="relative mb-8 select-none">
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 1.5, ease: [0.16, 1, 0.3, 1] }}
-            className="flex flex-col items-center animate-pulse"
-            style={{ animationDuration: '9s' }}
-          >
-            <motion.h1 
-              variants={containerVariants}
-              initial="hidden"
-              animate="visible"
-              className="text-7xl sm:text-8xl md:text-[11.5rem] font-serif font-light tracking-[0.12em] leading-none mb-1 text-white relative flex items-center justify-center"
-            >
-              {titleText.split('').map((char, index) => (
-                <motion.span 
-                  key={index} 
-                  variants={charVariants} 
-                  whileHover={{ 
-                    scale: 1.05, 
-                    color: "#f59e0b",
-                    transition: { duration: 0.2 } 
-                  }}
-                  className="inline-block cursor-default transition-all duration-300 mx-1 drop-shadow-[0_2px_15px_rgba(255,255,255,0.1)]"
-                >
-                  {char}
-                </motion.span>
-              ))}
-            </motion.h1>
+        {/* High-fidelity custom Typographic Display encased in a premium frosted glass capsule container */}
+        <motion.div 
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1.6, ease: [0.16, 1, 0.3, 1] }}
+          className="relative w-full max-w-3xl glass-panel p-8 md:p-12 mb-10 overflow-hidden group hover:border-amber-500/30 hover:shadow-[0_45px_90px_rgba(245,158,11,0.06),inset_0_1px_2px_rgba(255,255,255,0.2)] rounded-[2.5rem]"
+        >
+          {/* Subtle glossy sheen line sweep inside the title module */}
+          <div className="absolute inset-0 pointer-events-none z-20 overflow-hidden rounded-[2.5rem]">
+            <div className="absolute -inset-full top-0 bg-gradient-to-tr from-transparent via-white/[0.07] to-transparent transform -translate-x-full group-hover:translate-x-full transition-transform duration-[2200ms] ease-[cubic-bezier(0.16,1,0.3,1)]" />
+          </div>
 
-            {/* Glowing amber Nixie timer styled version of subtitle "25-27" */}
+          <div className="relative select-none flex flex-col items-center">
             <motion.div
-              variants={containerVariants}
-              initial="hidden"
-              animate="visible"
-              className="flex items-center justify-center gap-2 mt-4 bg-gradient-to-r from-white/[0.03] to-white/[0.01] border border-white/[0.08] px-7 py-2.5 rounded-full backdrop-blur-2xl relative shadow-[inset_0_1px_1px_rgba(255,255,255,0.11),0_8px_32px_rgba(0,0,0,0.5)] group/nixie"
+              initial={{ opacity: 0, scale: 0.98 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 1.5, ease: [0.16, 1, 0.3, 1] }}
+              className="flex flex-col items-center"
             >
-              <div className="absolute inset-0 bg-amber-500/[0.02] rounded-full pointer-events-none" />
-              {subtitleText.split('').map((char, index) => (
-                <motion.span 
-                  key={index}
-                  variants={charVariants}
-                  className="inline-block font-mono font-medium text-3xl md:text-5xl text-[#f59e0b] px-0.5 relative group [text-shadow:0_0_15px_rgba(245,158,11,0.4)]"
-                  whileHover={{ 
-                    scale: 1.15, 
-                    color: "#fafeed",
-                    textShadow: "0 0 35px rgba(245,158,11,0.9)",
-                    transition: { duration: 0.15 } 
-                  }}
-                >
-                  {char}
-                  <div className="absolute -inset-2 blur-3xl bg-[#f59e0b]/10 rounded-full opacity-60 pointer-events-none group-hover:opacity-100 transition-opacity" />
-                </motion.span>
-              ))}
+              <motion.h1 
+                variants={containerVariants}
+                initial="hidden"
+                animate="visible"
+                className="text-8xl sm:text-9xl md:text-[11.5rem] font-serif font-light tracking-[0.15em] leading-none mb-2 text-white relative flex items-center justify-center"
+              >
+                {titleText.split('').map((char, index) => (
+                  <motion.span 
+                    key={index} 
+                    variants={charVariants} 
+                    whileHover={{ 
+                      scale: 1.08, 
+                      color: "#f59e0b",
+                      transition: { duration: 0.25, ease: "easeOut" } 
+                    }}
+                    className="inline-block cursor-default transition-all duration-300 mx-1 drop-shadow-[0_4px_20px_rgba(255,255,255,0.08)] [text-shadow:0_4px_30px_rgba(255,255,255,0.05)]"
+                  >
+                    {char}
+                  </motion.span>
+                ))}
+              </motion.h1>
+
+              {/* Glowing amber Nixie timer styled version of subtitle "25-27" */}
+              <motion.div
+                variants={containerVariants}
+                initial="hidden"
+                animate="visible"
+                className="flex items-center justify-center gap-2 mt-4 bg-gradient-to-r from-white/[0.05] to-white/[0.01] border border-white/[0.12] px-8 py-3 rounded-full backdrop-blur-3xl relative shadow-[inset_0_1.5px_1.5px_rgba(255,255,255,0.18),0_12px_40px_rgba(0,0,0,0.6)] group/nixie"
+              >
+                <div className="absolute inset-0 bg-amber-500/[0.04] rounded-full pointer-events-none" />
+                {subtitleText.split('').map((char, index) => (
+                  <motion.span 
+                    key={index}
+                    variants={charVariants}
+                    className="inline-block font-mono font-medium text-4xl md:text-5xl text-[#f59e0b] px-1 relative group/char [text-shadow:0_0_18px_rgba(245,158,11,0.5)]"
+                    whileHover={{ 
+                      scale: 1.2, 
+                      color: "#fafeed",
+                      textShadow: "0 0 40px rgba(245,158,11,1)",
+                      transition: { duration: 0.15 } 
+                    }}
+                  >
+                    {char}
+                    <div className="absolute -inset-2 blur-3xl bg-[#f59e0b]/15 rounded-full opacity-60 pointer-events-none group-hover/char:opacity-100 transition-opacity" />
+                  </motion.span>
+                ))}
+              </motion.div>
             </motion.div>
-          </motion.div>
-        </div>
+          </div>
+        </motion.div>
 
         {/* Minimalized descriptive loop */}
         <motion.p
           initial={{ opacity: 0 }}
-          animate={{ opacity: 0.6 }}
+          animate={{ opacity: 0.7 }}
           transition={{ delay: 0.9, duration: 1.2 }}
-          className="text-xs sm:text-sm font-sans font-light tracking-widest uppercase text-white/90 max-w-md mx-auto text-center leading-relaxed mt-4"
+          className="text-xs sm:text-sm font-sans font-medium tracking-[0.25em] uppercase text-amber-500/90 max-w-md mx-auto text-center leading-relaxed mt-4"
         >
           MCA REGULAR • COMPUTER APPLICATIONS COHORT
         </motion.p>
@@ -160,7 +171,7 @@ export const Hero: React.FC = () => {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 1.1, duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
-          className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-3xl w-full mt-16"
+          className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-3xl w-full mt-14"
         >
           {[
             { label: 'DAYS PASSED', value: timeSince.days, icon: Calendar },
