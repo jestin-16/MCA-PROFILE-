@@ -85,41 +85,41 @@ export const Navbar: React.FC<NavbarProps> = ({ onLoginClick }) => {
   return (
     <>
       <motion.header
-        initial={{ y: -100 }}
-        animate={{ y: 0 }}
-        transition={{ duration: 1.0, ease: [0.16, 1, 0.3, 1] }}
+        initial={{ y: -100, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
         className={cn(
-          "fixed top-0 inset-x-0 z-50 transition-all duration-500 px-6 lg:px-12",
+          "fixed top-0 inset-x-0 z-50 transition-all duration-700 px-6 lg:px-12",
           isScrolled 
-            ? "py-3.5 top-4 max-w-5xl mx-auto"
-            : "py-6 top-0 max-w-7xl mx-auto"
+            ? "py-3 top-3 max-w-5xl mx-auto"
+            : "py-5 top-0 max-w-7xl mx-auto"
         )}
       >
         {/* Sleek Floating Glass Capsule Container with Dynamic Rounded Design */}
         <div className={cn(
           "relative w-full transition-all duration-500 flex items-center justify-between border overflow-hidden group/header",
           isScrolled 
-            ? "border-amber-500/25 rounded-full px-8 py-3 shadow-[0_30px_70px_rgba(0,0,0,0.9),inset_0_1px_1.5px_rgba(255,255,255,0.12)]"
-            : "border-white/[0.08] rounded-full px-8 py-4 shadow-[0_12px_40px_rgba(0,0,0,0.5),inset_0_1px_1px_rgba(255,255,255,0.15)]"
+            ? "border-amber-500/35 rounded-full px-8 py-3 shadow-[0_30px_80px_rgba(245,158,11,0.08),0_20px_40px_rgba(0,0,0,0.8),inset_0_1px_2px_rgba(255,255,255,0.15)]"
+            : "border-white/[0.1] rounded-[2rem] px-10 py-4 shadow-[0_15px_45px_rgba(0,0,0,0.4),inset_0_1px_1.5px_rgba(255,255,255,0.12)]"
         )}
         style={{
           background: isScrolled
-            ? "linear-gradient(135deg, rgba(9, 7, 7, 0.94) 0%, rgba(9, 7, 7, 0.88) 100%)"
-            : "linear-gradient(135deg, rgba(255, 255, 255, 0.04) 0%, rgba(255, 255, 255, 0.005) 100%)",
-          backdropFilter: isScrolled ? "blur(24px) saturate(180%)" : "blur(20px) saturate(150%)",
-          WebkitBackdropFilter: isScrolled ? "blur(24px) saturate(180%)" : "blur(20px) saturate(150%)"
+            ? "linear-gradient(135deg, rgba(8, 6, 6, 0.95) 0%, rgba(14, 10, 8, 0.9) 100%)"
+            : "linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.01) 100%)",
+          backdropFilter: isScrolled ? "blur(28px) saturate(190%)" : "blur(20px) saturate(140%)",
+          WebkitBackdropFilter: isScrolled ? "blur(28px) saturate(190%)" : "blur(20px) saturate(140%)"
         }}
         >
           {/* Premium Glass Reflective Sheen Sweep Overlay */}
-          <div className="absolute inset-0 pointer-events-none z-20 overflow-hidden rounded-full">
-            <div className="absolute -inset-full top-0 bg-gradient-to-tr from-transparent via-white/[0.08] to-transparent transform -translate-x-full group-hover/header:translate-x-full transition-transform duration-[1850ms] ease-[cubic-bezier(0.16,1,0.3,1)]" />
+          <div className="absolute inset-0 pointer-events-none z-20 overflow-hidden rounded-inherit">
+            <div className="absolute -inset-full top-0 bg-gradient-to-tr from-transparent via-white/[0.1] to-transparent transform -translate-x-full group-hover/header:translate-x-full transition-transform duration-[2000ms] ease-[cubic-bezier(0.16,1,0.3,1)]" />
           </div>
 
           {/* Subtle Dynamic Arcs underlay on scrolled capsule edges */}
           {isScrolled && (
             <>
-              <div className="absolute left-8 top-1/2 -translate-y-1/2 w-2 h-2 rounded-full bg-amber-500/25 blur-[1px] pointer-events-none" />
-              <div className="absolute right-8 top-1/2 -translate-y-1/2 w-2 h-2 rounded-full bg-amber-500/25 blur-[1px] pointer-events-none" />
+              <div className="absolute left-6 top-1/2 -translate-y-1/2 w-2 h-2 rounded-full bg-amber-500/30 blur-[1px] pointer-events-none" />
+              <div className="absolute right-6 top-1/2 -translate-y-1/2 w-2 h-2 rounded-full bg-amber-500/30 blur-[1px] pointer-events-none" />
             </>
           )}
 
@@ -128,9 +128,9 @@ export const Navbar: React.FC<NavbarProps> = ({ onLoginClick }) => {
             {isScrolled && (
               <motion.div 
                 initial={{ opacity: 0, scaleX: 0.8 }}
-                animate={{ opacity: 0.9, scaleX: 1 }}
+                animate={{ opacity: 1, scaleX: 1 }}
                 exit={{ opacity: 0, scaleX: 0.8 }}
-                className="absolute top-0 inset-x-16 h-[1.5px] bg-gradient-to-r from-transparent via-amber-500/40 to-transparent pointer-events-none"
+                className="absolute top-0 inset-x-20 h-[1.5px] bg-gradient-to-r from-transparent via-amber-500/60 to-transparent pointer-events-none"
               />
             )}
           </AnimatePresence>
@@ -138,21 +138,21 @@ export const Navbar: React.FC<NavbarProps> = ({ onLoginClick }) => {
           {/* BRAND/DASHBOARD TERMINAL LOGO */}
           <motion.div 
             onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
+            whileHover={{ scale: 1.03 }}
+            whileTap={{ scale: 0.97 }}
             className="flex items-center gap-3.5 cursor-pointer group select-none relative z-10"
           >
             <div className="relative">
-              {/* Outer Golden Pulsing Halo surrounding logo in default style */}
-              <div className="absolute -inset-1.5 rounded-full bg-gradient-to-tr from-amber-500 to-orange-600 opacity-20 blur-sm group-hover:opacity-75 transition-opacity duration-500" />
-              <div className="relative w-10 h-10 rounded-full border border-amber-500/25 bg-[#0d0a0a] flex items-center justify-center text-white/90 group-hover:bg-amber-500/10 group-hover:border-amber-500/50 transition-all duration-500 shadow-[0_4px_20px_rgba(0,0,0,0.5)]">
-                <Cpu size={18} className="text-amber-500 group-hover:rotate-180 transition-transform duration-700 ease-out" />
+              {/* Outer Golden Pulsing Halo surrounding logo */}
+              <div className="absolute -inset-2 rounded-full bg-gradient-to-tr from-amber-500 via-orange-500 to-amber-300 opacity-25 blur-sm group-hover:opacity-80 group-hover:scale-110 transition-all duration-500" />
+              <div className="relative w-10.5 h-10.5 rounded-full border border-amber-500/30 bg-[#0c0808] flex items-center justify-center text-white/90 group-hover:bg-amber-500/15 group-hover:border-amber-500/60 transition-all duration-500 shadow-[0_6px_24px_rgba(0,0,0,0.6)]">
+                <Cpu size={19} className="text-amber-500 group-hover:rotate-180 transition-transform duration-1000 ease-out" />
               </div>
             </div>
             
             <div className="flex flex-col">
               <div className="flex items-center gap-2">
-                <span className="font-mono text-base tracking-[0.2em] text-white font-extrabold leading-none uppercase group-hover:text-amber-500 transition-colors duration-300 [text-shadow:0_0_12px_rgba(245,158,11,0.25)]">
+                <span className="font-mono text-base tracking-[0.22em] text-white font-extrabold leading-none uppercase group-hover:text-amber-400 transition-colors duration-300 [text-shadow:0_0_15px_rgba(245,158,11,0.35)]">
                   [RMCA]
                 </span>
                 <span className="relative flex h-2 w-2">
@@ -160,20 +160,20 @@ export const Navbar: React.FC<NavbarProps> = ({ onLoginClick }) => {
                   <span className="relative inline-flex rounded-full h-2 w-2 bg-amber-500"></span>
                 </span>
               </div>
-              <span className="font-mono text-[7px] tracking-[0.25em] text-white/40 uppercase mt-1 font-bold flex items-center gap-1">
-                <span className="inline-block w-1.5 h-[1px] bg-amber-500/40" /> SYSTEM BATCH '27
+              <span className="font-mono text-[7px] tracking-[0.25em] text-white/50 uppercase mt-1.5 font-bold flex items-center gap-1.5">
+                <span className="inline-block w-2 h-[1px] bg-amber-500/50" /> SYSTEM BATCH '27
               </span>
             </div>
           </motion.div>
 
           {/* WEB DESKTOP NAVIGATION INNER DECK - Tactile Brackets styling with rounded-full */}
           <nav className="hidden md:flex flex-1 justify-center max-w-2xl mx-auto relative">
-            <ul className="flex items-center gap-1.5 p-1 rounded-full border border-white/[0.08]"
+            <ul className="flex items-center gap-2 p-1.5 rounded-full border border-white/[0.1]"
               style={{
-                background: "linear-gradient(135deg, rgba(255, 255, 255, 0.04) 0%, rgba(255, 255, 255, 0.01) 100%)",
-                backdropFilter: "blur(28px) saturate(180%)",
-                WebkitBackdropFilter: "blur(28px) saturate(180%)",
-                boxShadow: "0 16px 36px rgba(0,0,0,0.7), inset 0 1px 1px rgba(255,255,255,0.12)"
+                background: "linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.01) 100%)",
+                backdropFilter: "blur(32px) saturate(190%)",
+                WebkitBackdropFilter: "blur(32px) saturate(190%)",
+                boxShadow: "0 20px 45px rgba(0,0,0,0.75), inset 0 1px 1.5px rgba(255,255,255,0.15)"
               }}
             >
               {navItems.map((item) => {
@@ -191,10 +191,10 @@ export const Navbar: React.FC<NavbarProps> = ({ onLoginClick }) => {
                       href={item.href}
                       onClick={() => setActiveItem(item.name)}
                       className={cn(
-                        "relative px-4.5 py-2 rounded-full text-center group flex flex-col items-center transition-all duration-300",
+                        "relative px-5 py-2.5 rounded-full text-center group flex flex-col items-center transition-all duration-300",
                         isActive 
-                          ? "text-white font-semibold" 
-                          : "text-white/45 hover:text-amber-500/90"
+                          ? "text-white font-bold" 
+                          : "text-white/45 hover:text-amber-400"
                       )}
                     >
                       {/* Dynamic Magnetic Background Hover Capsule */}
@@ -202,7 +202,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onLoginClick }) => {
                         {isHovered && !isActive && (
                           <motion.span 
                             layoutId="menuHoverBg"
-                            className="absolute inset-0 rounded-full bg-amber-500/[0.06] border border-amber-500/15 z-0"
+                            className="absolute inset-0 rounded-full bg-amber-500/[0.08] border border-amber-500/20 z-0"
                             initial={{ opacity: 0, scale: 0.95 }}
                             animate={{ opacity: 1, scale: 1 }}
                             exit={{ opacity: 0, scale: 0.95 }}
@@ -215,7 +215,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onLoginClick }) => {
                       {isActive && (
                         <motion.span 
                           layoutId="menuActiveBg"
-                          className="absolute inset-0 rounded-full bg-gradient-to-r from-amber-500/[0.12] to-amber-500/[0.04] border border-amber-500/35 shadow-[0_8px_20px_rgba(245,158,11,0.15),inset_0_1px_1px_rgba(255,255,255,0.1)] z-0"
+                          className="absolute inset-0 rounded-full bg-gradient-to-r from-amber-500/[0.15] to-amber-500/[0.05] border border-amber-500/40 shadow-[0_8px_24px_rgba(245,158,11,0.2),inset_0_1px_1px_rgba(255,255,255,0.15)] z-0"
                           transition={{ type: "spring", stiffness: 350, damping: 26 }}
                         />
                       )}
@@ -223,13 +223,16 @@ export const Navbar: React.FC<NavbarProps> = ({ onLoginClick }) => {
                       {/* Monospace Code Indicator */}
                       <span className={cn(
                         "font-mono text-[6.5px] tracking-[0.2em] mb-0.5 relative z-10 transition-colors duration-300",
-                        isActive ? "text-amber-500 font-bold" : "text-white/25 group-hover:text-amber-500/70"
+                        isActive ? "text-amber-400 font-bold" : "text-white/25 group-hover:text-amber-400/80"
                       )}>
                         [{item.code}]
                       </span>
 
                       {/* Real Name Tag */}
-                      <span className="text-[10px] font-sans tracking-[0.12em] uppercase font-bold leading-none block relative z-10 transition-colors duration-200">
+                      <span className={cn(
+                        "text-[10px] font-sans tracking-[0.14em] uppercase font-bold leading-none block relative z-10 transition-all duration-300",
+                        isActive ? "text-amber-300 [text-shadow:0_0_8px_rgba(245,158,11,0.4)]" : ""
+                      )}>
                         {item.name}
                       </span>
 
@@ -237,7 +240,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onLoginClick }) => {
                       {isActive && (
                         <motion.span 
                           layoutId="activeUnderGlow"
-                          className="absolute bottom-0.5 w-1.5 h-1.5 rounded-full bg-amber-500 shadow-[0_0_8px_rgba(245,158,11,0.9)] z-10"
+                          className="absolute bottom-1 w-1.5 h-1.5 rounded-full bg-amber-400 shadow-[0_0_10px_rgba(245,158,11,1)] z-10"
                           transition={{ type: 'spring', stiffness: 300, damping: 22 }}
                         />
                       )}
@@ -253,23 +256,23 @@ export const Navbar: React.FC<NavbarProps> = ({ onLoginClick }) => {
             
             {/* Live Clock Indicator for Desktop */}
             <div className="hidden lg:flex flex-col text-right select-none border-r border-amber-500/15 pr-4 h-9 justify-center">
-              <span className="text-[7px] font-mono tracking-widest text-[#f59e0b] leading-none uppercase font-bold">SYSTEM ACTIVE</span>
-              <span className="text-[11px] font-mono text-white/85 mt-1 tracking-wider font-bold">{time || '00:00'}</span>
+              <span className="text-[7px] font-mono tracking-widest text-amber-500 leading-none uppercase font-extrabold">SYSTEM ACTIVE</span>
+              <span className="text-[11.5px] font-mono text-white/90 mt-1 tracking-wider font-extrabold">{time || '00:00'}</span>
             </div>
 
             {/* Authenticated/Login Badge with Gold Halo hover */}
             {user ? (
               <motion.div 
                 whileHover={{ y: -1 }}
-                className="hidden sm:flex items-center gap-3 border border-amber-500/25 rounded-full py-1.5 pl-4 pr-1.5 backdrop-blur-xl hover:border-amber-500/40 shadow-[0_12px_24px_rgba(0,0,0,0.5),inset_0_1px_1px_rgba(255,255,255,0.08)] transition-all duration-300 group"
+                className="hidden sm:flex items-center gap-3 border border-amber-500/30 rounded-full py-1.5 pl-4 pr-1.5 backdrop-blur-xl hover:border-amber-500/50 shadow-[0_12px_24px_rgba(0,0,0,0.5),inset_0_1px_1px_rgba(255,255,255,0.12)] transition-all duration-300 group"
                 style={{
-                  background: "linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.01) 100%)"
+                  background: "linear-gradient(135deg, rgba(255, 255, 255, 0.06) 0%, rgba(255, 255, 255, 0.01) 100%)"
                 }}
               >
                 <div className="flex flex-col items-start leading-none gap-0.5 select-none">
                   <div className="flex items-center gap-1.5">
-                    <span className="w-1.5 h-1.5 rounded-full bg-green-500 shadow-[0_0_8px_rgba(34,197,94,0.8)]" />
-                    <span className="max-w-[75px] truncate font-mono text-[9px] text-white/90 uppercase tracking-widest font-bold group-hover:text-amber-500 transition-colors">{user.username}</span>
+                    <span className="w-1.5 h-1.5 rounded-full bg-green-500 shadow-[0_0_8px_rgba(34,197,94,0.8)] animate-pulse" />
+                    <span className="max-w-[75px] truncate font-mono text-[9px] text-white/95 uppercase tracking-widest font-extrabold group-hover:text-amber-400 transition-colors">{user.username}</span>
                   </div>
                 </div>
                 <div className="w-[1px] h-3.5 bg-white/10" />
@@ -283,15 +286,15 @@ export const Navbar: React.FC<NavbarProps> = ({ onLoginClick }) => {
               </motion.div>
             ) : (
               <motion.button 
-                whileHover={{ scale: 1.04, y: -1 }}
-                whileTap={{ scale: 0.96 }}
+                whileHover={{ scale: 1.05, y: -1 }}
+                whileTap={{ scale: 0.95 }}
                 onClick={onLoginClick}
-                className="hidden sm:flex items-center gap-2 px-5.5 py-2.5 rounded-full border border-amber-500/40 text-amber-500 hover:text-white transition-all duration-500 font-mono text-[9px] tracking-[0.16em] uppercase group shadow-[0_8px_20px_rgba(0,0,0,0.35),inset_0_1px_1px_rgba(255,255,255,0.1)] cursor-pointer backdrop-blur-md"
+                className="hidden sm:flex items-center gap-2 px-6 py-2.5 rounded-full border border-amber-500/40 text-amber-500 hover:text-white transition-all duration-500 font-mono text-[9px] tracking-[0.16em] uppercase group shadow-[0_8px_24px_rgba(0,0,0,0.4),inset_0_1px_1.5px_rgba(255,255,255,0.15)] cursor-pointer backdrop-blur-md"
                 style={{
-                  background: "linear-gradient(135deg, rgba(245, 158, 11, 0.08) 0%, rgba(245, 158, 11, 0.01) 100%)"
+                  background: "linear-gradient(135deg, rgba(245, 158, 11, 0.1) 0%, rgba(245, 158, 11, 0.02) 100%)"
                 }}
               >
-                <User size={12} className="group-hover:scale-105 transition-transform" />
+                <User size={12} className="group-hover:scale-110 transition-transform" />
                 <span>SYS.CONNECT_SESSION()</span>
               </motion.button>
             )}
