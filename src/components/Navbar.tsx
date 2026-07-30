@@ -89,9 +89,9 @@ export const Navbar: React.FC<NavbarProps> = ({ onLoginClick }) => {
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
         className={cn(
-          "fixed top-0 inset-x-0 z-50 transition-all duration-700 px-6 lg:px-12",
+          "fixed top-0 inset-x-0 z-50 transition-all duration-700 px-4 sm:px-6 lg:px-12",
           isScrolled 
-            ? "py-3 top-3 max-w-5xl mx-auto"
+            ? "py-2.5 top-2.5 max-w-5xl mx-auto"
             : "py-5 top-0 max-w-7xl mx-auto"
         )}
       >
@@ -99,27 +99,27 @@ export const Navbar: React.FC<NavbarProps> = ({ onLoginClick }) => {
         <div className={cn(
           "relative w-full transition-all duration-500 flex items-center justify-between border overflow-hidden group/header",
           isScrolled 
-            ? "border-amber-500/35 rounded-full px-8 py-3 shadow-[0_30px_80px_rgba(245,158,11,0.08),0_20px_40px_rgba(0,0,0,0.8),inset_0_1px_2px_rgba(255,255,255,0.15)]"
-            : "border-white/[0.1] rounded-[2rem] px-10 py-4 shadow-[0_15px_45px_rgba(0,0,0,0.4),inset_0_1px_1.5px_rgba(255,255,255,0.12)]"
+            ? "border-amber-500/40 rounded-full px-6 sm:px-8 py-2.5 shadow-[0_30px_90px_rgba(245,158,11,0.12),0_20px_50px_rgba(0,0,0,0.85),inset_0_1px_2.5px_rgba(255,255,255,0.2)]"
+            : "border-white/[0.12] rounded-[2.25rem] px-8 sm:px-10 py-3.5 shadow-[0_20px_50px_rgba(0,0,0,0.5),inset_0_1px_2px_rgba(255,255,255,0.15)]"
         )}
         style={{
           background: isScrolled
-            ? "linear-gradient(135deg, rgba(8, 6, 6, 0.95) 0%, rgba(14, 10, 8, 0.9) 100%)"
-            : "linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.01) 100%)",
-          backdropFilter: isScrolled ? "blur(28px) saturate(190%)" : "blur(20px) saturate(140%)",
-          WebkitBackdropFilter: isScrolled ? "blur(28px) saturate(190%)" : "blur(20px) saturate(140%)"
+            ? "linear-gradient(135deg, rgba(10, 7, 7, 0.96) 0%, rgba(18, 12, 9, 0.92) 100%)"
+            : "linear-gradient(135deg, rgba(255, 255, 255, 0.06) 0%, rgba(255, 255, 255, 0.015) 100%)",
+          backdropFilter: isScrolled ? "blur(32px) saturate(200%)" : "blur(24px) saturate(150%)",
+          WebkitBackdropFilter: isScrolled ? "blur(32px) saturate(200%)" : "blur(24px) saturate(150%)"
         }}
         >
           {/* Premium Glass Reflective Sheen Sweep Overlay */}
           <div className="absolute inset-0 pointer-events-none z-20 overflow-hidden rounded-inherit">
-            <div className="absolute -inset-full top-0 bg-gradient-to-tr from-transparent via-white/[0.1] to-transparent transform -translate-x-full group-hover/header:translate-x-full transition-transform duration-[2000ms] ease-[cubic-bezier(0.16,1,0.3,1)]" />
+            <div className="absolute -inset-full top-0 bg-gradient-to-tr from-transparent via-white/[0.12] to-transparent transform -translate-x-full group-hover/header:translate-x-full transition-transform duration-[2200ms] ease-[cubic-bezier(0.16,1,0.3,1)]" />
           </div>
 
           {/* Subtle Dynamic Arcs underlay on scrolled capsule edges */}
           {isScrolled && (
             <>
-              <div className="absolute left-6 top-1/2 -translate-y-1/2 w-2 h-2 rounded-full bg-amber-500/30 blur-[1px] pointer-events-none" />
-              <div className="absolute right-6 top-1/2 -translate-y-1/2 w-2 h-2 rounded-full bg-amber-500/30 blur-[1px] pointer-events-none" />
+              <div className="absolute left-6 top-1/2 -translate-y-1/2 w-2.5 h-2.5 rounded-full bg-amber-500/40 blur-[2px] pointer-events-none" />
+              <div className="absolute right-6 top-1/2 -translate-y-1/2 w-2.5 h-2.5 rounded-full bg-amber-500/40 blur-[2px] pointer-events-none" />
             </>
           )}
 
@@ -130,7 +130,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onLoginClick }) => {
                 initial={{ opacity: 0, scaleX: 0.8 }}
                 animate={{ opacity: 1, scaleX: 1 }}
                 exit={{ opacity: 0, scaleX: 0.8 }}
-                className="absolute top-0 inset-x-20 h-[1.5px] bg-gradient-to-r from-transparent via-amber-500/60 to-transparent pointer-events-none"
+                className="absolute top-0 inset-x-16 h-[2px] bg-gradient-to-r from-transparent via-amber-400/80 to-transparent pointer-events-none"
               />
             )}
           </AnimatePresence>
