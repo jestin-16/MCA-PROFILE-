@@ -109,7 +109,7 @@ export const Hero: React.FC = () => {
                 variants={containerVariants}
                 initial="hidden"
                 animate="visible"
-                className="text-8xl sm:text-9xl md:text-[11.5rem] font-serif font-light tracking-[0.15em] leading-none mb-2 text-white relative flex items-center justify-center"
+                className="text-8xl sm:text-9xl md:text-[11.5rem] font-serif font-normal tracking-[0.06em] leading-none mb-2 text-white relative flex items-center justify-center"
               >
                 {titleText.split('').map((char, index) => (
                   <motion.span 
